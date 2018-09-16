@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.huangniao.mapper.RobOrderMapper">
+  <resultMap id="BaseResultMap" type="com.sy.huangniao.pojo.RobOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="rob_status" jdbcType="VARCHAR" property="robStatus" />
+    <result column="proof_image" jdbcType="VARCHAR" property="proofImage" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, order_id, rob_status, proof_image, create_date, modify_date, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from rob_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from rob_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.RobOrder" useGeneratedKeys="true">
+    insert into rob_order (user_id, order_id, rob_status, 
+      proof_image, create_date, modify_date, 
+      remark)
+    values (#{userId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{robStatus,jdbcType=VARCHAR}, 
+      #{proofImage,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.RobOrder" useGeneratedKeys="true">
+    insert into rob_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="robStatus != null">
+        rob_status,
+      </if>
+      <if test="proofImage != null">
+        proof_image,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="modifyDate != null">
+        modify_date,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="robStatus != null">
+        #{robStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="proofImage != null">
+        #{proofImage,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.huangniao.pojo.RobOrder">
+    update rob_order
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="robStatus != null">
+        rob_status = #{robStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="proofImage != null">
+        proof_image = #{proofImage,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.huangniao.pojo.RobOrder">
+    update rob_order
+    set user_id = #{userId,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=INTEGER},
+      rob_status = #{robStatus,jdbcType=VARCHAR},
+      proof_image = #{proofImage,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectList" parameterType="com.sy.huangniao.pojo.RobOrder">
+    select
+    <include refid="Base_Column_List" />
+    from rob_order
+    where 1=1
+    <if test="userId != null">
+     and user_id = #{userId,jdbcType=INTEGER},
+    </if>
+    <if test="orderId != null">
+     and order_id = #{orderId,jdbcType=INTEGER},
+    </if>
+    <if test="robStatus != null">
+     and  rob_status = #{robStatus,jdbcType=VARCHAR},
+    </if>
+    <if test="proofImage != null">
+      and  proof_image = #{proofImage,jdbcType=VARCHAR},
+    </if>
+    <if test="createDate != null">
+      and  create_date = #{createDate,jdbcType=TIMESTAMP},
+    </if>
+    <if test="modifyDate != null">
+      and  modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+    </if>
+    <if test="remark != null">
+      and remark = #{remark,jdbcType=VARCHAR},
+    </if>
+  </select>
+  <cache />
+</mapper>

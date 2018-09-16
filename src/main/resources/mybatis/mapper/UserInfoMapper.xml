@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.huangniao.mapper.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.sy.huangniao.pojo.UserInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_phoneno" jdbcType="VARCHAR" property="userPhoneno" />
+    <result column="user_sex" jdbcType="VARCHAR" property="userSex" />
+    <result column="user_birthday" jdbcType="DATE" property="userBirthday" />
+    <result column="user_image" jdbcType="VARCHAR" property="userImage" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="user_wxno" jdbcType="VARCHAR" property="userWxno" />
+    <result column="user_role" jdbcType="VARCHAR" property="userRole" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="user_status" jdbcType="VARCHAR" property="userStatus" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_phoneno, user_sex, user_birthday, user_image, user_name, password, user_wxno, 
+    user_role, create_date, user_status, modify_date, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.UserInfo" useGeneratedKeys="true">
+    insert into user_info (user_phoneno, user_sex, user_birthday, 
+      user_image, user_name, password, 
+      user_wxno, user_role, create_date, 
+      user_status, modify_date, remark
+      )
+    values (#{userPhoneno,jdbcType=VARCHAR}, #{userSex,jdbcType=VARCHAR}, #{userBirthday,jdbcType=DATE}, 
+      #{userImage,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{userWxno,jdbcType=VARCHAR}, #{userRole,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{userStatus,jdbcType=VARCHAR}, #{modifyDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.UserInfo" useGeneratedKeys="true">
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userPhoneno != null">
+        user_phoneno,
+      </if>
+      <if test="userSex != null">
+        user_sex,
+      </if>
+      <if test="userBirthday != null">
+        user_birthday,
+      </if>
+      <if test="userImage != null">
+        user_image,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="userWxno != null">
+        user_wxno,
+      </if>
+      <if test="userRole != null">
+        user_role,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="userStatus != null">
+        user_status,
+      </if>
+      <if test="modifyDate != null">
+        modify_date,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userPhoneno != null">
+        #{userPhoneno,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null">
+        #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userBirthday != null">
+        #{userBirthday,jdbcType=DATE},
+      </if>
+      <if test="userImage != null">
+        #{userImage,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userWxno != null">
+        #{userWxno,jdbcType=VARCHAR},
+      </if>
+      <if test="userRole != null">
+        #{userRole,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userStatus != null">
+        #{userStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.huangniao.pojo.UserInfo">
+    update user_info
+    <set>
+      <if test="userPhoneno != null">
+        user_phoneno = #{userPhoneno,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null">
+        user_sex = #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userBirthday != null">
+        user_birthday = #{userBirthday,jdbcType=DATE},
+      </if>
+      <if test="userImage != null">
+        user_image = #{userImage,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userWxno != null">
+        user_wxno = #{userWxno,jdbcType=VARCHAR},
+      </if>
+      <if test="userRole != null">
+        user_role = #{userRole,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userStatus != null">
+        user_status = #{userStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.huangniao.pojo.UserInfo">
+    update user_info
+    set user_phoneno = #{userPhoneno,jdbcType=VARCHAR},
+      user_sex = #{userSex,jdbcType=VARCHAR},
+      user_birthday = #{userBirthday,jdbcType=DATE},
+      user_image = #{userImage,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      user_wxno = #{userWxno,jdbcType=VARCHAR},
+      user_role = #{userRole,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      user_status = #{userStatus,jdbcType=VARCHAR},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectList" parameterType="com.sy.huangniao.pojo.UserInfo">
+    select
+    <include refid="Base_Column_List" />
+    from user_info
+    where 1=1
+    <if test="userPhoneno != null">
+      and user_phoneno = #{userPhoneno,jdbcType=VARCHAR},
+    </if>
+    <if test="userSex != null">
+      and user_sex = #{userSex,jdbcType=VARCHAR},
+    </if>
+    <if test="userBirthday != null">
+      and user_birthday = #{userBirthday,jdbcType=DATE},
+    </if>
+    <if test="userImage != null">
+      and user_image = #{userImage,jdbcType=VARCHAR},
+    </if>
+    <if test="userName != null">
+      and user_name = #{userName,jdbcType=VARCHAR},
+    </if>
+    <if test="password != null">
+      and password = #{password,jdbcType=VARCHAR},
+    </if>
+    <if test="userWxno != null">
+      and user_wxno = #{userWxno,jdbcType=VARCHAR},
+    </if>
+    <if test="userRole != null">
+      and user_role = #{userRole,jdbcType=VARCHAR},
+    </if>
+    <if test="createDate != null">
+      and create_date = #{createDate,jdbcType=TIMESTAMP},
+    </if>
+    <if test="userStatus != null">
+      and user_status = #{userStatus,jdbcType=VARCHAR},
+    </if>
+    <if test="modifyDate != null">
+      and modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+    </if>
+    <if test="remark != null">
+      and remark = #{remark,jdbcType=VARCHAR},
+    </if>
+  </select>
+
+  <cache />
+</mapper>

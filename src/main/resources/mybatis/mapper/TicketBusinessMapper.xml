@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.huangniao.mapper.TicketBusinessMapper">
+  <resultMap id="BaseResultMap" type="com.sy.huangniao.pojo.TicketBusiness">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="business_identity" jdbcType="VARCHAR" property="businessIdentity" />
+    <result column="business_name" jdbcType="VARCHAR" property="businessName" />
+    <result column="business_addrr" jdbcType="VARCHAR" property="businessAddrr" />
+    <result column="business_post" jdbcType="VARCHAR" property="businessPost" />
+    <result column="business_status" jdbcType="VARCHAR" property="businessStatus" />
+    <result column="identity_image" jdbcType="VARCHAR" property="identityImage" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="benefit_rate" jdbcType="INTEGER" property="benefitRate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, business_identity, business_name, business_addrr, business_post, business_status, 
+    identity_image, create_date, modify_date, benefit_rate, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ticket_business
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ticket_business
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.TicketBusiness" useGeneratedKeys="true">
+    insert into ticket_business (user_id, business_identity, business_name, 
+      business_addrr, business_post, business_status, 
+      identity_image, create_date, modify_date, 
+      benefit_rate, remark)
+    values (#{userId,jdbcType=INTEGER}, #{businessIdentity,jdbcType=VARCHAR}, #{businessName,jdbcType=VARCHAR}, 
+      #{businessAddrr,jdbcType=VARCHAR}, #{businessPost,jdbcType=VARCHAR}, #{businessStatus,jdbcType=VARCHAR}, 
+      #{identityImage,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{benefitRate,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.TicketBusiness" useGeneratedKeys="true">
+    insert into ticket_business
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="businessIdentity != null">
+        business_identity,
+      </if>
+      <if test="businessName != null">
+        business_name,
+      </if>
+      <if test="businessAddrr != null">
+        business_addrr,
+      </if>
+      <if test="businessPost != null">
+        business_post,
+      </if>
+      <if test="businessStatus != null">
+        business_status,
+      </if>
+      <if test="identityImage != null">
+        identity_image,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="modifyDate != null">
+        modify_date,
+      </if>
+      <if test="benefitRate != null">
+        benefit_rate,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="businessIdentity != null">
+        #{businessIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="businessName != null">
+        #{businessName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessAddrr != null">
+        #{businessAddrr,jdbcType=VARCHAR},
+      </if>
+      <if test="businessPost != null">
+        #{businessPost,jdbcType=VARCHAR},
+      </if>
+      <if test="businessStatus != null">
+        #{businessStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="identityImage != null">
+        #{identityImage,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="benefitRate != null">
+        #{benefitRate,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.huangniao.pojo.TicketBusiness">
+    update ticket_business
+    <set>
+      <if test="businessIdentity != null">
+        business_identity = #{businessIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="businessName != null">
+        business_name = #{businessName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessAddrr != null">
+        business_addrr = #{businessAddrr,jdbcType=VARCHAR},
+      </if>
+      <if test="businessPost != null">
+        business_post = #{businessPost,jdbcType=VARCHAR},
+      </if>
+      <if test="businessStatus != null">
+        business_status = #{businessStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="identityImage != null">
+        identity_image = #{identityImage,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="benefitRate != null">
+        benefit_rate = #{benefitRate,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.huangniao.pojo.TicketBusiness">
+    update ticket_business
+    set business_identity = #{businessIdentity,jdbcType=VARCHAR},
+      business_name = #{businessName,jdbcType=VARCHAR},
+      business_addrr = #{businessAddrr,jdbcType=VARCHAR},
+      business_post = #{businessPost,jdbcType=VARCHAR},
+      business_status = #{businessStatus,jdbcType=VARCHAR},
+      identity_image = #{identityImage,jdbcType=VARCHAR},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      benefit_rate = #{benefitRate,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectList" parameterType="com.sy.huangniao.pojo.TicketBusiness">
+    select
+    <include refid="Base_Column_List" />
+    from ticket_business
+    where 1=1
+    <if test="userId != null">
+     and  user_id = #{userId,jdbcType=INTEGER},
+    </if>
+    <if test="businessIdentity != null">
+      and business_identity = #{businessIdentity,jdbcType=VARCHAR},
+    </if>
+    <if test="businessName != null">
+      and business_name = #{businessName,jdbcType=VARCHAR},
+    </if>
+    <if test="businessAddrr != null">
+      and business_addrr = #{businessAddrr,jdbcType=VARCHAR},
+    </if>
+    <if test="businessPost != null">
+      and business_post = #{businessPost,jdbcType=VARCHAR},
+    </if>
+    <if test="businessStatus != null">
+      and business_status = #{businessStatus,jdbcType=VARCHAR},
+    </if>
+    <if test="identityImage != null">
+      and identity_image = #{identityImage,jdbcType=VARCHAR},
+    </if>
+    <if test="createDate != null">
+      and create_date = #{createDate,jdbcType=TIMESTAMP},
+    </if>
+    <if test="modifyDate != null">
+      and modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+    </if>
+    <if test="benefitRate != null">
+      and benefit_rate = #{benefitRate,jdbcType=INTEGER},
+    </if>
+    <if test="remark != null">
+      and remark = #{remark,jdbcType=VARCHAR},
+    </if>
+  </select>
+
+  <update id="updateByUserIdSelective" parameterType="com.sy.huangniao.pojo.TicketBusiness">
+    update ticket_business
+    <set>
+      <if test="businessIdentity != null">
+        business_identity = #{businessIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="businessName != null">
+        business_name = #{businessName,jdbcType=VARCHAR},
+      </if>
+      <if test="businessAddrr != null">
+        business_addrr = #{businessAddrr,jdbcType=VARCHAR},
+      </if>
+      <if test="businessPost != null">
+        business_post = #{businessPost,jdbcType=VARCHAR},
+      </if>
+      <if test="businessStatus != null">
+        business_status = #{businessStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="identityImage != null">
+        identity_image = #{identityImage,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="benefitRate != null">
+        benefit_rate = #{benefitRate,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectBySelective" parameterType="com.sy.huangniao.pojo.TicketBusiness" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ticket_business
+    where 1=1
+    <if test="userId != null">
+      and  user_id = #{userId,jdbcType=INTEGER},
+    </if>
+    <if test="businessIdentity != null">
+      and business_identity = #{businessIdentity,jdbcType=VARCHAR},
+    </if>
+    <if test="businessName != null">
+      and business_name = #{businessName,jdbcType=VARCHAR},
+    </if>
+    <if test="businessAddrr != null">
+      and business_addrr = #{businessAddrr,jdbcType=VARCHAR},
+    </if>
+    <if test="businessPost != null">
+      and business_post = #{businessPost,jdbcType=VARCHAR},
+    </if>
+    <if test="businessStatus != null">
+      and business_status = #{businessStatus,jdbcType=VARCHAR},
+    </if>
+    <if test="identityImage != null">
+      and identity_image = #{identityImage,jdbcType=VARCHAR},
+    </if>
+    <if test="createDate != null">
+      and create_date = #{createDate,jdbcType=TIMESTAMP},
+    </if>
+    <if test="modifyDate != null">
+      and modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+    </if>
+    <if test="benefitRate != null">
+      and benefit_rate = #{benefitRate,jdbcType=INTEGER},
+    </if>
+    <if test="remark != null">
+      and remark = #{remark,jdbcType=VARCHAR},
+    </if>
+  </select>
+  <cache />
+</mapper>

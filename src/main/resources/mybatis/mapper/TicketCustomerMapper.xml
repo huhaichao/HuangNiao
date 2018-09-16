@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.huangniao.mapper.TicketCustomerMapper">
+  <resultMap id="BaseResultMap" type="com.sy.huangniao.pojo.TicketCustomer">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="customer_identity" jdbcType="VARCHAR" property="customerIdentity" />
+    <result column="identity_image" jdbcType="VARCHAR" property="identityImage" />
+    <result column="customer_name" jdbcType="VARCHAR" property="customerName" />
+    <result column="customer_addrr" jdbcType="VARCHAR" property="customerAddrr" />
+    <result column="customer_post" jdbcType="VARCHAR" property="customerPost" />
+    <result column="customer_account" jdbcType="VARCHAR" property="customerAccount" />
+    <result column="customer_password" jdbcType="VARCHAR" property="customerPassword" />
+    <result column="customer_status" jdbcType="VARCHAR" property="customerStatus" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, customer_identity, identity_image, customer_name, customer_addrr, customer_post, 
+    customer_account, customer_password, customer_status, create_date, modify_date, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ticket_customer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ticket_customer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.TicketCustomer" useGeneratedKeys="true">
+    insert into ticket_customer (user_id, customer_identity, identity_image, 
+      customer_name, customer_addrr, customer_post, 
+      customer_account, customer_password, customer_status, 
+      create_date, modify_date, remark
+      )
+    values (#{userId,jdbcType=INTEGER}, #{customerIdentity,jdbcType=VARCHAR}, #{identityImage,jdbcType=VARCHAR}, 
+      #{customerName,jdbcType=VARCHAR}, #{customerAddrr,jdbcType=VARCHAR}, #{customerPost,jdbcType=VARCHAR}, 
+      #{customerAccount,jdbcType=VARCHAR}, #{customerPassword,jdbcType=VARCHAR}, #{customerStatus,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.TicketCustomer" useGeneratedKeys="true">
+    insert into ticket_customer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="customerIdentity != null">
+        customer_identity,
+      </if>
+      <if test="identityImage != null">
+        identity_image,
+      </if>
+      <if test="customerName != null">
+        customer_name,
+      </if>
+      <if test="customerAddrr != null">
+        customer_addrr,
+      </if>
+      <if test="customerPost != null">
+        customer_post,
+      </if>
+      <if test="customerAccount != null">
+        customer_account,
+      </if>
+      <if test="customerPassword != null">
+        customer_password,
+      </if>
+      <if test="customerStatus != null">
+        customer_status,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="modifyDate != null">
+        modify_date,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="customerIdentity != null">
+        #{customerIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="identityImage != null">
+        #{identityImage,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null">
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerAddrr != null">
+        #{customerAddrr,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPost != null">
+        #{customerPost,jdbcType=VARCHAR},
+      </if>
+      <if test="customerAccount != null">
+        #{customerAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPassword != null">
+        #{customerPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="customerStatus != null">
+        #{customerStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.huangniao.pojo.TicketCustomer">
+    update ticket_customer
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="customerIdentity != null">
+        customer_identity = #{customerIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="identityImage != null">
+        identity_image = #{identityImage,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null">
+        customer_name = #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerAddrr != null">
+        customer_addrr = #{customerAddrr,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPost != null">
+        customer_post = #{customerPost,jdbcType=VARCHAR},
+      </if>
+      <if test="customerAccount != null">
+        customer_account = #{customerAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPassword != null">
+        customer_password = #{customerPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="customerStatus != null">
+        customer_status = #{customerStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.huangniao.pojo.TicketCustomer">
+    update ticket_customer
+    set user_id = #{userId,jdbcType=INTEGER},
+      customer_identity = #{customerIdentity,jdbcType=VARCHAR},
+      identity_image = #{identityImage,jdbcType=VARCHAR},
+      customer_name = #{customerName,jdbcType=VARCHAR},
+      customer_addrr = #{customerAddrr,jdbcType=VARCHAR},
+      customer_post = #{customerPost,jdbcType=VARCHAR},
+      customer_account = #{customerAccount,jdbcType=VARCHAR},
+      customer_password = #{customerPassword,jdbcType=VARCHAR},
+      customer_status = #{customerStatus,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectList" parameterType="com.sy.huangniao.pojo.TicketCustomer">
+  select
+  <include refid="Base_Column_List" />
+  from ticket_customer
+  where 1=1
+    <if test="userId != null">
+      and user_id = #{userId,jdbcType=INTEGER},
+    </if>
+    <if test="customerIdentity != null">
+      and customer_identity = #{customerIdentity,jdbcType=VARCHAR},
+    </if>
+    <if test="identityImage != null">
+      and identity_image = #{identityImage,jdbcType=VARCHAR},
+    </if>
+    <if test="customerName != null">
+      and customer_name = #{customerName,jdbcType=VARCHAR},
+    </if>
+    <if test="customerAddrr != null">
+      and customer_addrr = #{customerAddrr,jdbcType=VARCHAR},
+    </if>
+    <if test="customerPost != null">
+      and customer_post = #{customerPost,jdbcType=VARCHAR},
+    </if>
+    <if test="customerAccount != null">
+      and customer_account = #{customerAccount,jdbcType=VARCHAR},
+    </if>
+    <if test="customerPassword != null">
+      and customer_password = #{customerPassword,jdbcType=VARCHAR},
+    </if>
+    <if test="customerStatus != null">
+      and customer_status = #{customerStatus,jdbcType=VARCHAR},
+    </if>
+    <if test="createDate != null">
+      and create_date = #{createDate,jdbcType=TIMESTAMP},
+    </if>
+    <if test="modifyDate != null">
+      and modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+    </if>
+    <if test="remark != null">
+      and remark = #{remark,jdbcType=VARCHAR},
+    </if>
+  </select>
+  <cache />
+</mapper>

@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.huangniao.mapper.TicketOrderMapper">
+  <resultMap id="BaseResultMap" type="com.sy.huangniao.pojo.TicketOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="ticket_identity" jdbcType="VARCHAR" property="ticketIdentity" />
+    <result column="ticket_name" jdbcType="VARCHAR" property="ticketName" />
+    <result column="from" jdbcType="VARCHAR" property="from" />
+    <result column="to" jdbcType="VARCHAR" property="to" />
+    <result column="departure_date" jdbcType="TIMESTAMP" property="departureDate" />
+    <result column="train_num" jdbcType="VARCHAR" property="trainNum" />
+    <result column="seat_type" jdbcType="VARCHAR" property="seatType" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="order_amount" jdbcType="DOUBLE" property="orderAmount" />
+    <result column="rob_count" jdbcType="INTEGER" property="robCount" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_no, user_id, ticket_identity, ticket_name, from, to, departure_date, train_num, 
+    seat_type, create_date, order_status, modify_date, order_amount, rob_count, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ticket_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ticket_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.TicketOrder" useGeneratedKeys="true">
+    insert into ticket_order (order_no, user_id, ticket_identity, 
+      ticket_name, from, to, 
+      departure_date, train_num, seat_type, 
+      create_date, order_status, modify_date, 
+      order_amount, rob_count, remark
+      )
+    values (#{orderNo,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{ticketIdentity,jdbcType=VARCHAR}, 
+      #{ticketName,jdbcType=VARCHAR}, #{from,jdbcType=VARCHAR}, #{to,jdbcType=VARCHAR}, 
+      #{departureDate,jdbcType=TIMESTAMP}, #{trainNum,jdbcType=VARCHAR}, #{seatType,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{orderStatus,jdbcType=VARCHAR}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{orderAmount,jdbcType=DOUBLE}, #{robCount,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.TicketOrder" useGeneratedKeys="true">
+    insert into ticket_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="ticketIdentity != null">
+        ticket_identity,
+      </if>
+      <if test="ticketName != null">
+        ticket_name,
+      </if>
+      <if test="from != null">
+        from,
+      </if>
+      <if test="to != null">
+        to,
+      </if>
+      <if test="departureDate != null">
+        departure_date,
+      </if>
+      <if test="trainNum != null">
+        train_num,
+      </if>
+      <if test="seatType != null">
+        seat_type,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="modifyDate != null">
+        modify_date,
+      </if>
+      <if test="orderAmount != null">
+        order_amount,
+      </if>
+      <if test="robCount != null">
+        rob_count,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="ticketIdentity != null">
+        #{ticketIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketName != null">
+        #{ticketName,jdbcType=VARCHAR},
+      </if>
+      <if test="from != null">
+        #{from,jdbcType=VARCHAR},
+      </if>
+      <if test="to != null">
+        #{to,jdbcType=VARCHAR},
+      </if>
+      <if test="departureDate != null">
+        #{departureDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trainNum != null">
+        #{trainNum,jdbcType=VARCHAR},
+      </if>
+      <if test="seatType != null">
+        #{seatType,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderAmount != null">
+        #{orderAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="robCount != null">
+        #{robCount,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.huangniao.pojo.TicketOrder">
+    update ticket_order
+    <set>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="ticketIdentity != null">
+        ticket_identity = #{ticketIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketName != null">
+        ticket_name = #{ticketName,jdbcType=VARCHAR},
+      </if>
+      <if test="from != null">
+        from = #{from,jdbcType=VARCHAR},
+      </if>
+      <if test="to != null">
+        to = #{to,jdbcType=VARCHAR},
+      </if>
+      <if test="departureDate != null">
+        departure_date = #{departureDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trainNum != null">
+        train_num = #{trainNum,jdbcType=VARCHAR},
+      </if>
+      <if test="seatType != null">
+        seat_type = #{seatType,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderAmount != null">
+        order_amount = #{orderAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="robCount != null">
+        rob_count = #{robCount,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.huangniao.pojo.TicketOrder">
+    update ticket_order
+    set order_no = #{orderNo,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      ticket_identity = #{ticketIdentity,jdbcType=VARCHAR},
+      ticket_name = #{ticketName,jdbcType=VARCHAR},
+      from = #{from,jdbcType=VARCHAR},
+      to = #{to,jdbcType=VARCHAR},
+      departure_date = #{departureDate,jdbcType=TIMESTAMP},
+      train_num = #{trainNum,jdbcType=VARCHAR},
+      seat_type = #{seatType,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      order_status = #{orderStatus,jdbcType=VARCHAR},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      order_amount = #{orderAmount,jdbcType=DOUBLE},
+      rob_count = #{robCount,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectList" parameterType="com.sy.huangniao.pojo.TicketOrder">
+    select
+    <include refid="Base_Column_List" />
+    from ticket_order
+    where 1=1
+    <if test="orderNo != null">
+      and order_no = #{orderNo,jdbcType=VARCHAR},
+    </if>
+    <if test="userId != null">
+      and user_id = #{userId,jdbcType=INTEGER},
+    </if>
+    <if test="ticketIdentity != null">
+      and ticket_identity = #{ticketIdentity,jdbcType=VARCHAR},
+    </if>
+    <if test="ticketName != null">
+      and ticket_name = #{ticketName,jdbcType=VARCHAR},
+    </if>
+    <if test="from != null">
+      and from = #{from,jdbcType=VARCHAR},
+    </if>
+    <if test="to != null">
+      and to = #{to,jdbcType=VARCHAR},
+    </if>
+    <if test="departureDate != null">
+      and departure_date = #{departureDate,jdbcType=TIMESTAMP},
+    </if>
+    <if test="trainNum != null">
+      and train_num = #{trainNum,jdbcType=VARCHAR},
+    </if>
+    <if test="seatType != null">
+      and seat_type = #{seatType,jdbcType=VARCHAR},
+    </if>
+    <if test="createDate != null">
+      and create_date = #{createDate,jdbcType=TIMESTAMP},
+    </if>
+    <if test="orderStatus != null">
+      and order_status = #{orderStatus,jdbcType=VARCHAR},
+    </if>
+    <if test="modifyDate != null">
+      and modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+    </if>
+    <if test="orderAmount != null">
+      and order_amount = #{orderAmount,jdbcType=DOUBLE},
+    </if>
+    <if test="robCount != null">
+      and rob_count = #{robCount,jdbcType=INTEGER},
+    </if>
+    <if test="remark != null">
+      and remark = #{remark,jdbcType=VARCHAR},
+    </if>
+  </select>
+  <update id="updateByOrderIdSelective" parameterType="com.sy.huangniao.pojo.TicketOrder">
+    update ticket_order
+    <set>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="ticketIdentity != null">
+        ticket_identity = #{ticketIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketName != null">
+        ticket_name = #{ticketName,jdbcType=VARCHAR},
+      </if>
+      <if test="from != null">
+        from = #{from,jdbcType=VARCHAR},
+      </if>
+      <if test="to != null">
+        to = #{to,jdbcType=VARCHAR},
+      </if>
+      <if test="departureDate != null">
+        departure_date = #{departureDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trainNum != null">
+        train_num = #{trainNum,jdbcType=VARCHAR},
+      </if>
+      <if test="seatType != null">
+        seat_type = #{seatType,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderAmount != null">
+        order_amount = #{orderAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="robCount != null">
+        rob_count = #{robCount,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <cache />
+</mapper>
