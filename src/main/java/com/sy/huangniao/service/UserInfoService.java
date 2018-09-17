@@ -52,7 +52,7 @@ public interface UserInfoService {
     /**
      * 抢单或者下单
      * @param m
-     * @param <T>
+     * @param
      * @return
      */
     public  boolean createOrder(Map<String,String> m);
@@ -60,7 +60,7 @@ public interface UserInfoService {
 
     /**
      * 获取订单列表
-     * @param <T>
+     * @param
      * @param m
      * @return
      */
@@ -70,7 +70,7 @@ public interface UserInfoService {
     /**
      * 订单确认接口  --- 用户确认支付  --- 服务商确认抢到票
      * @param m
-     * @param <T>
+     * @param
      * @return
      */
     public  boolean  confirmeOrder (Map<String,String> m);
@@ -79,7 +79,7 @@ public interface UserInfoService {
      * 取消订单
      * @param userId
      * @param orderId
-     * @param <T>
+     * @param
      * @return
      */
     public  boolean  cancleOrder (int userId ,int orderId);
