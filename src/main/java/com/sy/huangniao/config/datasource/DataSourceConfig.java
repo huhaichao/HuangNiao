@@ -24,7 +24,7 @@ import javax.sql.DataSource;
 @MapperScan(basePackages = DataSourceConfig.PACKAGE, sqlSessionFactoryRef = "sqlSessionFactory")
 @EnableTransactionManagement(proxyTargetClass = true)
 public class DataSourceConfig extends AbstractDataSourceConfig {
-    static final String PACKAGE = "com.sy.huangniao.service";
+    static final String PACKAGE = "com.sy.huangniao";
     static final String MAPPER_LOCATION = "classpath*:mybatis/mapper/*.xml";
 
     @Value("${com.sy.huangniao.datasource.type}")
