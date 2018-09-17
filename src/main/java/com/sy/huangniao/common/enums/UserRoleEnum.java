@@ -8,7 +8,8 @@ package com.sy.huangniao.common.enums;
 public enum UserRoleEnum {
 
     CUSTOMER("customer","客户"),
-    BUSINESS("business","商户");
+    BUSINESS("business","商户"),
+    ADMIN("admin","管理员由系统内部分配，不提供注册接口，具备审核资格的用户");
 
     private  String role;
 
