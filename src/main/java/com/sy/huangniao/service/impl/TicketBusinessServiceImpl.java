@@ -7,10 +7,7 @@ import com.sy.huangniao.common.UserInfoBody;
 import com.sy.huangniao.common.Util.StringUtils;
 import com.sy.huangniao.common.enums.*;
 import com.sy.huangniao.common.exception.HNException;
-import com.sy.huangniao.pojo.RobOrder;
-import com.sy.huangniao.pojo.TicketBusiness;
-import com.sy.huangniao.pojo.TicketOrder;
-import com.sy.huangniao.pojo.UserInfo;
+import com.sy.huangniao.pojo.*;
 import com.sy.huangniao.service.IDaoService;
 import com.sy.huangniao.service.TicketBusinessService;
 import lombok.extern.slf4j.Slf4j;
@@ -91,7 +88,11 @@ public class TicketBusinessServiceImpl extends AbstractUserinfoService implement
         if(iDaoService.updateObject(robOrder,SqlTypeEnum.DEAFULT)==1){
             //通知审核人员进行人工审核
             //todo
-
+            RobOrderAudit robOrderAudit = new RobOrderAudit();
+            robOrderAudit.setRobOrderId(robOrder.getOrderId());
+            robOrder.setUserId(robOrder.getUserId());
+            robOrder.setProofImage(robOrder.getProofImage());
+            //robOrder.setRobStatus();
             //审核通过通知用户付款
             //todo
         }
