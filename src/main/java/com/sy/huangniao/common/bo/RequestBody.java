@@ -1,4 +1,4 @@
-package com.sy.huangniao.common;
+package com.sy.huangniao.common.bo;
 
 import lombok.Data;
 
@@ -18,4 +18,6 @@ public class RequestBody {
     //请求数据
     private Object data;
 
+    //app代号
+    private String appCode;
 }

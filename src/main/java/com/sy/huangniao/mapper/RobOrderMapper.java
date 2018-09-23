@@ -17,5 +17,5 @@ public interface RobOrderMapper {
 
     int updateByPrimaryKey(RobOrder record);
 
-    public List<RobOrder> selectList(RobOrder record);
+    List<RobOrder> selectList(RobOrder record);
 }

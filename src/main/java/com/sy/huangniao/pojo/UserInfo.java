@@ -62,6 +62,11 @@ public class UserInfo implements Serializable {
     private Date modifyDate;
 
     /**
+     * app代号
+     */
+    private String appCode;
+
+    /**
      * 备注
      */
     private String remark;
@@ -164,6 +169,14 @@ public class UserInfo implements Serializable {
         this.modifyDate = modifyDate;
     }
 
+    public String getAppCode() {
+        return appCode;
+    }
+
+    public void setAppCode(String appCode) {
+        this.appCode = appCode == null ? null : appCode.trim();
+    }
+
     public String getRemark() {
         return remark;
     }
@@ -190,6 +203,7 @@ public class UserInfo implements Serializable {
         sb.append(", createDate=").append(createDate);
         sb.append(", userStatus=").append(userStatus);
         sb.append(", modifyDate=").append(modifyDate);
+        sb.append(", appCode=").append(appCode);
         sb.append(", remark=").append(remark);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

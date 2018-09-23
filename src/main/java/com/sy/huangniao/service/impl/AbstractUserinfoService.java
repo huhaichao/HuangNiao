@@ -1,6 +1,6 @@
 package com.sy.huangniao.service.impl;
 
-import com.sy.huangniao.common.UserInfoBody;
+import com.sy.huangniao.common.bo.UserInfoBody;
 import com.sy.huangniao.common.Util.MD5Utils;
 import com.sy.huangniao.common.Util.StringUtils;
 import com.sy.huangniao.common.enums.RespondMessageEnum;
@@ -14,8 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Map;
 
 /**
  * Created by huchao on 2018/9/14.

@@ -6,7 +6,8 @@ package com.sy.huangniao.common.enums;
 public enum AuditStatusEnum {
 
     WAIT_AUDIT("wait_audit","审核中"),
-   // WAIT_AUDIT
+    AUDIT_SUCCESS("audit_success","审核通过"),
+    AUDIT_RETURN("audit_reutrn","审核驳回")
    ;
 
     private  String status;

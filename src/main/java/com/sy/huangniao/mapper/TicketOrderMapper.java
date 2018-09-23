@@ -17,7 +17,7 @@ public interface TicketOrderMapper {
 
     int updateByPrimaryKey(TicketOrder record);
 
-    public List<TicketOrder> selectList(TicketOrder record);
+    List<TicketOrder> selectList(TicketOrder record);
 
     int updateByOrderIdSelective(TicketOrder ticketOrder);
 }

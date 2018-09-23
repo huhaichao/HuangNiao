@@ -41,6 +41,11 @@ public class RobOrder implements Serializable {
      */
     private String remark;
 
+    /**
+     * app代码
+     */
+    private String appCode;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -107,6 +112,14 @@ public class RobOrder implements Serializable {
         this.remark = remark == null ? null : remark.trim();
     }
 
+    public String getAppCode() {
+        return appCode;
+    }
+
+    public void setAppCode(String appCode) {
+        this.appCode = appCode == null ? null : appCode.trim();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -121,6 +134,7 @@ public class RobOrder implements Serializable {
         sb.append(", createDate=").append(createDate);
         sb.append(", modifyDate=").append(modifyDate);
         sb.append(", remark=").append(remark);
+        sb.append(", appCode=").append(appCode);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

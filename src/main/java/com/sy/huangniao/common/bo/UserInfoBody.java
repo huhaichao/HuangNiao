@@ -1,4 +1,4 @@
-package com.sy.huangniao.common;
+package com.sy.huangniao.common.bo;
 
 import lombok.Data;
 

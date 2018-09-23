@@ -17,5 +17,5 @@ public interface UserInfoMapper {
 
     int updateByPrimaryKey(UserInfo record);
 
-    public List<UserInfo> selectList(UserInfo record);
+    List<UserInfo> selectList(UserInfo record);
 }

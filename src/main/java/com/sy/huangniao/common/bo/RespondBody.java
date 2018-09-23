@@ -1,4 +1,4 @@
-package com.sy.huangniao.common;
+package com.sy.huangniao.common.bo;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sy.huangniao.common.enums.RespondMessageEnum;

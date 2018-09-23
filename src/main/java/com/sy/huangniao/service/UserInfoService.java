@@ -1,6 +1,6 @@
 package com.sy.huangniao.service;
 
-import com.sy.huangniao.common.UserInfoBody;
+import com.sy.huangniao.common.bo.UserInfoBody;
 import com.sy.huangniao.pojo.UserInfo;
 
 import java.util.Map;

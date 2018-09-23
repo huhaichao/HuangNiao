@@ -18,10 +18,12 @@
     <result column="order_amount" jdbcType="DOUBLE" property="orderAmount" />
     <result column="rob_count" jdbcType="INTEGER" property="robCount" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="app_code" jdbcType="VARCHAR" property="appCode" />
   </resultMap>
   <sql id="Base_Column_List">
     id, order_no, user_id, ticket_identity, ticket_name, from, to, departure_date, train_num, 
-    seat_type, create_date, order_status, modify_date, order_amount, rob_count, remark
+    seat_type, create_date, order_status, modify_date, order_amount, rob_count, remark, 
+    app_code
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -38,14 +40,14 @@
       ticket_name, from, to, 
       departure_date, train_num, seat_type, 
       create_date, order_status, modify_date, 
-      order_amount, rob_count, remark
-      )
+      order_amount, rob_count, remark, 
+      app_code)
     values (#{orderNo,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{ticketIdentity,jdbcType=VARCHAR}, 
       #{ticketName,jdbcType=VARCHAR}, #{from,jdbcType=VARCHAR}, #{to,jdbcType=VARCHAR}, 
       #{departureDate,jdbcType=TIMESTAMP}, #{trainNum,jdbcType=VARCHAR}, #{seatType,jdbcType=VARCHAR}, 
       #{createDate,jdbcType=TIMESTAMP}, #{orderStatus,jdbcType=VARCHAR}, #{modifyDate,jdbcType=TIMESTAMP}, 
-      #{orderAmount,jdbcType=DOUBLE}, #{robCount,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
-      )
+      #{orderAmount,jdbcType=DOUBLE}, #{robCount,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+      #{appCode,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.TicketOrder" useGeneratedKeys="true">
     insert into ticket_order
@@ -95,6 +97,9 @@
       <if test="remark != null">
         remark,
       </if>
+      <if test="appCode != null">
+        app_code,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="orderNo != null">
@@ -141,6 +146,9 @@
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="appCode != null">
+        #{appCode,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -192,6 +200,9 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="appCode != null">
+        app_code = #{appCode,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -211,7 +222,8 @@
       modify_date = #{modifyDate,jdbcType=TIMESTAMP},
       order_amount = #{orderAmount,jdbcType=DOUBLE},
       rob_count = #{robCount,jdbcType=INTEGER},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      app_code = #{appCode,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 

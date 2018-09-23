@@ -3,7 +3,7 @@ package com.sy.huangniao.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.sy.huangniao.common.UserInfoBody;
+import com.sy.huangniao.common.bo.UserInfoBody;
 import com.sy.huangniao.common.Util.StringUtils;
 import com.sy.huangniao.common.enums.*;
 import com.sy.huangniao.common.exception.HNException;

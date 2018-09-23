@@ -14,11 +14,12 @@
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="user_status" jdbcType="VARCHAR" property="userStatus" />
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="app_code" jdbcType="VARCHAR" property="appCode" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Base_Column_List">
     id, user_phoneno, user_sex, user_birthday, user_image, user_name, password, user_wxno, 
-    user_role, create_date, user_status, modify_date, remark
+    user_role, create_date, user_status, modify_date, app_code, remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -34,13 +35,13 @@
     insert into user_info (user_phoneno, user_sex, user_birthday, 
       user_image, user_name, password, 
       user_wxno, user_role, create_date, 
-      user_status, modify_date, remark
-      )
+      user_status, modify_date, app_code, 
+      remark)
     values (#{userPhoneno,jdbcType=VARCHAR}, #{userSex,jdbcType=VARCHAR}, #{userBirthday,jdbcType=DATE}, 
       #{userImage,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{userWxno,jdbcType=VARCHAR}, #{userRole,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{userStatus,jdbcType=VARCHAR}, #{modifyDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
-      )
+      #{userStatus,jdbcType=VARCHAR}, #{modifyDate,jdbcType=TIMESTAMP}, #{appCode,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.UserInfo" useGeneratedKeys="true">
     insert into user_info
@@ -77,6 +78,9 @@
       </if>
       <if test="modifyDate != null">
         modify_date,
+      </if>
+      <if test="appCode != null">
+        app_code,
       </if>
       <if test="remark != null">
         remark,
@@ -115,6 +119,9 @@
       </if>
       <if test="modifyDate != null">
         #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="appCode != null">
+        #{appCode,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -157,6 +164,9 @@
       <if test="modifyDate != null">
         modify_date = #{modifyDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="appCode != null">
+        app_code = #{appCode,jdbcType=VARCHAR},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -176,6 +186,7 @@
       create_date = #{createDate,jdbcType=TIMESTAMP},
       user_status = #{userStatus,jdbcType=VARCHAR},
       modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      app_code = #{appCode,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -221,7 +232,9 @@
     <if test="remark != null">
       and remark = #{remark,jdbcType=VARCHAR},
     </if>
+    <if test="appCode != null">
+      AND  app_code = #{appCode,jdbcType=VARCHAR},
+    </if>
   </select>
-
   <cache />
 </mapper>

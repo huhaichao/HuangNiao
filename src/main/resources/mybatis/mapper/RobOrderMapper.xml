@@ -10,9 +10,11 @@
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="app_code" jdbcType="VARCHAR" property="appCode" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, order_id, rob_status, proof_image, create_date, modify_date, remark
+    id, user_id, order_id, rob_status, proof_image, create_date, modify_date, remark, 
+    app_code
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -27,10 +29,10 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.RobOrder" useGeneratedKeys="true">
     insert into rob_order (user_id, order_id, rob_status, 
       proof_image, create_date, modify_date, 
-      remark)
+      remark, app_code)
     values (#{userId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{robStatus,jdbcType=VARCHAR}, 
       #{proofImage,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
-      #{remark,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{appCode,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.RobOrder" useGeneratedKeys="true">
     insert into rob_order
@@ -56,6 +58,9 @@
       <if test="remark != null">
         remark,
       </if>
+      <if test="appCode != null">
+        app_code,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -78,6 +83,9 @@
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="appCode != null">
+        #{appCode,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -105,6 +113,9 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="appCode != null">
+        app_code = #{appCode,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -116,7 +127,8 @@
       proof_image = #{proofImage,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       modify_date = #{modifyDate,jdbcType=TIMESTAMP},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      app_code = #{appCode,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -126,13 +138,13 @@
     from rob_order
     where 1=1
     <if test="userId != null">
-     and user_id = #{userId,jdbcType=INTEGER},
+      and user_id = #{userId,jdbcType=INTEGER},
     </if>
     <if test="orderId != null">
-     and order_id = #{orderId,jdbcType=INTEGER},
+      and order_id = #{orderId,jdbcType=INTEGER},
     </if>
     <if test="robStatus != null">
-     and  rob_status = #{robStatus,jdbcType=VARCHAR},
+      and  rob_status = #{robStatus,jdbcType=VARCHAR},
     </if>
     <if test="proofImage != null">
       and  proof_image = #{proofImage,jdbcType=VARCHAR},
@@ -147,5 +159,6 @@
       and remark = #{remark,jdbcType=VARCHAR},
     </if>
   </select>
+
   <cache />
 </mapper>
