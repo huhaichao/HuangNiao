@@ -1,8 +1,11 @@
 package com.sy.huangniao.controller.context;
 
 import com.google.common.collect.Maps;
+import com.sy.huangniao.common.enums.AppCodeEnum;
 import com.sy.huangniao.service.IDaoService;
 import com.sy.huangniao.service.UserInfoService;
+import com.sy.huangniao.service.impl.AbstractUserLoginService;
+import com.sy.huangniao.service.impl.AbstractUserinfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
@@ -25,7 +28,10 @@ public class HNContext implements InitializingBean, ApplicationContextAware {
 
     private Map<String,IDaoService> cachedDaoService = Maps.newHashMap();
 
-    private Map<String,UserInfoService> cachedUserInfoService = Maps.newHashMap();
+    private Map<String,AbstractUserinfoService> cachedAbstractUserinfoService = Maps.newHashMap();
+
+    private Map<String,AbstractUserLoginService> cachedAbstractUserLoginService = Maps.newHashMap();
+
 
     /**
      * 获取数据库处理类
@@ -33,7 +39,7 @@ public class HNContext implements InitializingBean, ApplicationContextAware {
      * @return
      */
     public IDaoService  getDaoService(String tableName){
-        ;
+
         for (Map.Entry<String,IDaoService> entry :cachedDaoService.entrySet()){
 
             IDaoService iDaoService=   entry.getValue();
@@ -45,26 +51,43 @@ public class HNContext implements InitializingBean, ApplicationContextAware {
     }
 
     /**
-     * 获取接口处理类
+     * 获取用户信息接口处理类
      * @param role
      * @return
      */
-    public UserInfoService  getUserInfoService(String role){
-        ;
-        for (Map.Entry<String,UserInfoService> entry :cachedUserInfoService.entrySet()){
+    public AbstractUserinfoService  getAbstractUserinfoService(String role){
 
-            UserInfoService userInfoService=   entry.getValue();
-            if (userInfoService.getUserRole().equals(role)){
-                return  userInfoService;
+        for (Map.Entry<String,AbstractUserinfoService> entry :cachedAbstractUserinfoService.entrySet()){
+            AbstractUserinfoService abstractUserinfoService=   entry.getValue();
+            if (abstractUserinfoService.getUserRole().equals(role)){
+                return  abstractUserinfoService;
             }
         }
         return  null;
     }
 
+    /**
+     * 获取用户登陆接口处理类
+     * @param appCode
+     * @return
+     */
+    public AbstractUserLoginService  getAbstractUserLoginService(AppCodeEnum appCode){
+
+        for (Map.Entry<String,AbstractUserLoginService> entry :cachedAbstractUserLoginService.entrySet()){
+            AbstractUserLoginService abstractUserLoginService=   entry.getValue();
+            if (abstractUserLoginService.getAppCode().equals(appCode)){
+                return  abstractUserLoginService;
+            }
+        }
+        return  null;
+    }
+
+
     @Override
     public void afterPropertiesSet() throws Exception {
         cachedDaoService = springApplicationContext.getBeansOfType(IDaoService.class);
-        cachedUserInfoService = springApplicationContext.getBeansOfType(UserInfoService.class);
+        cachedAbstractUserinfoService = springApplicationContext.getBeansOfType(AbstractUserinfoService.class);
+        cachedAbstractUserLoginService =  springApplicationContext.getBeansOfType(AbstractUserLoginService.class);
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.sy.huangniao.service;
 
 import com.sy.huangniao.common.bo.UserInfoBody;
+import com.sy.huangniao.pojo.UserDeposit;
 import com.sy.huangniao.pojo.UserInfo;
+import com.sy.huangniao.pojo.UserWithdraw;
 
 import java.util.Map;
 
@@ -17,19 +19,6 @@ public interface UserInfoService {
      * @return
      */
     public String getUserRole();
-
-    /**
-     * 注册服务
-     * @param userInfo
-     * @return
-     */
-    public  UserInfoBody  registry(UserInfo userInfo);
-
-    /**
-     * 登陆服务
-     * @return
-     */
-    public  UserInfoBody login (UserInfo userInfo);
 
     /**
      * 获取用户信息
@@ -83,5 +72,24 @@ public interface UserInfoService {
      * @return
      */
     public  boolean  cancleOrder (int userId ,int orderId);
+
+    /**
+     *
+     * 充值
+     * @param userDeposit
+     * @return
+     */
+    public  boolean  deposit(UserDeposit userDeposit);
+
+
+    /**
+     * 
+     * 提现接口
+     * @param userWithdraw
+     * @return
+     */
+    public  boolean  withdraw(UserWithdraw userWithdraw);
+
+
 
 }

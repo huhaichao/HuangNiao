@@ -9,11 +9,16 @@ import lombok.Data;
 @Data
 public class RequestBody {
 
-    //用户角色
-    private String role;
-
     //用户手机
-    private String userPhone;
+    //private String userPhone;
+    //用户id
+    private String userId;
+
+    //用户角色
+    private String userRole;
+
+    //logionkey
+   //private String loginkey;
 
     //请求数据
     private Object data;

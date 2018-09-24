@@ -13,7 +13,10 @@ public enum RespondMessageEnum {
     PASSWORDOERROR("0002", "密码错误"),
     UPDATEUSERINFOERROR("0003","修改用户信息失败"),
     CREATROBORDERFAIL("0004", "商户抢单失败"),
-    CREATORDERFAIL("0005","商户下单失败");
+    CREATORDERFAIL("0005","商户下单失败"),
+    NO_LOGIN("0006","用户未登陆"),
+    NOINFO_LOGINKEY("0007", "缺少loginkey"),
+    NOINFO_USERID("0008","缺少userId" );
 
     private  String  code;
 

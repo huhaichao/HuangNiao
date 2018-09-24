@@ -1,4 +1,4 @@
-package com.sy.huangniao.service.impl;
+package com.sy.huangniao.service.impl.dao;
 
 
 import com.sy.huangniao.common.enums.SqlTypeEnum;
