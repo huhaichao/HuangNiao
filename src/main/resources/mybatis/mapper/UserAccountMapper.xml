@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.huangniao.mapper.UserAccountMapper">
+  <resultMap id="BaseResultMap" type="com.sy.huangniao.pojo.UserAccount">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="account_no" jdbcType="VARCHAR" property="accountNo" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="amount_balance" jdbcType="DOUBLE" property="amountBalance" />
+    <result column="cool_amount" jdbcType="DOUBLE" property="coolAmount" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, account_no, user_id, amount_balance, cool_amount, create_date, modify_date, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_account
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_account
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.UserAccount" useGeneratedKeys="true">
+    insert into user_account (account_no, user_id, amount_balance, 
+      cool_amount, create_date, modify_date, 
+      status)
+    values (#{accountNo,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{amountBalance,jdbcType=DOUBLE}, 
+      #{coolAmount,jdbcType=DOUBLE}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.UserAccount" useGeneratedKeys="true">
+    insert into user_account
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="accountNo != null">
+        account_no,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="amountBalance != null">
+        amount_balance,
+      </if>
+      <if test="coolAmount != null">
+        cool_amount,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="modifyDate != null">
+        modify_date,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="accountNo != null">
+        #{accountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="amountBalance != null">
+        #{amountBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="coolAmount != null">
+        #{coolAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.huangniao.pojo.UserAccount">
+    update user_account
+    <set>
+      <if test="accountNo != null">
+        account_no = #{accountNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="amountBalance != null">
+        amount_balance = #{amountBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="coolAmount != null">
+        cool_amount = #{coolAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.huangniao.pojo.UserAccount">
+    update user_account
+    set account_no = #{accountNo,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      amount_balance = #{amountBalance,jdbcType=DOUBLE},
+      cool_amount = #{coolAmount,jdbcType=DOUBLE},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectList" parameterType="com.sy.huangniao.pojo.UserAccount" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_account
+    where 1=1
+    <if test="accountNo != null">
+      AND account_no = #{accountNo,jdbcType=VARCHAR},
+    </if>
+    <if test="userId != null">
+      AND user_id = #{userId,jdbcType=INTEGER},
+    </if>
+    <if test="amountBalance != null">
+      AND  amount_balance = #{amountBalance,jdbcType=DOUBLE},
+    </if>
+    <if test="coolAmount != null">
+      AND cool_amount = #{coolAmount,jdbcType=DOUBLE},
+    </if>
+    <if test="createDate != null">
+      AND create_date = #{createDate,jdbcType=TIMESTAMP},
+    </if>
+    <if test="modifyDate != null">
+      AND modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+    </if>
+    <if test="status != null">
+      AND status = #{status,jdbcType=VARCHAR},
+    </if>
+  </select>
+  <cache />
+</mapper>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.huangniao.mapper.UserTradeMapper">
+  <resultMap id="BaseResultMap" type="com.sy.huangniao.pojo.UserTrade">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="trade_no" jdbcType="VARCHAR" property="tradeNo" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="amount" jdbcType="DOUBLE" property="amount" />
+    <result column="fact_amount" jdbcType="DOUBLE" property="factAmount" />
+    <result column="fee" jdbcType="DOUBLE" property="fee" />
+    <result column="from" jdbcType="VARCHAR" property="from" />
+    <result column="to" jdbcType="VARCHAR" property="to" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, trade_no, order_no, amount, fact_amount, fee, from, to, status, create_date, 
+    modify_date, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_trade
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_trade
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.UserTrade" useGeneratedKeys="true">
+    insert into user_trade (trade_no, order_no, amount, 
+      fact_amount, fee, from, 
+      to, status, create_date, 
+      modify_date, remark)
+    values (#{tradeNo,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{amount,jdbcType=DOUBLE}, 
+      #{factAmount,jdbcType=DOUBLE}, #{fee,jdbcType=DOUBLE}, #{from,jdbcType=VARCHAR}, 
+      #{to,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{modifyDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.UserTrade" useGeneratedKeys="true">
+    insert into user_trade
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tradeNo != null">
+        trade_no,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="factAmount != null">
+        fact_amount,
+      </if>
+      <if test="fee != null">
+        fee,
+      </if>
+      <if test="from != null">
+        from,
+      </if>
+      <if test="to != null">
+        to,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="modifyDate != null">
+        modify_date,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tradeNo != null">
+        #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="factAmount != null">
+        #{factAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="fee != null">
+        #{fee,jdbcType=DOUBLE},
+      </if>
+      <if test="from != null">
+        #{from,jdbcType=VARCHAR},
+      </if>
+      <if test="to != null">
+        #{to,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.huangniao.pojo.UserTrade">
+    update user_trade
+    <set>
+      <if test="tradeNo != null">
+        trade_no = #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="factAmount != null">
+        fact_amount = #{factAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="fee != null">
+        fee = #{fee,jdbcType=DOUBLE},
+      </if>
+      <if test="from != null">
+        from = #{from,jdbcType=VARCHAR},
+      </if>
+      <if test="to != null">
+        to = #{to,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.huangniao.pojo.UserTrade">
+    update user_trade
+    set trade_no = #{tradeNo,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=DOUBLE},
+      fact_amount = #{factAmount,jdbcType=DOUBLE},
+      fee = #{fee,jdbcType=DOUBLE},
+      from = #{from,jdbcType=VARCHAR},
+      to = #{to,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectList" parameterType="com.sy.huangniao.pojo.UserTrade" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_trade
+    where 1=1
+    <if test="tradeNo != null">
+      AND trade_no = #{tradeNo,jdbcType=VARCHAR},
+    </if>
+    <if test="orderNo != null">
+      AND order_no = #{orderNo,jdbcType=VARCHAR},
+    </if>
+    <if test="amount != null">
+      AND amount = #{amount,jdbcType=DOUBLE},
+    </if>
+    <if test="factAmount != null">
+      AND fact_amount = #{factAmount,jdbcType=DOUBLE},
+    </if>
+    <if test="fee != null">
+      AND fee = #{fee,jdbcType=DOUBLE},
+    </if>
+    <if test="from != null">
+      AND from = #{from,jdbcType=VARCHAR},
+    </if>
+    <if test="to != null">
+      AND to = #{to,jdbcType=VARCHAR},
+    </if>
+    <if test="status != null">
+      AND status = #{status,jdbcType=VARCHAR},
+    </if>
+    <if test="createDate != null">
+      AND create_date = #{createDate,jdbcType=TIMESTAMP},
+    </if>
+    <if test="modifyDate != null">
+      AND  modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+    </if>
+  </select>
+  <cache />
+</mapper>
