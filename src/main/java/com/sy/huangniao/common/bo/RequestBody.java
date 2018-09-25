@@ -17,8 +17,8 @@ public class RequestBody {
     //用户角色
     private String userRole;
 
-    //logionkey
-   //private String loginkey;
+    //logionkey -- header中最好
+    private String loginkey;
 
     //请求数据
     private Object data;

@@ -214,5 +214,108 @@
       modify_date = #{modifyDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectList" parameterType="com.sy.huangniao.pojo.UserWxinfo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_wxinfo
+    where 1=1
+    <if test="userId != null">
+      AND user_id = #{userId,jdbcType=INTEGER}
+    </if>
+    <if test="nickname != null">
+      AND  nickName = #{nickname,jdbcType=VARCHAR}
+    </if>
+    <if test="openid != null">
+      AND  openid = #{openid,jdbcType=VARCHAR}
+    </if>
+    <if test="sessionKey != null">
+      AND session_key = #{sessionKey,jdbcType=VARCHAR}
+    </if>
+    <if test="unionid != null">
+      AND  unionid = #{unionid,jdbcType=VARCHAR}
+    </if>
+    <if test="gender != null">
+      AND  gender = #{gender,jdbcType=VARCHAR}
+    </if>
+    <if test="phonenumber != null">
+      AND  phoneNumber = #{phonenumber,jdbcType=VARCHAR}
+    </if>
+    <if test="countrycode != null">
+      AND  countryCode = #{countrycode,jdbcType=VARCHAR}
+    </if>
+    <if test="purephonenumber != null">
+      AND  purePhoneNumber = #{purephonenumber,jdbcType=VARCHAR}
+    </if>
+    <if test="city != null">
+      AND  city = #{city,jdbcType=VARCHAR}
+    </if>
+    <if test="province != null">
+      AND  province = #{province,jdbcType=VARCHAR}
+    </if>
+    <if test="country != null">
+      AND  country = #{country,jdbcType=VARCHAR}
+    </if>
+    <if test="language != null">
+      AND language = #{language,jdbcType=VARCHAR}
+    </if>
+    <if test="createDate != null">
+      AND create_date = #{createDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="modifyDate != null">
+      AND  modify_date = #{modifyDate,jdbcType=TIMESTAMP}
+    </if>
+  </select>
+
+  <update id="updateByUserIdAndOpenid" parameterType="com.sy.huangniao.pojo.UserWxinfo">
+    update user_wxinfo
+    <set>
+      <if test="nickname != null">
+        nickName = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="sessionKey != null">
+        session_key = #{sessionKey,jdbcType=VARCHAR},
+      </if>
+      <if test="unionid != null">
+        unionid = #{unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenumber != null">
+        phoneNumber = #{phonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="countrycode != null">
+        countryCode = #{countrycode,jdbcType=VARCHAR},
+      </if>
+      <if test="purephonenumber != null">
+        purePhoneNumber = #{purephonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="language != null">
+        language = #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where 1=1
+    <if test="userId != null">
+      AND user_id = #{userId,jdbcType=INTEGER}
+    </if>
+     <if test="openid != null">
+       AND  openid = #{openid,jdbcType=VARCHAR}
+     </if>
+  </update>
   <cache />
 </mapper>

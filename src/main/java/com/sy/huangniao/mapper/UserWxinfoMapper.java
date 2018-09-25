@@ -2,6 +2,8 @@ package com.sy.huangniao.mapper;
 
 import com.sy.huangniao.pojo.UserWxinfo;
 
+import java.util.List;
+
 public interface UserWxinfoMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,8 @@ public interface UserWxinfoMapper {
     int updateByPrimaryKeySelective(UserWxinfo record);
 
     int updateByPrimaryKey(UserWxinfo record);
+
+    List<UserWxinfo> selectList(UserWxinfo userWxinfo);
+
+    int updateByUserIdAndOpenid(UserWxinfo userWxinfo);
 }

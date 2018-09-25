@@ -18,7 +18,7 @@ public enum AppCodeEnum {
     }
 
 
-    public String getStatus(){
+    public String getCode(){
         return  this.code;
     }
 

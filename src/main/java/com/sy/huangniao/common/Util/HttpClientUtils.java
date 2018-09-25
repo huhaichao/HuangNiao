@@ -32,6 +32,7 @@ public final class HttpClientUtils {
     public static String get(final String url, final Map<String, String> headerMap,int socketTimeout,int connectTimeout) {
         return get( url, null, headerMap , socketTimeout, connectTimeout);
     }
+
     public static String get(final String url, final Map<String, String> headerMap) {
         return get( url, headerMap , 30000,30000);
     }
