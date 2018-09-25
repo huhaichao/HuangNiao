@@ -21,6 +21,13 @@ public interface UserInfoService {
     public String getUserRole();
 
     /**
+     * 创建用户
+     * @param m
+     * @return
+     */
+    public UserInfo   createUserInfo(Map<String,String> m);
+
+    /**
      * 获取用户信息
      * @param
      * @return
