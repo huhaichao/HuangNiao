@@ -1,4 +1,4 @@
-package com.sy.huangniao.service.impl;
+package com.sy.huangniao.service.impl.business;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
@@ -9,7 +9,8 @@ import com.sy.huangniao.common.enums.*;
 import com.sy.huangniao.common.exception.HNException;
 import com.sy.huangniao.pojo.*;
 import com.sy.huangniao.service.IDaoService;
-import com.sy.huangniao.service.TicketBusinessService;
+import com.sy.huangniao.service.business.TicketBusinessService;
+import com.sy.huangniao.service.impl.AbstractUserinfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;

@@ -3,7 +3,7 @@ package com.sy.huangniao.service.impl.XCX;
 import com.sy.huangniao.common.Util.HttpClientUtils;
 import com.sy.huangniao.common.constant.Constant;
 import com.sy.huangniao.common.enums.AppCodeEnum;
-import com.sy.huangniao.service.IWXPaychannelsService;
+import com.sy.huangniao.service.pay.IWXPaychannelsService;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;

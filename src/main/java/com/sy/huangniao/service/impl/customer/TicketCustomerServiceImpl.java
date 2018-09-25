@@ -1,4 +1,4 @@
-package com.sy.huangniao.service.impl;
+package com.sy.huangniao.service.impl.customer;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
@@ -12,7 +12,8 @@ import com.sy.huangniao.common.enums.UserRoleEnum;
 import com.sy.huangniao.common.exception.HNException;
 import com.sy.huangniao.pojo.*;
 import com.sy.huangniao.service.IDaoService;
-import com.sy.huangniao.service.TicketCustomerService;
+import com.sy.huangniao.service.customer.TicketCustomerService;
+import com.sy.huangniao.service.impl.AbstractUserinfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,7 @@ import java.util.Map;
  */
 @Slf4j
 @Component
-public class TicketCustomerServiceImpl extends  AbstractUserinfoService implements TicketCustomerService{
+public class TicketCustomerServiceImpl extends AbstractUserinfoService implements TicketCustomerService{
     @Override
     public String getUserRole() {
         return UserRoleEnum.CUSTOMER.getRole();

@@ -1,4 +1,4 @@
-package com.sy.huangniao.service;
+package com.sy.huangniao.service.business;
 
 /**
  * Created by huchao on 2018/9/14.
