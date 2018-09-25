@@ -1,13 +1,17 @@
-package com.sy.huangniao.service.impl;
+package com.sy.huangniao.service.impl.XCX;
 
 import com.sy.huangniao.common.Util.*;
 import com.sy.huangniao.common.constant.Constant;
 import com.sy.huangniao.common.enums.*;
 import com.sy.huangniao.common.exception.HNException;
+import com.sy.huangniao.controller.context.HNContext;
 import com.sy.huangniao.pojo.UserInfo;
 import com.sy.huangniao.pojo.UserWxinfo;
 import com.sy.huangniao.service.IDaoService;
 import com.sy.huangniao.service.IRedisService;
+import com.sy.huangniao.service.IWXPaychannelsService;
+import com.sy.huangniao.service.impl.AbstractUserLoginService;
+import com.sy.huangniao.service.impl.AbstractUserinfoService;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,14 +58,8 @@ public class XCXUserLoginServiceImpl extends AbstractUserLoginService {
       //去微信获取openid
       String jsCode = map.get("code");
       log.info("userCode={} 获取openID......",jsCode);
-      Map<String,String> params =new HashMap<String,String>();
-      params.put("appid",constant.getWX_XCX_APPID());
-      params.put("secret",constant.getWX_XCX_APP_SECRETD());
-      params.put("js_code",jsCode);
-      params.put("grant_type","authorization_code");
-      String  result =HttpClientUtils.get(constant.getWX_XCX_URL_JSCODE2SESSION(),params,
-              null,30000,30000);
-      JSONObject jsonObject = JSONObject.fromObject(result);
+      IWXPaychannelsService  iwxPaychannelsService =hnContext.getIWXPaychannelsService(getAppCode());
+      JSONObject jsonObject = iwxPaychannelsService.code2Session(map);
       UserWxinfo userWxinfo = new UserWxinfo();
       userWxinfo.setOpenid(jsonObject.getString("openid"));
       userWxinfo.setSessionKey(jsonObject.getString("session_key"));

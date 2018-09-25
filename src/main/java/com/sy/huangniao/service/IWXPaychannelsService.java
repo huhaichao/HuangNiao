@@ -1,6 +1,6 @@
 package com.sy.huangniao.service;
 
-import com.alibaba.fastjson.JSONObject;
+import net.sf.json.JSONObject;
 
 import java.util.Map;
 

@@ -3,6 +3,8 @@ package com.sy.huangniao.controller.context;
 import com.google.common.collect.Maps;
 import com.sy.huangniao.common.enums.AppCodeEnum;
 import com.sy.huangniao.service.IDaoService;
+import com.sy.huangniao.service.IPayChannelsService;
+import com.sy.huangniao.service.IWXPaychannelsService;
 import com.sy.huangniao.service.UserInfoService;
 import com.sy.huangniao.service.impl.AbstractUserLoginService;
 import com.sy.huangniao.service.impl.AbstractUserinfoService;
@@ -31,6 +33,8 @@ public class HNContext implements InitializingBean, ApplicationContextAware {
     private Map<String,AbstractUserinfoService> cachedAbstractUserinfoService = Maps.newHashMap();
 
     private Map<String,AbstractUserLoginService> cachedAbstractUserLoginService = Maps.newHashMap();
+
+    private Map<String,IWXPaychannelsService> cachedIWXPaychannelsService = Maps.newHashMap();
 
 
     /**
@@ -67,6 +71,22 @@ public class HNContext implements InitializingBean, ApplicationContextAware {
     }
 
     /**
+     * 获取微信接口处理类
+     * @param appCode
+     * @return
+     */
+    public IWXPaychannelsService  getIWXPaychannelsService(AppCodeEnum appCode){
+
+        for (Map.Entry<String,IWXPaychannelsService> entry :cachedIWXPaychannelsService.entrySet()){
+            IWXPaychannelsService iwxPaychannelsService=   entry.getValue();
+            if (iwxPaychannelsService.ChannelsName().equals(appCode)){
+                return  iwxPaychannelsService;
+            }
+        }
+        return  null;
+    }
+
+    /**
      * 获取用户登陆接口处理类
      * @param appCode
      * @return
@@ -88,6 +108,7 @@ public class HNContext implements InitializingBean, ApplicationContextAware {
         cachedDaoService = springApplicationContext.getBeansOfType(IDaoService.class);
         cachedAbstractUserinfoService = springApplicationContext.getBeansOfType(AbstractUserinfoService.class);
         cachedAbstractUserLoginService =  springApplicationContext.getBeansOfType(AbstractUserLoginService.class);
+        cachedIWXPaychannelsService = springApplicationContext.getBeansOfType(IWXPaychannelsService.class);
     }
 
     @Override
