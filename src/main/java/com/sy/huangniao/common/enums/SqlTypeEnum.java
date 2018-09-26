@@ -8,7 +8,8 @@ public enum SqlTypeEnum {
     DEAFULT("deafult","默认执行"),
     UPDATEBYUSERID("updateByUserId","通过用户id修改数据"),
     SELECTOBJECTBYSELECTIVE("selectObjectBySelective", "通过实体查询对象"),
-    UPDATEBYORDERID("updateByOrderId","通过订单id来修改" );
+    UPDATEBYORDERID("updateByOrderId","通过订单id来修改" ),
+    UPDATEACCOUNTAMOUNT("updateAccountAmount", "修改账户金额");
 
     private  String sqlType;
 

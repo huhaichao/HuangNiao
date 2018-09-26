@@ -13,6 +13,7 @@ import com.sy.huangniao.service.impl.AbstractUserLoginService;
 import com.sy.huangniao.service.impl.AbstractUserinfoService;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,12 +53,13 @@ public class XCXUserLoginServiceImpl extends AbstractUserLoginService {
      */
     @Override
     @Transactional(rollbackFor = {Exception.class})
-    public JSONObject login (Map<String,String> map){
+    public JSONObject login (JSONObject json){
       //去微信获取openid
-      String jsCode = map.get("code");
+      JSONObject jsonObjectData = JSONObject.fromObject(json.get("data"));
+      String jsCode = jsonObjectData.getString("code");
       log.info("userCode={} 获取openID......",jsCode);
       IWXPaychannelsService  iwxPaychannelsService =hnContext.getIWXPaychannelsService(getAppCode());
-      JSONObject jsonObject = iwxPaychannelsService.code2Session(map);
+      JSONObject jsonObject = iwxPaychannelsService.code2Session(json);
       UserWxinfo userWxinfo = new UserWxinfo();
       userWxinfo.setOpenid(jsonObject.getString("openid"));
       userWxinfo.setSessionKey(jsonObject.getString("session_key"));
@@ -83,8 +85,8 @@ public class XCXUserLoginServiceImpl extends AbstractUserLoginService {
            userWxinfoSelect.setOpenid(userWxinfo.getOpenid());
            List<UserWxinfo> list =iDaoService.selectList(userWxinfo,SqlTypeEnum.DEAFULT);
            if(list==null || list.size()==0){
-              AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(map.get("userRole"));
-              UserInfo userInfo =abstractUserinfoService.createUserInfo(map);
+              AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(json.getString("userRole"));
+              UserInfo userInfo =abstractUserinfoService.createUserInfo(jsonObjectData);
               userid = userInfo.getId().toString();
               //保存微信信息
                userWxinfo.setUserId(userInfo.getId());

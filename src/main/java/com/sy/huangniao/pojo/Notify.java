@@ -24,7 +24,7 @@ public class Notify implements Serializable {
     /**
      * 通知状态
      */
-    private Integer notifyStatus;
+    private String notifyStatus;
 
     /**
      * 创建时间
@@ -77,11 +77,11 @@ public class Notify implements Serializable {
         this.title = title == null ? null : title.trim();
     }
 
-    public Integer getNotifyStatus() {
+    public String getNotifyStatus() {
         return notifyStatus;
     }
 
-    public void setNotifyStatus(Integer notifyStatus) {
+    public void setNotifyStatus(String notifyStatus) {
         this.notifyStatus = notifyStatus;
     }
 

@@ -147,5 +147,40 @@
       AND status = #{status,jdbcType=VARCHAR},
     </if>
   </select>
+  <select id="selectObjectSelective" parameterType="com.sy.huangniao.pojo.UserAccount" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_account
+    where 1=1
+    <if test="accountNo != null">
+      AND account_no = #{accountNo,jdbcType=VARCHAR},
+    </if>
+    <if test="userId != null">
+      AND user_id = #{userId,jdbcType=INTEGER},
+    </if>
+    <if test="amountBalance != null">
+      AND  amount_balance = #{amountBalance,jdbcType=DOUBLE},
+    </if>
+    <if test="coolAmount != null">
+      AND cool_amount = #{coolAmount,jdbcType=DOUBLE},
+    </if>
+    <if test="createDate != null">
+      AND create_date = #{createDate,jdbcType=TIMESTAMP},
+    </if>
+    <if test="status != null">
+      AND status = #{status,jdbcType=VARCHAR},
+    </if>
+  </select>
+  <update id="updateAccountAmount" parameterType="com.sy.huangniao.pojo.UserAccount">
+    update user_account
+    set
+    <if test="amountBalance != null">
+      amount_balance = amount_balance+#{amountBalance,jdbcType=DOUBLE},
+    </if>
+    <if test="coolAmount != null">
+      cool_amount = amount_balance+#{coolAmount,jdbcType=DOUBLE},
+    </if>
+    where id = #{id,jdbcType=INTEGER} and user_id = #{userId,jdbcType=INTEGER} and account_no = #{accountNo,jdbcType=VARCHAR}
+  </update>
   <cache />
 </mapper>

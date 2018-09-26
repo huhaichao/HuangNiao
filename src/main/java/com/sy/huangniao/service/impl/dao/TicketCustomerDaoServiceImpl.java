@@ -43,6 +43,8 @@ public class TicketCustomerDaoServiceImpl implements IDaoService<TicketCustomer>
     public int updateObject(TicketCustomer ticketCustomer,SqlTypeEnum sqlType) {
         if(sqlType==SqlTypeEnum.DEAFULT)
             return ticketCustomerMapper.updateByPrimaryKeySelective(ticketCustomer);
+        else if (sqlType==SqlTypeEnum.UPDATEBYUSERID)
+            return ticketCustomerMapper.updateByUserIdSelective(ticketCustomer);
         return 0;
     }
 

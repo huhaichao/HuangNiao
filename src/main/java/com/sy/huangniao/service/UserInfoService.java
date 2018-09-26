@@ -4,6 +4,7 @@ import com.sy.huangniao.common.bo.UserInfoBody;
 import com.sy.huangniao.pojo.UserDeposit;
 import com.sy.huangniao.pojo.UserInfo;
 import com.sy.huangniao.pojo.UserWithdraw;
+import net.sf.json.JSONObject;
 
 import java.util.Map;
 
@@ -22,10 +23,10 @@ public interface UserInfoService {
 
     /**
      * 创建用户
-     * @param m
+     * @param jsonObject
      * @return
      */
-    public UserInfo   createUserInfo(Map<String,String> m);
+    public UserInfo   createUserInfo(JSONObject jsonObject);
 
     /**
      * 获取用户信息
@@ -34,42 +35,46 @@ public interface UserInfoService {
      */
     public UserInfoBody  getUserInfo(Integer userId);
 
+
     /**
-     * 实名认证接口
-     * @param userId
-     * @param userName
-     * @param userIdentity
-     * @param identityImage
+     * 修改用户信息
+     * @param jsonObject
      * @return
      */
-    public  boolean  realName (Integer userId,String userName,String userIdentity,String identityImage);
+    public  UserInfoBody updateUserInfo(JSONObject jsonObject);
+
+    /**
+     * 实名认证接口
+     * @return
+     */
+    public  boolean  realName (JSONObject jsonObject);
 
 
     /**
      * 抢单或者下单
-     * @param m
+     * @param
      * @param
      * @return
      */
-    public  boolean createOrder(Map<String,String> m);
+    public  boolean createOrder(JSONObject jsonObject);
 
 
     /**
      * 获取订单列表
      * @param
-     * @param m
+     * @param jsonObject
      * @return
      */
-    public  String getOrderList(Map<String,String> m);
+    public  String getOrderList(JSONObject jsonObject);
 
 
     /**
      * 订单确认接口  --- 用户确认支付  --- 服务商确认抢到票
-     * @param m
+     * @param jsonObject
      * @param
      * @return
      */
-    public  boolean  confirmeOrder (Map<String,String> m);
+    public  boolean  confirmeOrder (JSONObject jsonObject);
 
     /**
      * 取消订单

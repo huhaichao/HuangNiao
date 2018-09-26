@@ -23,9 +23,16 @@ public class Constant {
      */
     public static final String USERACCOUNTXCX ="10" ;
 
+    //订单号前缀
+    public static final String ORDERNOPRFIX ="88";
+    //交易单号前缀
+    public static final String TRADENOPREFIX ="99" ;
 
     //失效时间37*24*3600
     public static final long   loginKeyexprirTime=3196800;
+
+
+
 
     @Value("${wx.xcx.appid}")
     private String WX_XCX_APPID;

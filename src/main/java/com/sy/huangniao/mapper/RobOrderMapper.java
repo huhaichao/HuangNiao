@@ -18,4 +18,8 @@ public interface RobOrderMapper {
     int updateByPrimaryKey(RobOrder record);
 
     List<RobOrder> selectList(RobOrder record);
+
+    RobOrder selectObjectSelective(RobOrder robOrder);
+
+    int updateByOrderId(RobOrder robOrder);
 }

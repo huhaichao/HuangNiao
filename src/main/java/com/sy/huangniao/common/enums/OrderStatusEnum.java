@@ -5,12 +5,15 @@ package com.sy.huangniao.common.enums;
  */
 public enum OrderStatusEnum {
 
+    WAITPAY("wait_pay","等待支付"),
     WAITROB("wait_rob","等待抢单"),
     CANCEL("cancel","订单取消"),
     ROBING("robing","抢票中"),
     ORDER_AUDIT("order_audit","出票审核中"),
-    SUCCESS("success","已出票"),
+    TICKET_SUCCESS("ticket_success","已出票"),
+    SUCCESS("success","已完成"),
     ROB_FAIL("rob_fail","抢单失败"),
+    WAITCONFIRME("wait_confirme","等待确认"),
     RETURN("return","退票中"),
     RETURN_SUCCESS("return_success","退票完成"),
     RETURN_FAIL("return_fail","退票失败");

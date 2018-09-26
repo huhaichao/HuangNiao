@@ -1,6 +1,5 @@
 package com.sy.huangniao.service.impl.business;
 
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sy.huangniao.common.bo.UserInfoBody;
@@ -12,6 +11,7 @@ import com.sy.huangniao.service.IDaoService;
 import com.sy.huangniao.service.business.TicketBusinessService;
 import com.sy.huangniao.service.impl.AbstractUserinfoService;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -36,15 +36,16 @@ public class TicketBusinessServiceImpl extends AbstractUserinfoService implement
         return UserRoleEnum.BUSINESS.getRole();
     }
 
+
     @Override
     public boolean cancleOrder(int userId, int orderId) {
         return false;
     }
 
     @Override
-    public boolean createOrder(Map<String, String> m) {
+    public boolean createOrder(JSONObject jsonObject) {
         RobOrder robOrder = new RobOrder();
-        BeanUtils.copyProperties(m,robOrder);
+        BeanUtils.copyProperties(jsonObject,robOrder);
         log.info("userid={} 抢单中....",robOrder.getUserId());
         robOrder.setRobStatus(OrderStatusEnum.ROBING.getStatus());
         IDaoService iDaoService = hnContext.getDaoService(RobOrder.class.getSimpleName());
@@ -62,12 +63,12 @@ public class TicketBusinessServiceImpl extends AbstractUserinfoService implement
     }
 
     @Override
-    public String getOrderList(Map<String, String> m) {
+    public String getOrderList(JSONObject jsonObject) {
         RobOrder robOrder = new RobOrder();
-        BeanUtils.copyProperties(m,robOrder);
+        BeanUtils.copyProperties(jsonObject,robOrder);
         log.info("userid={} 查询订单....",robOrder.getUserId());
-        int pageNum  = Integer.parseInt(m.get("pageNum"));
-        int pageSize = Integer.parseInt(m.get("pageSize"));
+        int pageNum  = Integer.parseInt(jsonObject.getString("pageNum"));
+        int pageSize = Integer.parseInt(jsonObject.getString("pageSize"));
         Page page = PageHelper.startPage(pageNum, pageSize, true);
         IDaoService iDaoService = hnContext.getDaoService(RobOrder.class.getSimpleName());
         List<RobOrder> list = iDaoService.selectList(robOrder,SqlTypeEnum.DEAFULT);
@@ -76,13 +77,13 @@ public class TicketBusinessServiceImpl extends AbstractUserinfoService implement
         reulstList.put("pageNum",pageNum);
         reulstList.put("data",list);
         log.info("userid={} list={} 查询抢单订单成功....",robOrder.getUserId(),list);
-        return  reulstList.toJSONString();
+        return  reulstList.toString();
     }
 
     @Override
-    public boolean confirmeOrder(Map<String, String> m) {
+    public boolean confirmeOrder(JSONObject jsonObject) {
         RobOrder robOrder = new RobOrder();
-        BeanUtils.copyProperties(m,robOrder);
+        BeanUtils.copyProperties(jsonObject,robOrder);
         robOrder.setRobStatus(OrderStatusEnum.ORDER_AUDIT.getStatus());
         robOrder.setModifyDate(new Date());
         IDaoService iDaoService = hnContext.getDaoService(RobOrder.class.getSimpleName());
@@ -126,6 +127,17 @@ public class TicketBusinessServiceImpl extends AbstractUserinfoService implement
                 log.info("修改商户信息失败userId{} 修改成功多条", userInfoBody.getUserId());
                 throw new HNException(RespondMessageEnum.UPDATEUSERINFOERROR);
             }
+        }
+        return true;
+    }
+
+    @Override
+    protected boolean updateRoleInfo(JSONObject jsonObject) {
+        TicketBusiness ticketBusiness = new TicketBusiness();
+        BeanUtils.copyProperties(jsonObject,ticketBusiness);
+        IDaoService iDaoService = hnContext.getDaoService(TicketBusiness.class.getSimpleName());
+        if(iDaoService.updateObject(ticketBusiness,SqlTypeEnum.UPDATEBYUSERID)!=1){
+            return  false;
         }
         return true;
     }

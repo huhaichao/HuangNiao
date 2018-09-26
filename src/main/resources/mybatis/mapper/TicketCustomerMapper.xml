@@ -212,9 +212,6 @@
     <if test="customerStatus != null">
       and customer_status = #{customerStatus,jdbcType=VARCHAR},
     </if>
-    <if test="createDate != null">
-      and create_date = #{createDate,jdbcType=TIMESTAMP},
-    </if>
     <if test="modifyDate != null">
       and modify_date = #{modifyDate,jdbcType=TIMESTAMP},
     </if>
@@ -222,5 +219,42 @@
       and remark = #{remark,jdbcType=VARCHAR},
     </if>
   </select>
+
+  <update id="updateByUserIdSelective" parameterType="com.sy.huangniao.pojo.TicketCustomer">
+    update ticket_customer
+    <set>
+      <if test="customerIdentity != null">
+        customer_identity = #{customerIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="identityImage != null">
+        identity_image = #{identityImage,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null">
+        customer_name = #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerAddrr != null">
+        customer_addrr = #{customerAddrr,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPost != null">
+        customer_post = #{customerPost,jdbcType=VARCHAR},
+      </if>
+      <if test="customerAccount != null">
+        customer_account = #{customerAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPassword != null">
+        customer_password = #{customerPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="customerStatus != null">
+        customer_status = #{customerStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where userId = #{id,jdbcType=INTEGER}
+  </update>
   <cache />
 </mapper>

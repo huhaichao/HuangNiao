@@ -48,6 +48,8 @@ public class UserAccountDaoServiceImpl implements IDaoService<UserAccount>{
     public int updateObject(UserAccount userAccount, SqlTypeEnum sqlType) {
         if(sqlType==SqlTypeEnum.DEAFULT){
             return userAccountMapper.updateByPrimaryKeySelective(userAccount);
+        }else if(sqlType == SqlTypeEnum.UPDATEACCOUNTAMOUNT){
+            return  userAccountMapper.updateAccountAmount(userAccount);
         }
         return 0;
     }
@@ -64,7 +66,8 @@ public class UserAccountDaoServiceImpl implements IDaoService<UserAccount>{
     public UserAccount selectObject(UserAccount userAccount, SqlTypeEnum sqlType) {
         if(sqlType==SqlTypeEnum.DEAFULT){
             return userAccountMapper.selectByPrimaryKey(userAccount.getId());
-        }
+        }else if (sqlType==SqlTypeEnum.SELECTOBJECTBYSELECTIVE)
+            return userAccountMapper.selectObjectSelective(userAccount);
         return null;
     }
 }

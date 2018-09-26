@@ -45,6 +45,8 @@ public class RobOrderDaoServiceImpl implements IDaoService<RobOrder>{
     public int updateObject(RobOrder robOrder,SqlTypeEnum sqlType) {
         if (sqlType==SqlTypeEnum.DEAFULT)
             return  robOrderMapper.updateByPrimaryKeySelective(robOrder);
+        if (sqlType == SqlTypeEnum.UPDATEBYORDERID)
+            return  robOrderMapper.updateByOrderId(robOrder);
         return 0;
     }
 
@@ -59,6 +61,8 @@ public class RobOrderDaoServiceImpl implements IDaoService<RobOrder>{
     public RobOrder selectObject(RobOrder robOrder,SqlTypeEnum sqlType) {
         if (sqlType==SqlTypeEnum.DEAFULT)
             return   robOrderMapper.selectByPrimaryKey(robOrder.getId());
+        else if (sqlType ==SqlTypeEnum.SELECTOBJECTBYSELECTIVE)
+            return   robOrderMapper.selectObjectSelective(robOrder);
         return null;
     }
 }

@@ -32,55 +32,55 @@ public class XCXPaychannelsServiceImpl implements IWXPaychannelsService {
     }
 
     @Override
-    public String applyToken(Map<String, Object> map) {
+    public String applyToken(JSONObject jsonObject) {
         return null;
     }
 
     @Override
-    public JSONObject unifiedorder(Map<String, Object> map) {
+    public JSONObject unifiedorder(JSONObject jsonObject) {
         return null;
     }
 
     @Override
-    public JSONObject orderquery(Map<String, Object> map) {
+    public JSONObject orderquery(JSONObject jsonObject) {
         return null;
     }
 
     @Override
-    public JSONObject closeorder(Map<String, Object> map) {
+    public JSONObject closeorder(JSONObject jsonObject) {
         return null;
     }
 
     @Override
-    public JSONObject refund(Map<String, Object> map) {
+    public JSONObject refund(JSONObject jsonObject) {
         return null;
     }
 
     @Override
-    public JSONObject refundquery(Map<String, Object> map) {
+    public JSONObject refundquery(JSONObject jsonObject) {
         return null;
     }
 
     @Override
-    public JSONObject callback(Map<String, Object> map) {
+    public JSONObject callback(JSONObject jsonObject) {
         return null;
     }
 
     @Override
-    public JSONObject transfers(Map<String, Object> map) {
+    public JSONObject transfers(JSONObject jsonObject) {
         return null;
     }
 
     @Override
-    public JSONObject code2Session(Map<String, String> map) {
+    public JSONObject code2Session(JSONObject jsonObject) {
         Map<String,String> params =new HashMap<String,String>();
         params.put("appid",constant.getWX_XCX_APPID());
         params.put("secret",constant.getWX_XCX_APP_SECRETD());
-        params.put("js_code",map.get("code"));
+        params.put("js_code",jsonObject.getString("code"));
         params.put("grant_type","authorization_code");
         String  result = HttpClientUtils.get(constant.getWX_XCX_URL_JSCODE2SESSION(),params,
                 null,30000,30000);
-        JSONObject jsonObject = net.sf.json.JSONObject.fromObject(result);
-        return  jsonObject;
+        JSONObject json = net.sf.json.JSONObject.fromObject(result);
+        return  json;
     }
 }

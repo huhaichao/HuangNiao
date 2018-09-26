@@ -31,9 +31,9 @@ public abstract class AbstractUserLoginService implements UserLoginService{
      * @return
      */
     @Override
-    public JSONObject login (Map<String,String> map ){
+    public JSONObject login (JSONObject jsonObject ){
         UserInfo userInfo = new UserInfo();
-        BeanUtils.copyProperties(map,userInfo);
+        BeanUtils.copyProperties(jsonObject,userInfo);
         log.info("用户登录 phoneNo{}.....",userInfo.getUserPhoneno());
         String pwd = userInfo.getPassword();
         userInfo.setPassword(null);
@@ -55,8 +55,8 @@ public abstract class AbstractUserLoginService implements UserLoginService{
 
         abstractUserinfoService.handleUserInfoBody(userInfoBody);
         log.info("用户登录成功......");
-        JSONObject jsonObject=  JSONObject.fromObject(userInfoBody);
-        return  jsonObject;
+        JSONObject json=  JSONObject.fromObject(userInfoBody);
+        return  json;
     }
 
     /**
@@ -66,9 +66,9 @@ public abstract class AbstractUserLoginService implements UserLoginService{
      */
     @Override
     @Transactional(rollbackFor={Exception.class})
-    public JSONObject registry(Map<String,String> map){
+    public JSONObject registry(JSONObject jsonObject){
         UserInfo userInfo = new UserInfo();
-        BeanUtils.copyProperties(map,userInfo);
+        BeanUtils.copyProperties(jsonObject,userInfo);
         log.info("用户注册信息 phone{} ...",userInfo.getUserPhoneno());
         String pwd = userInfo.getPassword();
         //密码md5计算
@@ -92,7 +92,7 @@ public abstract class AbstractUserLoginService implements UserLoginService{
         userInfoBody.setUserId(userInfo.getId());
         abstractUserinfoService.handleUserInfoBody(userInfoBody);
         log.info("用户注册信息 userid{} ...",userInfo.getId());
-        JSONObject jsonObject=  JSONObject.fromObject(userInfoBody);
-        return  jsonObject;
+        JSONObject json=  JSONObject.fromObject(userInfoBody);
+        return  json;
     }
 }

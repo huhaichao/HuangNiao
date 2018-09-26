@@ -14,6 +14,7 @@ import com.sy.huangniao.pojo.UserWithdraw;
 import com.sy.huangniao.service.IDaoService;
 import com.sy.huangniao.service.UserInfoService;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,19 +32,19 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
 
     /**
      * 创建用户
-     * @param m
+     * @param jsonObject
      * @return
      */
     @Override
     @Transactional
-    public UserInfo createUserInfo(Map<String,String> m){
+    public UserInfo createUserInfo(JSONObject jsonObject){
         Integer userid = 0;
         UserInfo userInfo = new UserInfo();
         userInfo.setAppCode(AppCodeEnum.XCX.getCode());
-        String userRole = m.get("userRole");
+        String userRole = jsonObject.getString("userRole");
         userInfo.setUserRole(userRole);
-        userInfo.setUserPhoneno(m.get("userPhone"));
-        userInfo.setUserWxno(m.get("userWxno"));
+        userInfo.setUserPhoneno(jsonObject.getString("userPhone"));
+        userInfo.setUserWxno(jsonObject.getString("userWxno"));
         userInfo.setUserStatus(UserStatusEnum.WAITAUTHEN.getStatus());
         IDaoService userInfoDao = hnContext.getDaoService(UserInfo.class.getSimpleName());
         int i =userInfoDao.save(userInfo, SqlTypeEnum.DEAFULT);
@@ -110,6 +111,31 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
 
 
     /**
+     * 修改用户信息
+     * @param jsonObject
+     * @return
+     */
+    @Override
+    @Transactional
+    public UserInfoBody updateUserInfo(JSONObject jsonObject) {
+        UserInfo userInfo = new UserInfo();
+        BeanUtils.copyProperties(jsonObject,userInfo);
+        IDaoService iDaoService = hnContext.getDaoService(UserInfo.class.getSimpleName());
+        if(iDaoService.updateObject(userInfo,SqlTypeEnum.DEAFULT)!=1){
+            log.info("userId={}  修改用户信息失败",userInfo.getId());
+            throw new HNException(RespondMessageEnum.UPDATEUSERINFOERROR) ;
+        }
+        if(!updateRoleInfo(jsonObject)){
+            log.info("userId={}  修改{}信息失败",userInfo.getId(),userInfo.getUserRole());
+            throw new HNException(RespondMessageEnum.UPDATEUSERINFOERROR) ;
+        }
+        return getRoleInfo(userInfo);
+    }
+
+    protected abstract boolean updateRoleInfo(JSONObject jsonObject);
+
+
+    /**
      * 获取商户 或者客户信息
      * @param userInfo
      * @return
@@ -118,24 +144,18 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
 
     /**
      * 实名认证接口
-     * @param userId
-     * @param userName
-     * @param userIdentity
-     * @param identityImage
+     *
      * @return
      */
-    public  boolean  realName (Integer userId,String userName,String userIdentity,String identityImage){
-
-        //调用服务接口实名认证 -- 外部接口
-        log.info("调用外部接口实名认证 userID {}",userId);
-        //todo 实名认证
-        log.info("调用外部接口实名认证成功 userID {}",userId);
-        //认证成功保存信息
+    public  boolean  realName (JSONObject jsonObject){
         UserInfoBody userInfoBody = new UserInfoBody();
-        userInfoBody.setUserId(userId);
-        userInfoBody.setRealName(userName);
-        userInfoBody.setUserIdentity(userIdentity);
-        userInfoBody.setUserImage(identityImage);
+        BeanUtils.copyProperties(jsonObject,userInfoBody);
+        //调用服务接口实名认证 -- 外部接口
+        log.info("调用外部接口实名认证 userID {}",userInfoBody.getUserId());
+        //todo 实名认证
+        log.info("调用外部接口实名认证成功 userID {}",userInfoBody.getUserId());
+        //认证成功保存信息
+        userInfoBody.setUserImage(jsonObject.getString("identityImage"));
         userInfoBody.setUserStatus(UserStatusEnum.AUTHENED.getStatus());
         if(!saveRoleInfo(userInfoBody)){
             log.info("保存用户信息失败 {}",userInfoBody);
@@ -169,6 +189,8 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
     public  boolean  withdraw(UserWithdraw userWithdraw){
         return  true;
     }
+
+
 }
 
 

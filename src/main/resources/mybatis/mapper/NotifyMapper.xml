@@ -6,7 +6,7 @@
     <result column="from" jdbcType="VARCHAR" property="from" />
     <result column="to" jdbcType="VARCHAR" property="to" />
     <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="notify_status" jdbcType="INTEGER" property="notifyStatus" />
+    <result column="notify_status" jdbcType="VARCHAR" property="notifyStatus" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="notify_date" jdbcType="TIMESTAMP" property="notifyDate" />
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
@@ -37,7 +37,7 @@
       notify_status, create_date, notify_date, 
       modify_date, context)
     values (#{from,jdbcType=VARCHAR}, #{to,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{notifyStatus,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{notifyDate,jdbcType=TIMESTAMP}, 
+      #{notifyStatus,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{notifyDate,jdbcType=TIMESTAMP},
       #{modifyDate,jdbcType=TIMESTAMP}, #{context,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.Notify" useGeneratedKeys="true">
@@ -79,7 +79,7 @@
         #{title,jdbcType=VARCHAR},
       </if>
       <if test="notifyStatus != null">
-        #{notifyStatus,jdbcType=INTEGER},
+        #{notifyStatus,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null">
         #{createDate,jdbcType=TIMESTAMP},
@@ -108,7 +108,7 @@
         title = #{title,jdbcType=VARCHAR},
       </if>
       <if test="notifyStatus != null">
-        notify_status = #{notifyStatus,jdbcType=INTEGER},
+        notify_status = #{notifyStatus,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null">
         create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -130,7 +130,7 @@
     set from = #{from,jdbcType=VARCHAR},
       to = #{to,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
-      notify_status = #{notifyStatus,jdbcType=INTEGER},
+      notify_status = #{notifyStatus,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       notify_date = #{notifyDate,jdbcType=TIMESTAMP},
       modify_date = #{modifyDate,jdbcType=TIMESTAMP},
@@ -142,166 +142,11 @@
     set from = #{from,jdbcType=VARCHAR},
       to = #{to,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
-      notify_status = #{notifyStatus,jdbcType=INTEGER},
+      notify_status = #{notifyStatus,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       notify_date = #{notifyDate,jdbcType=TIMESTAMP},
       modify_date = #{modifyDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
-  </update>
-  <cache />
-  <resultMap id="BaseResultMap" type="com.sy.huangniao.pojo.Notify">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="symbol" jdbcType="INTEGER" property="symbol" />
-    <result column="type" jdbcType="TINYINT" property="type" />
-    <result column="sys_from" jdbcType="TINYINT" property="sysFrom" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="object_id" jdbcType="BIGINT" property="objectId" />
-    <result column="status" jdbcType="TINYINT" property="status" />
-    <result column="notify_num" jdbcType="TINYINT" property="notifyNum" />
-    <result column="next_notify_date" jdbcType="TIMESTAMP" property="nextNotifyDate" />
-    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
-    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    id, symbol, type, sys_from, content, object_id, status, notify_num, next_notify_date, 
-    create_date, modify_date
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from notify
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from notify
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.Notify" useGeneratedKeys="true">
-    insert into notify (symbol, type, sys_from, 
-      content, object_id, status, 
-      notify_num, next_notify_date, create_date, 
-      modify_date)
-    values (#{symbol,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{sysFrom,jdbcType=TINYINT}, 
-      #{content,jdbcType=VARCHAR}, #{objectId,jdbcType=BIGINT}, #{status,jdbcType=TINYINT}, 
-      #{notifyNum,jdbcType=TINYINT}, #{nextNotifyDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{modifyDate,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.Notify" useGeneratedKeys="true">
-    insert into notify
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="symbol != null">
-        symbol,
-      </if>
-      <if test="type != null">
-        type,
-      </if>
-      <if test="sysFrom != null">
-        sys_from,
-      </if>
-      <if test="content != null">
-        content,
-      </if>
-      <if test="objectId != null">
-        object_id,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="notifyNum != null">
-        notify_num,
-      </if>
-      <if test="nextNotifyDate != null">
-        next_notify_date,
-      </if>
-      <if test="createDate != null">
-        create_date,
-      </if>
-      <if test="modifyDate != null">
-        modify_date,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="symbol != null">
-        #{symbol,jdbcType=INTEGER},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=TINYINT},
-      </if>
-      <if test="sysFrom != null">
-        #{sysFrom,jdbcType=TINYINT},
-      </if>
-      <if test="content != null">
-        #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="objectId != null">
-        #{objectId,jdbcType=BIGINT},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=TINYINT},
-      </if>
-      <if test="notifyNum != null">
-        #{notifyNum,jdbcType=TINYINT},
-      </if>
-      <if test="nextNotifyDate != null">
-        #{nextNotifyDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createDate != null">
-        #{createDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyDate != null">
-        #{modifyDate,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sy.huangniao.pojo.Notify">
-    update notify
-    <set>
-      <if test="symbol != null">
-        symbol = #{symbol,jdbcType=INTEGER},
-      </if>
-      <if test="type != null">
-        type = #{type,jdbcType=TINYINT},
-      </if>
-      <if test="sysFrom != null">
-        sys_from = #{sysFrom,jdbcType=TINYINT},
-      </if>
-      <if test="content != null">
-        content = #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="objectId != null">
-        object_id = #{objectId,jdbcType=BIGINT},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="notifyNum != null">
-        notify_num = #{notifyNum,jdbcType=TINYINT},
-      </if>
-      <if test="nextNotifyDate != null">
-        next_notify_date = #{nextNotifyDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createDate != null">
-        create_date = #{createDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyDate != null">
-        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.sy.huangniao.pojo.Notify">
-    update notify
-    set symbol = #{symbol,jdbcType=INTEGER},
-      type = #{type,jdbcType=TINYINT},
-      sys_from = #{sysFrom,jdbcType=TINYINT},
-      content = #{content,jdbcType=VARCHAR},
-      object_id = #{objectId,jdbcType=BIGINT},
-      status = #{status,jdbcType=TINYINT},
-      notify_num = #{notifyNum,jdbcType=TINYINT},
-      next_notify_date = #{nextNotifyDate,jdbcType=TIMESTAMP},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      modify_date = #{modifyDate,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=BIGINT}
   </update>
   <cache />
 </mapper>

@@ -20,10 +20,19 @@ public enum RespondMessageEnum {
     NOINFO_LOGINKEY("0007", "缺少loginkey"),
     NOINFO_USERID("0008","缺少userId" ),
     UPDATEWXINFOFAIL("0009","修改用户微信信息表失败"),
+    CONFIREMEORDERFAIL("0010", "订单确认失败"),
+
     /*
      调用外部接口
     * */
-    CODE_GET_OPENID_FAIL("1000", "调用微信获取openid失败");
+    CODE_GET_OPENID_FAIL("1000", "调用微信获取openid失败"),
+
+
+
+
+
+
+    EXCEPTION("9999","服务器异常");
 
     private  String  code;
 

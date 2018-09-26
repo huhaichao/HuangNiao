@@ -18,4 +18,8 @@ public interface UserAccountMapper {
     int updateByPrimaryKey(UserAccount record);
 
     List<UserAccount> selectList(UserAccount userAccount);
+
+    UserAccount selectObjectSelective(UserAccount userAccount);
+
+    int updateAccountAmount(UserAccount userAccount);
 }

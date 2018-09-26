@@ -12,8 +12,8 @@ public interface IWXPaychannelsService  extends IPayChannelsService {
 
     /**
      * 通过code获取openid
-     * @param map
+     * @param jsonObject
      * @return
      */
-    public JSONObject  code2Session(Map<String,String> map);
+    public JSONObject  code2Session(JSONObject jsonObject);
 }

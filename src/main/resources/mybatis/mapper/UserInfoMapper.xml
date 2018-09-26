@@ -152,9 +152,6 @@
       <if test="userWxno != null">
         user_wxno = #{userWxno,jdbcType=VARCHAR},
       </if>
-      <if test="userRole != null">
-        user_role = #{userRole,jdbcType=VARCHAR},
-      </if>
       <if test="createDate != null">
         create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
@@ -163,9 +160,6 @@
       </if>
       <if test="modifyDate != null">
         modify_date = #{modifyDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="appCode != null">
-        app_code = #{appCode,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},

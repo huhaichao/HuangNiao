@@ -24,61 +24,61 @@ public interface IPayChannelsService {
      * 获取第三方调用token
      * @return
      */
-    public String  applyToken(Map<String,Object> map);
+    public String  applyToken(JSONObject jsonObject);
 
     /**
      * 统一下单接口
-     * @param map
+     * @param jsonObject
      * @return
      */
-    public JSONObject  unifiedorder(Map<String,Object> map);
+    public JSONObject  unifiedorder(JSONObject jsonObject);
 
 
     /**
      * 订单支付查询接口
-     * @param map
+     * @param jsonObject
      * @return
      */
-    public JSONObject  orderquery(Map<String,Object> map);
+    public JSONObject  orderquery(JSONObject jsonObject);
 
 
     /**
      * 关闭订单接口
-     * @param map
+     * @param jsonObject
      * @return
      */
-    public JSONObject  closeorder(Map<String,Object> map);
+    public JSONObject  closeorder(JSONObject jsonObject);
 
 
     /**
      * 退款接口
-     * @param map
+     * @param jsonObject
      * @return
      */
-    public JSONObject  refund(Map<String,Object> map);
+    public JSONObject  refund(JSONObject jsonObject);
 
 
     /**
      * 退款查询接口
-     * @param map
+     * @param jsonObject
      * @return
      */
-    public JSONObject  refundquery(Map<String,Object> map);
+    public JSONObject  refundquery(JSONObject jsonObject);
 
 
     /**
      * 回调通知接口
-     * @param map
+     * @param jsonObject
      * @return
      */
-    public JSONObject  callback(Map<String,Object> map);
+    public JSONObject  callback(JSONObject jsonObject);
 
 
     /**
      * 企业向用户付款 -- 可以用于提现
-     * @param map
+     * @param jsonObject
      * @return
      */
-    public JSONObject transfers(Map<String,Object> map);
+    public JSONObject transfers(JSONObject jsonObject);
 
 }

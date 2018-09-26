@@ -16,11 +16,11 @@ public interface UserLoginService {
      * @param
      * @return
      */
-    public JSONObject registry(Map<String,String> map);
+    public JSONObject registry(JSONObject jsonObject);
 
     /**
      * 登陆服务
      * @return
      */
-    public  JSONObject login (Map<String,String> map);
+    public  JSONObject login (JSONObject jsonObject);
 }

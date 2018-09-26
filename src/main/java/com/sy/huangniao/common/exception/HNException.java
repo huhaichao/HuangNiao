@@ -37,4 +37,8 @@ public class HNException extends RuntimeException {
     public  String  getMsg(){
         return  respondMessageEnum.getMsg();
     }
+
+    public  RespondMessageEnum getRespondMessageEnum(){
+        return  respondMessageEnum;
+    }
 }

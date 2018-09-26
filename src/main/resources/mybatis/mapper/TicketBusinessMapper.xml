@@ -223,9 +223,6 @@
       <if test="modifyDate != null">
         modify_date = #{modifyDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="benefitRate != null">
-        benefit_rate = #{benefitRate,jdbcType=INTEGER},
-      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
