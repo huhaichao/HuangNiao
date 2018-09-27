@@ -131,8 +131,8 @@ public class UserInfoController {
             jsonObject.put("userRole",requestBody.getUserRole());
             jsonObject.put("appCode",requestBody.getAppCode());
             //调用充值接口
-            AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
-            JSONObject result = abstractUserinfoService.deposit(jsonObject);
+            AbstractUserAppService abstractUserAppService = hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(requestBody.getAppCode()));
+            JSONObject result = abstractUserAppService.deposit(jsonObject);
             return new RespondBody(RespondMessageEnum.SUCCESS,result);
         }catch (HNException e){
             log.info("requestBody={} payOrder  code={} msg={}",requestBody,e.getCode(),e.getMsg());
@@ -239,8 +239,8 @@ public class UserInfoController {
                 jsonObject.put("userRole",requestBody.getUserRole());
                 jsonObject.put("appCode",requestBody.getAppCode());
                 //调用充值接口
-                AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
-                JSONObject result = abstractUserinfoService.deposit(jsonObject);
+                AbstractUserAppService abstractUserAppService = hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(requestBody.getAppCode()));
+                JSONObject result = abstractUserAppService.deposit(jsonObject);
                 return new RespondBody(RespondMessageEnum.SUCCESS,result);
             }catch (HNException e){
                 log.info("requestBody={} deposit  code={} msg={}",requestBody,e.getCode(),e.getMsg());
@@ -267,8 +267,8 @@ public class UserInfoController {
             jsonObject.put("userRole",requestBody.getUserRole());
             jsonObject.put("appCode",requestBody.getAppCode());
             //调用充值接口
-            AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
-            JSONObject result = abstractUserinfoService.payQuery(jsonObject);
+            AbstractUserAppService abstractUserAppService = hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(requestBody.getAppCode()));
+            JSONObject result = abstractUserAppService.payQuery(jsonObject);
             return new RespondBody(RespondMessageEnum.SUCCESS,result);
         }catch (HNException e){
             log.info("requestBody={} payQuery  code={} msg={}",requestBody,e.getCode(),e.getMsg());

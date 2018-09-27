@@ -2,6 +2,7 @@ package com.sy.huangniao.service.impl;
 
 import com.sy.huangniao.common.Util.MD5Utils;
 import com.sy.huangniao.common.bo.UserInfoBody;
+import com.sy.huangniao.common.enums.AppCodeEnum;
 import com.sy.huangniao.common.enums.RespondMessageEnum;
 import com.sy.huangniao.common.enums.UserStatusEnum;
 import com.sy.huangniao.common.exception.HNException;
@@ -9,6 +10,7 @@ import com.sy.huangniao.controller.context.HNContext;
 import com.sy.huangniao.pojo.UserInfo;
 import com.sy.huangniao.service.IDaoService;
 import com.sy.huangniao.service.UserAppService;
+import com.sy.huangniao.service.pay.IWXPaychannelsService;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.springframework.beans.BeanUtils;
@@ -93,4 +95,44 @@ public abstract class AbstractUserAppService implements UserAppService {
         JSONObject json=  JSONObject.fromObject(userInfoBody);
         return  json;
     }
+
+    @Override
+    public  JSONObject  deposit(JSONObject jsonObject){
+        /*String userId = jsonObject.getString("userId");
+         userInfo = new UserInfo();
+        IDaoService iDaoService = hnContext.getDaoService(UserInfo.class.getSimpleName());
+        iDaoService.selectObject()*/
+
+
+        //保存充值信息
+
+        return  null;
+    }
+
+    public abstract  JSONObject  unifiedorder(JSONObject jsonObject);
+
+
+
+    @Override
+    public  JSONObject  payQuery(JSONObject jsonObject){
+        /**
+         * 调用预下单接口
+         */
+        IWXPaychannelsService iwxPaychannelsService= hnContext.getIWXPaychannelsService(AppCodeEnum.valueOf(jsonObject.getString("appCode")));
+        JSONObject orderResult =iwxPaychannelsService.orderquery(jsonObject);
+
+        //成功修改充值信息
+
+        //是否是订单支付--修改订单支付信息
+
+        return  null;
+    }
+
+
+
+    @Override
+    public  JSONObject  withdraw(JSONObject jsonObject){
+        return  null;
+    }
+
 }

@@ -89,24 +89,24 @@ public interface UserInfoService {
      * 充值
      * @param jsonObject
      * @return
-     */
+     *//*
     public  JSONObject  deposit(JSONObject jsonObject);
 
 
-    /**
+    *//**
      * 充值或者提现--支付结果查询业务处理
      * @param jsonObject
      * @return
-     */
+     *//*
     JSONObject  payQuery(JSONObject jsonObject);
 
-    /**
+    *//**
      * 
      * 提现接口
      * @param jsonObject
      * @return
-     */
-    public  JSONObject  withdraw(JSONObject jsonObject);
+     *//*
+    public  JSONObject  withdraw(JSONObject jsonObject);*/
 
 
 

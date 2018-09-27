@@ -180,41 +180,6 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
         return  userInfoBody;
     }
 
-    @Override
-    public  JSONObject  deposit(JSONObject jsonObject){
-        /**
-         * 调用微信预下单接口
-         */
-        IWXPaychannelsService iwxPaychannelsService= hnContext.getIWXPaychannelsService(AppCodeEnum.valueOf(jsonObject.getString("appCode")));
-        JSONObject orderResult =iwxPaychannelsService.unifiedorder(jsonObject);
-
-        //保存充值信息
-
-        return  null;
-    }
-
-    @Override
-    public  JSONObject  payQuery(JSONObject jsonObject){
-        /**
-         * 调用预下单接口
-         */
-        IWXPaychannelsService iwxPaychannelsService= hnContext.getIWXPaychannelsService(AppCodeEnum.valueOf(jsonObject.getString("appCode")));
-        JSONObject orderResult =iwxPaychannelsService.orderquery(jsonObject);
-
-        //成功修改充值信息
-
-        //是否是订单支付--修改订单支付信息
-
-        return  null;
-    }
-
-
-
-    @Override
-    public  JSONObject  withdraw(JSONObject jsonObject){
-        return  null;
-    }
-
 
 }
 

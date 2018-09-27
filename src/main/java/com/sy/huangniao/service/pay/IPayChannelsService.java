@@ -81,4 +81,11 @@ public interface IPayChannelsService {
      */
     public JSONObject transfers(JSONObject jsonObject);
 
+
+    /**
+     * 获取交易类型
+     * @return
+     */
+    public String   getTradeType();
+
 }

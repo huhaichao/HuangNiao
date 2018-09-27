@@ -108,6 +108,20 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
     }
 
     @Override
+    public JSONObject unifiedorder(JSONObject jsonObject) {
+        IWXPaychannelsService iwxPaychannelsService= hnContext.getIWXPaychannelsService(AppCodeEnum.valueOf(jsonObject.getString("appCode")));
+        JSONObject params = new JSONObject();
+        params.put("body","小黄妞充值中心-服务费充值");
+        params.put("total_fee",jsonObject.getDouble("amount")*100);
+        params.put("spbill_create_ip",jsonObject.getString("termIp"));
+        params.put("trade_type",iwxPaychannelsService.getTradeType());
+        /**
+         * 调用微信预下单接口
+         */
+        return  iwxPaychannelsService.unifiedorder(params);
+    }
+
+    @Override
     public String createUserAcountNo() {
         return constant.getUSERACCOUNTXCX()+IdGenerator.getInstance().generate();
     }
@@ -121,5 +135,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
     public String createOrderNO() {
         return constant.getORDERNOXCX()+IdGenerator.getInstance().generate();
     }
+
+
 
 }
