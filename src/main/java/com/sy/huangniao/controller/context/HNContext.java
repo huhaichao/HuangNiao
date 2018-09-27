@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import com.sy.huangniao.common.enums.AppCodeEnum;
 import com.sy.huangniao.service.IDaoService;
 import com.sy.huangniao.service.pay.IWXPaychannelsService;
-import com.sy.huangniao.service.impl.AbstractUserLoginService;
+import com.sy.huangniao.service.impl.AbstractUserAppService;
 import com.sy.huangniao.service.impl.AbstractUserinfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -30,7 +30,7 @@ public class HNContext implements InitializingBean, ApplicationContextAware {
 
     private Map<String,AbstractUserinfoService> cachedAbstractUserinfoService = Maps.newHashMap();
 
-    private Map<String,AbstractUserLoginService> cachedAbstractUserLoginService = Maps.newHashMap();
+    private Map<String,AbstractUserAppService> cachedAbstractUserAppService = Maps.newHashMap();
 
     private Map<String,IWXPaychannelsService> cachedIWXPaychannelsService = Maps.newHashMap();
 
@@ -89,12 +89,12 @@ public class HNContext implements InitializingBean, ApplicationContextAware {
      * @param appCode
      * @return
      */
-    public AbstractUserLoginService  getAbstractUserLoginService(AppCodeEnum appCode){
+    public AbstractUserAppService getAbstractUserAppService(AppCodeEnum appCode){
 
-        for (Map.Entry<String,AbstractUserLoginService> entry :cachedAbstractUserLoginService.entrySet()){
-            AbstractUserLoginService abstractUserLoginService=   entry.getValue();
-            if (abstractUserLoginService.getAppCode().equals(appCode)){
-                return  abstractUserLoginService;
+        for (Map.Entry<String,AbstractUserAppService> entry :cachedAbstractUserAppService.entrySet()){
+            AbstractUserAppService abstractUserRoleService =   entry.getValue();
+            if (abstractUserRoleService.getAppCode().equals(appCode)){
+                return abstractUserRoleService;
             }
         }
         return  null;
@@ -105,7 +105,7 @@ public class HNContext implements InitializingBean, ApplicationContextAware {
     public void afterPropertiesSet() throws Exception {
         cachedDaoService = springApplicationContext.getBeansOfType(IDaoService.class);
         cachedAbstractUserinfoService = springApplicationContext.getBeansOfType(AbstractUserinfoService.class);
-        cachedAbstractUserLoginService =  springApplicationContext.getBeansOfType(AbstractUserLoginService.class);
+        cachedAbstractUserAppService =  springApplicationContext.getBeansOfType(AbstractUserAppService.class);
         cachedIWXPaychannelsService = springApplicationContext.getBeansOfType(IWXPaychannelsService.class);
     }
 

@@ -70,7 +70,8 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
         UserAccount userAccount = new UserAccount();
         userAccount.setStatus(UserAccountStatusEnum.NORMAL.getStatus());
         userAccount.setAmountBalance(0.0);
-        userAccount.setAccountNo(Constant.USERACCOUNTXCX+ IdGenerator.getInstance().generate());
+        AbstractUserAppService abstractUserAppService =hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(userInfo.getAppCode()));
+        userAccount.setAccountNo(abstractUserAppService.createUserAcountNo());
         userAccount.setUserId(userInfo.getId());
         IDaoService userAccountDao = hnContext.getDaoService(UserAccount.class.getSimpleName());
         if(userAccountDao.save(userAccount,SqlTypeEnum.DEAFULT)!=1){

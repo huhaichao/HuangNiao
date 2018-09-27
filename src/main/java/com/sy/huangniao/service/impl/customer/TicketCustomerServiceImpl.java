@@ -2,15 +2,15 @@ package com.sy.huangniao.service.impl.customer;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.sy.huangniao.common.Util.IdGenerator;
 import com.sy.huangniao.common.bo.UserInfoBody;
 import com.sy.huangniao.common.Util.StringUtils;
-import com.sy.huangniao.common.constant.Constant;
+
 import com.sy.huangniao.common.enums.*;
 import com.sy.huangniao.common.exception.HNException;
 import com.sy.huangniao.pojo.*;
 import com.sy.huangniao.service.IDaoService;
 import com.sy.huangniao.service.customer.TicketCustomerService;
+import com.sy.huangniao.service.impl.AbstractUserAppService;
 import com.sy.huangniao.service.impl.AbstractUserinfoService;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by huchao on 2018/9/14.
@@ -38,7 +37,8 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         TicketOrder ticketOrder = new TicketOrder();
         BeanUtils.copyProperties(jsonObject,ticketOrder);
         log.info("userid={} 下单中....",ticketOrder.getUserId());
-        ticketOrder.setOrderNo(Constant.ORDERNOPRFIX+ IdGenerator.getInstance().generate());
+        AbstractUserAppService abstractUserAppService =hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(ticketOrder.getAppCode()));
+        ticketOrder.setOrderNo(abstractUserAppService.createOrderNO());
         ticketOrder.setOrderStatus(OrderStatusEnum.WAITPAY.getStatus());
         IDaoService iDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());
         if(iDaoService.save(ticketOrder,SqlTypeEnum.DEAFULT)!=1){
@@ -139,7 +139,8 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
             userTrade.setFrom(fkUserAccount.getAccountNo());
             userTrade.setTo(skUserAccount.getAccountNo());
             userTrade.setOrderNo(ticketOrder.getOrderNo());
-            userTrade.setTradeNo(Constant.TRADENOPREFIX+IdGenerator.getInstance().generate());
+            AbstractUserAppService abstractUserAppService =hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(ticketOrder.getAppCode()));
+            userTrade.setTradeNo(abstractUserAppService.createTradeNo());
             userTrade.setStatus(TradeStatusEnum.SUCCESS.getStatus());
             IDaoService iUserTradeDaoService = hnContext.getDaoService(UserTrade.class.getSimpleName());
             iUserTradeDaoService.save(userTrade,SqlTypeEnum.DEAFULT);

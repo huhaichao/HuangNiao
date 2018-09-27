@@ -17,22 +17,32 @@ public class Constant {
     public static final String CACHELOGINKEY ="USERLOGINKEY" ;
     public static final String GETUSERIDBYOPENID ="USEROPENID" ;
     public static final String USERIDSESSIONKEY ="USERIDSESSIONKEY" ;
-
     /**
      * 小程序账户前缀
      */
-    public static final String USERACCOUNTXCX ="10" ;
-
+    @Value("${user.account.xcx}")
+    private  String USERACCOUNTXCX ="10" ;
+    public  String getUSERACCOUNTXCX(){
+        return  this.USERACCOUNTXCX;
+    }
     //订单号前缀
-    public static final String ORDERNOPRFIX ="88";
+    @Value("${user.orderno.xcx}")
+    private  String ORDERNOXCX ="88";
+    public  String getORDERNOXCX(){
+        return  this.ORDERNOXCX;
+    }
     //交易单号前缀
-    public static final String TRADENOPREFIX ="99" ;
-
+    @Value("${user.orderno.xcx}")
+    private   String TRADENOXCX ="99" ;
+    public  String getTRADENOXCX(){
+        return  this.TRADENOXCX;
+    }
     //失效时间37*24*3600
-    public static final long   loginKeyexprirTime=3196800;
-
-
-
+    @Value("${user.loginKeyexprirTime}")
+    private   long   loginKeyexprirTime=3196800;
+    public  long getLoginKeyexprirTime(){
+        return  this.loginKeyexprirTime;
+    }
 
     @Value("${wx.xcx.appid}")
     private String WX_XCX_APPID;
@@ -59,5 +69,14 @@ public class Constant {
     public String  getWX_XCX_URL_NOTIFY(){
         return  this.WX_XCX_URL_NOTIFY;
     }
-
+    @Value("${wx.autoReport}")
+    private static  boolean WX_AUTOREPORT  ;
+    public boolean getWX_AUTOREPORT() {
+        return this.WX_AUTOREPORT;
+    }
+    @Value("${wx.useSendBox}")
+    private static  boolean WX_USESENDBOX  ;
+    public boolean getWX_USESENDBOX() {
+        return this.WX_USESENDBOX;
+    }
 }

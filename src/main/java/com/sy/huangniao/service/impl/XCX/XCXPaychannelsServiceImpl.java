@@ -1,8 +1,10 @@
 package com.sy.huangniao.service.impl.XCX;
 
+import com.github.wxpay.sdk.WXPay;
 import com.sy.huangniao.common.Util.HttpClientUtils;
 import com.sy.huangniao.common.constant.Constant;
 import com.sy.huangniao.common.enums.AppCodeEnum;
+import com.sy.huangniao.config.wx.WxPayConfig;
 import com.sy.huangniao.service.pay.IWXPaychannelsService;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
@@ -25,6 +27,9 @@ public class XCXPaychannelsServiceImpl implements IWXPaychannelsService {
     @Autowired
     private Constant constant;
 
+    @Autowired
+    private WxPayConfig wxPayConfig;
+
 
     @Override
     public String ChannelsName() {
@@ -38,6 +43,13 @@ public class XCXPaychannelsServiceImpl implements IWXPaychannelsService {
 
     @Override
     public JSONObject unifiedorder(JSONObject jsonObject) {
+
+        try {
+            WXPay wxPay = new WXPay(wxPayConfig,constant.getWX_XCX_URL_NOTIFY(),constant.getWX_AUTOREPORT(),constant.getWX_USESENDBOX());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 

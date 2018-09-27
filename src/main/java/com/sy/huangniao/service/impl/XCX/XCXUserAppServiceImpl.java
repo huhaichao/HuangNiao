@@ -8,19 +8,17 @@ import com.sy.huangniao.pojo.UserInfo;
 import com.sy.huangniao.pojo.UserWxinfo;
 import com.sy.huangniao.service.IDaoService;
 import com.sy.huangniao.service.IRedisService;
+import com.sy.huangniao.service.impl.AbstractUserAppService;
 import com.sy.huangniao.service.pay.IWXPaychannelsService;
-import com.sy.huangniao.service.impl.AbstractUserLoginService;
 import com.sy.huangniao.service.impl.AbstractUserinfoService;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -28,11 +26,10 @@ import java.util.concurrent.TimeUnit;
  *
  * 小程序登陆注册处理类
  *
- *
  */
 @Slf4j
 @Component
-public class XCXUserLoginServiceImpl extends AbstractUserLoginService {
+public class XCXUserAppServiceImpl extends AbstractUserAppService {
 
     @Override
     public AppCodeEnum getAppCode() {
@@ -99,15 +96,30 @@ public class XCXUserLoginServiceImpl extends AbstractUserLoginService {
 
      String salt = DateUtils.date2yyyyMMddhhmmssString(new Date())+userid;
      String loginKey = MD5Utils.getMD5String(salt).substring(0,10);
-     iRedisService.set(Constant.CACHELOGINKEY+getAppCode().getCode()+userid,loginKey,Constant.loginKeyexprirTime, TimeUnit.SECONDS);
+     iRedisService.set(Constant.CACHELOGINKEY+getAppCode().getCode()+userid,loginKey,constant.getLoginKeyexprirTime(), TimeUnit.SECONDS);
      //续租openid
-     iRedisService.set(Constant.GETUSERIDBYOPENID+getAppCode().getCode()+userWxinfo.getOpenid(),userid,Constant.loginKeyexprirTime, TimeUnit.SECONDS);
+     iRedisService.set(Constant.GETUSERIDBYOPENID+getAppCode().getCode()+userWxinfo.getOpenid(),userid,constant.getLoginKeyexprirTime(), TimeUnit.SECONDS);
      //保存session_key
-     iRedisService.set(Constant.USERIDSESSIONKEY+getAppCode().getCode()+userid,userWxinfo.getSessionKey(),Constant.loginKeyexprirTime, TimeUnit.SECONDS);
+     iRedisService.set(Constant.USERIDSESSIONKEY+getAppCode().getCode()+userid,userWxinfo.getSessionKey(),constant.getLoginKeyexprirTime(), TimeUnit.SECONDS);
      jsonResult.put("loginKey",loginKey);
      jsonResult.put("userId",userid);
 
      return  jsonResult;
+    }
+
+    @Override
+    public String createUserAcountNo() {
+        return constant.getUSERACCOUNTXCX()+IdGenerator.getInstance().generate();
+    }
+
+    @Override
+    public String createTradeNo() {
+        return constant.getTRADENOXCX()+IdGenerator.getInstance().generate();
+    }
+
+    @Override
+    public String createOrderNO() {
+        return constant.getORDERNOXCX()+IdGenerator.getInstance().generate();
     }
 
 }

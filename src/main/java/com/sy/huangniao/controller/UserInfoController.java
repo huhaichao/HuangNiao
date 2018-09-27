@@ -7,7 +7,7 @@ import com.sy.huangniao.common.enums.AppCodeEnum;
 import com.sy.huangniao.common.enums.RespondMessageEnum;
 import com.sy.huangniao.common.exception.HNException;
 import com.sy.huangniao.controller.context.HNContext;
-import com.sy.huangniao.service.impl.AbstractUserLoginService;
+import com.sy.huangniao.service.impl.AbstractUserAppService;
 import com.sy.huangniao.service.impl.AbstractUserinfoService;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
@@ -15,9 +15,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by huchao on 2018/9/14.
@@ -42,10 +39,11 @@ public class UserInfoController {
     public RespondBody login(RequestBody requestBody){
        try {
            log.info("requestBody={} login......",requestBody);
-           AbstractUserLoginService abstractUserLoginService = hnContext.getAbstractUserLoginService(AppCodeEnum.valueOf(requestBody.getAppCode()));
-           JSONObject json = new JSONObject();
-           BeanUtils.copyProperties(requestBody,json);
-           JSONObject jsonObject = abstractUserLoginService.login(json);
+           AbstractUserAppService abstractUserAppService = hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(requestBody.getAppCode()));
+           JSONObject json = JSONObject.fromObject(requestBody.getData());
+           json.put("userRole",requestBody.getUserRole());
+           json.put("appCode",requestBody.getAppCode());
+           JSONObject jsonObject = abstractUserAppService.login(json);
            return new RespondBody(RespondMessageEnum.SUCCESS,jsonObject);
        }catch (HNException e){
            log.info("requestBody={} login exception code={} msg={}",requestBody,e.getCode(),e.getMsg());
@@ -87,6 +85,7 @@ public class UserInfoController {
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("id",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
+            jsonObject.put("appCode",requestBody.getAppCode());
             UserInfoBody userInfoBody = abstractUserinfoService.updateUserInfo(jsonObject);
             return new RespondBody(RespondMessageEnum.SUCCESS,userInfoBody);
         }catch (HNException e){
@@ -109,6 +108,7 @@ public class UserInfoController {
             JSONObject jsonObject = JSONObject.fromObject(requestBody.getData());
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
+            jsonObject.put("appCode",requestBody.getAppCode());
             if(abstractUserinfoService.createOrder(jsonObject))
                  return new RespondBody(RespondMessageEnum.SUCCESS);
             else
@@ -162,6 +162,7 @@ public class UserInfoController {
             JSONObject jsonObject = JSONObject.fromObject(requestBody.getData());
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
+            jsonObject.put("appCode",requestBody.getAppCode());
             if(abstractUserinfoService.confirmeOrder(jsonObject))
                 return new RespondBody(RespondMessageEnum.SUCCESS);
             else
@@ -187,6 +188,7 @@ public class UserInfoController {
             JSONObject jsonObject = JSONObject.fromObject(requestBody.getData());
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
+            jsonObject.put("appCode",requestBody.getAppCode());
             String result =abstractUserinfoService.getOrderList(jsonObject);
             return new RespondBody(RespondMessageEnum.SUCCESS,result);
         }catch (HNException e){
