@@ -31,7 +31,7 @@ public class UserInfoController {
 
 
     /**
-     * 目前小程序不需要
+     * 目前小程序不需要--暂不开放
      */
     public void registry(){};
 
@@ -43,9 +43,9 @@ public class UserInfoController {
        try {
            log.info("requestBody={} login......",requestBody);
            AbstractUserLoginService abstractUserLoginService = hnContext.getAbstractUserLoginService(AppCodeEnum.valueOf(requestBody.getAppCode()));
-           Map<String,String> map = new HashMap<String,String>();
-           BeanUtils.copyProperties(requestBody,map);
-           JSONObject jsonObject = abstractUserLoginService.login(map);
+           JSONObject json = new JSONObject();
+           BeanUtils.copyProperties(requestBody,json);
+           JSONObject jsonObject = abstractUserLoginService.login(json);
            return new RespondBody(RespondMessageEnum.SUCCESS,jsonObject);
        }catch (HNException e){
            log.info("requestBody={} login exception code={} msg={}",requestBody,e.getCode(),e.getMsg());
@@ -122,6 +122,29 @@ public class UserInfoController {
         }
     }
 
+    @PostMapping(name="payOrder",produces = {"application/json;charset=utf-8"})
+    public RespondBody payOrder(RequestBody requestBody){
+        try {
+            log.info("requestBody={} payOrder......",requestBody);
+            JSONObject jsonObject = JSONObject.fromObject(requestBody.getData());
+            jsonObject.put("userId",requestBody.getUserId());
+            jsonObject.put("userRole",requestBody.getUserRole());
+            jsonObject.put("appCode",requestBody.getAppCode());
+            //调用充值接口
+            AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
+            JSONObject result = abstractUserinfoService.deposit(jsonObject);
+            return new RespondBody(RespondMessageEnum.SUCCESS,result);
+        }catch (HNException e){
+            log.info("requestBody={} payOrder  code={} msg={}",requestBody,e.getCode(),e.getMsg());
+            return new RespondBody(e.getRespondMessageEnum());
+        }catch (Exception e){
+            log.info("requestBody={} payOrder exception={}",requestBody,e.getMessage());
+            return new RespondBody(RespondMessageEnum.EXCEPTION);
+        }
+    }
+
+
+
     /**
      * 添加联系人
      */
@@ -132,30 +155,48 @@ public class UserInfoController {
      * 确认订单
      */
     @PostMapping(name="confirmeOrder",produces = {"application/json;charset=utf-8"})
-    public RespondBody  confirmeOrder(RequestBody requestBody){try {
-        log.info("requestBody={} confirmeOrder......",requestBody);
-        AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
-        JSONObject jsonObject = JSONObject.fromObject(requestBody.getData());
-        jsonObject.put("userId",requestBody.getUserId());
-        jsonObject.put("userRole",requestBody.getUserRole());
-        if(abstractUserinfoService.confirmeOrder(jsonObject))
-            return new RespondBody(RespondMessageEnum.SUCCESS);
-        else
-            return new RespondBody(RespondMessageEnum.CREATORDERFAIL);
-    }catch (HNException e){
-        log.info("requestBody={} confirmeOrder exception code={} msg={}",requestBody,e.getCode(),e.getMsg());
-        return new RespondBody(e.getRespondMessageEnum());
-    }catch (Exception e){
-        log.info("requestBody={} confirmeOrder exception={}",requestBody,e.getMessage());
-        return new RespondBody(RespondMessageEnum.EXCEPTION);
-    }}
+    public RespondBody  confirmeOrder(RequestBody requestBody){
+        try {
+            log.info("requestBody={} confirmeOrder......",requestBody);
+            AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
+            JSONObject jsonObject = JSONObject.fromObject(requestBody.getData());
+            jsonObject.put("userId",requestBody.getUserId());
+            jsonObject.put("userRole",requestBody.getUserRole());
+            if(abstractUserinfoService.confirmeOrder(jsonObject))
+                return new RespondBody(RespondMessageEnum.SUCCESS);
+            else
+                return new RespondBody(RespondMessageEnum.CREATORDERFAIL);
+        }catch (HNException e){
+            log.info("requestBody={} confirmeOrder exception code={} msg={}",requestBody,e.getCode(),e.getMsg());
+            return new RespondBody(e.getRespondMessageEnum());
+        }catch (Exception e){
+            log.info("requestBody={} confirmeOrder exception={}",requestBody,e.getMessage());
+            return new RespondBody(RespondMessageEnum.EXCEPTION);
+        }
+    }
 
     /**
      * 获取订单列表
      * @return
      */
     @PostMapping(name="getOrderList",produces = {"application/json;charset=utf-8"})
-    public RespondBody getOrderList(RequestBody requestBody){return  null;}
+    public RespondBody getOrderList(RequestBody requestBody){
+        try {
+            log.info("requestBody={} getOrderList......",requestBody);
+            AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
+            JSONObject jsonObject = JSONObject.fromObject(requestBody.getData());
+            jsonObject.put("userId",requestBody.getUserId());
+            jsonObject.put("userRole",requestBody.getUserRole());
+            String result =abstractUserinfoService.getOrderList(jsonObject);
+            return new RespondBody(RespondMessageEnum.SUCCESS,result);
+        }catch (HNException e){
+            log.info("requestBody={} getOrderList exception code={} msg={}",requestBody,e.getCode(),e.getMsg());
+            return new RespondBody(e.getRespondMessageEnum());
+        }catch (Exception e){
+            log.info("requestBody={} getOrderList exception={}",requestBody,e.getMessage());
+            return new RespondBody(RespondMessageEnum.EXCEPTION);
+        }
+    }
 
     /**
      * 取消订单
@@ -163,7 +204,23 @@ public class UserInfoController {
      * @return
      */
     @PostMapping(name="cancleOrder",produces = {"application/json;charset=utf-8"})
-    public  RespondBody   cancleOrder (RequestBody requestBody){return  null;}
+    public  RespondBody   cancleOrder (RequestBody requestBody){try {
+        log.info("requestBody={} cancleOrder......",requestBody);
+        AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
+        JSONObject jsonObject = JSONObject.fromObject(requestBody.getData());
+       // jsonObject.put("userId",requestBody.getUserId());
+       // jsonObject.put("userRole",requestBody.getUserRole());
+        if(abstractUserinfoService.cancleOrder(Integer.parseInt(requestBody.getUserId()),jsonObject.getInt("orderId")))
+            return new RespondBody(RespondMessageEnum.SUCCESS);
+        else
+            return new RespondBody(RespondMessageEnum.CANCLEORDERFAIL);
+    }catch (HNException e){
+        log.info("requestBody={} cancleOrder exception code={} msg={}",requestBody,e.getCode(),e.getMsg());
+        return new RespondBody(e.getRespondMessageEnum());
+    }catch (Exception e){
+        log.info("requestBody={} cancleOrder exception={}",requestBody,e.getMessage());
+        return new RespondBody(RespondMessageEnum.EXCEPTION);
+    }}
 
     /**
      *
@@ -172,9 +229,53 @@ public class UserInfoController {
      * @return
      */
     @PostMapping(name="deposit",produces = {"application/json;charset=utf-8"})
-    public  RespondBody  deposit(RequestBody requestBody){return  null;};
+    public  RespondBody  deposit(RequestBody requestBody){
+         try {
+                log.info("requestBody={} deposit......",requestBody);
+                JSONObject jsonObject = JSONObject.fromObject(requestBody.getData());
+                jsonObject.put("userId",requestBody.getUserId());
+                jsonObject.put("userRole",requestBody.getUserRole());
+                jsonObject.put("appCode",requestBody.getAppCode());
+                //调用充值接口
+                AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
+                JSONObject result = abstractUserinfoService.deposit(jsonObject);
+                return new RespondBody(RespondMessageEnum.SUCCESS,result);
+            }catch (HNException e){
+                log.info("requestBody={} deposit  code={} msg={}",requestBody,e.getCode(),e.getMsg());
+                return new RespondBody(e.getRespondMessageEnum());
+            }catch (Exception e){
+                log.info("requestBody={} deposit exception={}",requestBody,e.getMessage());
+                return new RespondBody(RespondMessageEnum.EXCEPTION);
+            }
+   }
 
 
+    /**
+     *
+     * 支付结果查询
+     * @param
+     * @return
+     */
+    @PostMapping(name="payQuery",produces = {"application/json;charset=utf-8"})
+    public  RespondBody  payQuery(RequestBody requestBody){
+        try {
+            log.info("requestBody={} payQuery......",requestBody);
+            JSONObject jsonObject = JSONObject.fromObject(requestBody.getData());
+            jsonObject.put("userId",requestBody.getUserId());
+            jsonObject.put("userRole",requestBody.getUserRole());
+            jsonObject.put("appCode",requestBody.getAppCode());
+            //调用充值接口
+            AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
+            JSONObject result = abstractUserinfoService.payQuery(jsonObject);
+            return new RespondBody(RespondMessageEnum.SUCCESS,result);
+        }catch (HNException e){
+            log.info("requestBody={} payQuery  code={} msg={}",requestBody,e.getCode(),e.getMsg());
+            return new RespondBody(e.getRespondMessageEnum());
+        }catch (Exception e){
+            log.info("requestBody={} payQuery exception={}",requestBody,e.getMessage());
+            return new RespondBody(RespondMessageEnum.EXCEPTION);
+        }
+    }
     /**
      *
      * 提现接口

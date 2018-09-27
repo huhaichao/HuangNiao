@@ -18,33 +18,33 @@ public class RespondBody {
    private String msg;
 
    //返回数据
-   private Object object;
+   private Object data;
 
 
-    public RespondBody(String code, String msg, Object object) {
+    public RespondBody(String code, String msg, Object data) {
         this.code = code;
         this.msg = msg;
-        this.object = object;
+        this.data = data;
     }
 
 
-    public RespondBody(RespondMessageEnum respondMessageEnum, Object object) {
+    public RespondBody(RespondMessageEnum respondMessageEnum, Object data) {
         this.code = respondMessageEnum.getCode();
         this.msg = respondMessageEnum.getMsg();
-        this.object = object;
+        this.data = data;
     }
 
 
     public RespondBody(RespondMessageEnum respondMessageEnum) {
         this.code = respondMessageEnum.getCode();
         this.msg = respondMessageEnum.getMsg();
-        this.object = new JSONObject();
+        this.data = new JSONObject();
     }
 
-    public RespondBody(Object object) {
+    public RespondBody(Object data) {
         this.code = RespondMessageEnum.SUCCESS.getCode();
         this.msg =  RespondMessageEnum.SUCCESS.getMsg();
-        this.object = object;
+        this.data = data;
     }
 
 }

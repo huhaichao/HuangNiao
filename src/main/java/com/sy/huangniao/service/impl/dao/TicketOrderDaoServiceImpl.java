@@ -58,6 +58,8 @@ public class TicketOrderDaoServiceImpl implements IDaoService<TicketOrder>{
     public TicketOrder selectObject(TicketOrder ticketOrder,SqlTypeEnum sqlType) {
         if (sqlType==SqlTypeEnum.DEAFULT)
             return  ticketOrderMapper.selectByPrimaryKey(ticketOrder.getId());
+        else if (sqlType==SqlTypeEnum.SELECTOBJECTBYSELECTIVE)
+            return  ticketOrderMapper.selectObjectBySelective(ticketOrder);
         return null;
     }
 }

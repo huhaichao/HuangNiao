@@ -66,7 +66,7 @@ public class XCXUserLoginServiceImpl extends AbstractUserLoginService {
       userWxinfo.setUnionid(jsonObject.getString("unionid"));
       if(userWxinfo.getOpenid() == null){
           log.info("code={} 请求登陆失败 errcode={} errmsg={}",jsCode,jsonObject.getString("errcode"),jsonObject.getString("errmsg"));
-          throw  new HNException(RespondMessageEnum.CODE_GET_OPENID_FAIL);
+          throw  new HNException(RespondMessageEnum.WX_CODE_GET_OPENID_FAIL);
       }
 
       //通过openID查询登陆状

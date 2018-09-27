@@ -13,6 +13,7 @@ import com.sy.huangniao.pojo.UserInfo;
 import com.sy.huangniao.pojo.UserWithdraw;
 import com.sy.huangniao.service.IDaoService;
 import com.sy.huangniao.service.UserInfoService;
+import com.sy.huangniao.service.pay.IWXPaychannelsService;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONObject;
 import org.springframework.beans.BeanUtils;
@@ -178,16 +179,39 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
         return  userInfoBody;
     }
 
+    @Override
+    public  JSONObject  deposit(JSONObject jsonObject){
+        /**
+         * 调用微信预下单接口
+         */
+        IWXPaychannelsService iwxPaychannelsService= hnContext.getIWXPaychannelsService(AppCodeEnum.valueOf(jsonObject.getString("appCode")));
+        JSONObject orderResult =iwxPaychannelsService.unifiedorder(jsonObject);
+
+        //保存充值信息
+
+        return  null;
+    }
 
     @Override
-    public  boolean  deposit(UserDeposit userDeposit){
-        return  false;
+    public  JSONObject  payQuery(JSONObject jsonObject){
+        /**
+         * 调用预下单接口
+         */
+        IWXPaychannelsService iwxPaychannelsService= hnContext.getIWXPaychannelsService(AppCodeEnum.valueOf(jsonObject.getString("appCode")));
+        JSONObject orderResult =iwxPaychannelsService.orderquery(jsonObject);
+
+        //成功修改充值信息
+
+        //是否是订单支付--修改订单支付信息
+
+        return  null;
     }
 
 
+
     @Override
-    public  boolean  withdraw(UserWithdraw userWithdraw){
-        return  true;
+    public  JSONObject  withdraw(JSONObject jsonObject){
+        return  null;
     }
 
 

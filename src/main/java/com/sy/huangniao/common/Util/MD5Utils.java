@@ -1,6 +1,13 @@
 package com.sy.huangniao.common.Util;
 
+import net.sf.json.JSONObject;
+import org.apache.commons.lang.*;
+import org.springframework.beans.BeanUtils;
+
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * MD5校验工具类
@@ -65,6 +72,60 @@ public class MD5Utils {
 
     public static boolean checkFileMD5(String fileName, String md5) {
         return checkFileMD5(new File(fileName), md5);
+    }
+
+    /**
+     * 按照加密方法
+     * 1、para按照key进行排序，然后组成字符串
+     * 2、字符串儿的末尾加上key
+     * 3、md5
+     * 4、小写转大写
+     */
+    public static String encryption(Map<String,String> para, String key){
+        StringBuffer retMsgB = new StringBuffer();
+        TreeMap<String,String> tm = new TreeMap<String,String>();
+        tm.putAll(para);
+        for (Map.Entry<String, String> entry : tm.entrySet()) {
+            String mkey = entry.getKey();
+            String mvalue = entry.getValue();
+
+            if(!org.apache.commons.lang.StringUtils.isBlank(mkey)&&!org.apache.commons.lang.StringUtils.isBlank(mvalue)){
+                String temValue = new String(mvalue);
+                //如果 mvalue 包含转移 \ 去除
+                if(temValue.contains("\\")){
+                    temValue = temValue.replace("\\", "");
+                }
+
+                retMsgB.append(mkey+"="+temValue+"&");
+            }
+
+        }
+        String retMsg = retMsgB.toString();
+        if(retMsg.charAt(retMsg.length()-1)=='&'){
+            retMsg = retMsg.substring(0,retMsg.length()-1);
+        }
+        retMsg = retMsg+key;
+        System.out.println("验签字符串为： " + retMsg);
+        /** 加密 、转大写 */
+        retMsg = getMD5String(retMsg).toUpperCase();
+        System.out.println("加密验签字符串为： " + retMsg);
+        return retMsg.toString();
+    }
+
+    /**
+     * 验证签名
+     * @param json
+     * @param key
+     * @return
+     */
+    public static boolean checkEncryption(JSONObject json, String key, String sign){
+        Map<String, String> map = new HashMap<String, String>();
+        BeanUtils.copyProperties(json,map);
+        if(encryption(map,key).equals(sign)){
+            return true;
+        }else {
+            return false;
+        }
     }
 
 }

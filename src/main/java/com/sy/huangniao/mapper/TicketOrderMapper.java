@@ -20,4 +20,6 @@ public interface TicketOrderMapper {
     List<TicketOrder> selectList(TicketOrder record);
 
     int updateByOrderIdSelective(TicketOrder ticketOrder);
+
+    TicketOrder selectObjectBySelective(TicketOrder ticketOrder);
 }

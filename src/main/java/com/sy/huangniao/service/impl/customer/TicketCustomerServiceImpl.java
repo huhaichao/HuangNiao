@@ -128,6 +128,7 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
             if(iUserAccountDaoService.updateObject(addAmount,SqlTypeEnum.UPDATEACCOUNTAMOUNT)!=1){
                 log.info(" orderId={} orderNo={} userAcount={} userId={} amount={} robOrderId={} 打款失败!",ticketOrder.getId(),ticketOrder.getOrderNo(),
                         skUserAccount.getAccountNo(),skUserAccount.getUserId(),skAmount,robOrder.getId());
+                throw new HNException(RespondMessageEnum.CONFIREMEORDERFAIL);
             }
             //增加交易记录
             UserTrade userTrade = new UserTrade();
@@ -184,8 +185,36 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
     }
 
     @Override
+    @Transactional(rollbackFor = {Exception.class})
     public boolean cancleOrder(int userId, int orderId) {
-        return false;
+        //取消订单状态
+        IDaoService iDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());
+        TicketOrder ticketOrder =new TicketOrder();
+        ticketOrder.setId(orderId);
+        ticketOrder.setOrderStatus(OrderStatusEnum.WAITROB.getStatus());
+        ticketOrder = (TicketOrder)iDaoService.selectObject(ticketOrder,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
+        if(ticketOrder ==null){
+            log.info(" orderId={} orderNo={} 该订单暂不能取消",ticketOrder.getId(),ticketOrder.getOrderNo());
+            throw new HNException(RespondMessageEnum.CANCLEORDERFAIL);
+        }
+        //解冻金额
+        IDaoService iUserAccountDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());
+        UserAccount userAccount = new UserAccount();
+        userAccount.setUserId(userId);
+        userAccount = (UserAccount)iUserAccountDaoService.selectObject(userAccount,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
+        //收款方增加金额处理
+        UserAccount unfreeAmount = new UserAccount();
+        unfreeAmount.setUserId(userId);
+        unfreeAmount.setId(userAccount.getId());
+        unfreeAmount.setAccountNo(userAccount.getAccountNo());
+        unfreeAmount.setAmountBalance(userAccount.getCoolAmount());
+        unfreeAmount.setCoolAmount(-unfreeAmount.getCoolAmount());
+        if(iUserAccountDaoService.updateObject(unfreeAmount,SqlTypeEnum.UPDATEACCOUNTAMOUNT)!=1){
+            log.info(" orderId={} orderNo={} userAcount={} userId={} amount={} 解冻失败!",ticketOrder.getId(),ticketOrder.getOrderNo(),
+                    userAccount.getAccountNo(),userAccount.getUserId(),userAccount.getCoolAmount());
+            throw new HNException(RespondMessageEnum.UNFREEAMOUNTFAIL);
+        }
+        return true;
     }
 
 

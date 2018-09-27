@@ -58,7 +58,6 @@ public interface UserInfoService {
      */
     public  boolean createOrder(JSONObject jsonObject);
 
-
     /**
      * 获取订单列表
      * @param
@@ -88,19 +87,26 @@ public interface UserInfoService {
     /**
      *
      * 充值
-     * @param userDeposit
+     * @param jsonObject
      * @return
      */
-    public  boolean  deposit(UserDeposit userDeposit);
+    public  JSONObject  deposit(JSONObject jsonObject);
 
+
+    /**
+     * 充值或者提现--支付结果查询业务处理
+     * @param jsonObject
+     * @return
+     */
+    JSONObject  payQuery(JSONObject jsonObject);
 
     /**
      * 
      * 提现接口
-     * @param userWithdraw
+     * @param jsonObject
      * @return
      */
-    public  boolean  withdraw(UserWithdraw userWithdraw);
+    public  JSONObject  withdraw(JSONObject jsonObject);
 
 
 
