@@ -2,12 +2,13 @@ package com.sy.huangniao.service.impl;
 
 import com.sy.huangniao.common.Util.MD5Utils;
 import com.sy.huangniao.common.bo.UserInfoBody;
-import com.sy.huangniao.common.enums.AppCodeEnum;
-import com.sy.huangniao.common.enums.RespondMessageEnum;
-import com.sy.huangniao.common.enums.UserStatusEnum;
+import com.sy.huangniao.common.constant.Constant;
+import com.sy.huangniao.common.enums.*;
 import com.sy.huangniao.common.exception.HNException;
 import com.sy.huangniao.controller.context.HNContext;
+import com.sy.huangniao.pojo.UserDeposit;
 import com.sy.huangniao.pojo.UserInfo;
+import com.sy.huangniao.pojo.UserWxinfo;
 import com.sy.huangniao.service.IDaoService;
 import com.sy.huangniao.service.UserAppService;
 import com.sy.huangniao.service.pay.IWXPaychannelsService;
@@ -17,6 +18,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 /**
  * Created by huchao on 2018/9/24.
  */
@@ -25,6 +28,9 @@ public abstract class AbstractUserAppService implements UserAppService {
 
     @Autowired
     protected HNContext hnContext;
+
+    @Autowired
+    protected Constant constant;
 
     /**
      * 登陆服务
@@ -98,17 +104,38 @@ public abstract class AbstractUserAppService implements UserAppService {
 
     @Override
     public  JSONObject  deposit(JSONObject jsonObject){
-        /*String userId = jsonObject.getString("userId");
-         userInfo = new UserInfo();
-        IDaoService iDaoService = hnContext.getDaoService(UserInfo.class.getSimpleName());
-        iDaoService.selectObject()*/
-
-
+        String userId = jsonObject.getString("userId");
+        String appCode = jsonObject.getString("appCode");
+        JSONObject result = unifiedorder(jsonObject);
         //保存充值信息
-
-        return  null;
+        UserDeposit userDeposit = new UserDeposit();
+        userDeposit.setAppCode(appCode);
+        userDeposit.setUserId(Integer.parseInt(userId));
+        userDeposit.setCreateDate(new Date());
+        userDeposit.setOrderNo(jsonObject.getString("orderNo"));
+        userDeposit.setAmount(jsonObject.getDouble("amount"));
+        userDeposit.setIp(jsonObject.getString("termIp"));
+        userDeposit.setPrepayId(result.getString("prepay_id"));
+        userDeposit.setTradeType(result.getString("trade_type"));
+        userDeposit.setDepositNo(result.getString("outTradeNo"));
+        userDeposit.setStatus(WalletStatusEnum.DEPOSITING.getStatus());
+        IDaoService iDaoService = hnContext.getDaoService(UserDeposit.class.getSimpleName());
+        iDaoService.save(userDeposit,SqlTypeEnum.DEAFULT);
+        return  handleUnifiedorder(result);
     }
 
+    /**
+     * 统一下单返回数据加工
+     * @param result
+     * @return
+     */
+    protected abstract JSONObject handleUnifiedorder(JSONObject result);
+
+    /**
+     * 统一下单业务处理
+     * @param jsonObject
+     * @return
+     */
     public abstract  JSONObject  unifiedorder(JSONObject jsonObject);
 
 

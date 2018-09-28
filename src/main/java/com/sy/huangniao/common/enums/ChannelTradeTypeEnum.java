@@ -5,9 +5,9 @@ package com.sy.huangniao.common.enums;
  */
 public enum ChannelTradeTypeEnum {
 
-    JSAPI("JSAPI","公众号支付"),
-    NATIVE("NATIVE","原生扫码支付"),
-    APP("APP","app支付");
+    JSAPI("JSAPI","微信公众号支付"),
+    NATIVE("NATIVE","微信原生扫码支付"),
+    APP("APP","微信app支付");
 
     private  String tradeType;
 

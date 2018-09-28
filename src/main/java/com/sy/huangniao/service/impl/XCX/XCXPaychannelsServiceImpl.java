@@ -54,6 +54,14 @@ public class XCXPaychannelsServiceImpl implements IWXPaychannelsService {
             JSONObject resultJson = new JSONObject();
             resultJson.putAll(result);
             log.info("微信预下单接口返回结果result={}",resultJson);
+            if("SUCCESS".equals(resultJson.getString("return_code"))){
+                if("SYSTEMERROR".equals(resultJson.getString("err_code"))){
+                   log.info("系统异常unifiedorder重试一次");
+                    Map<String, String> result2=  wxPay.unifiedOrder(reqdata);
+                    resultJson.clear();
+                    resultJson.putAll(result2);
+                }
+            }
             return  resultJson;
         } catch (Exception e) {
             log.info("调用微信预下单接口失败={}",e.getMessage());

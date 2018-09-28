@@ -22,15 +22,27 @@ public enum RespondMessageEnum {
     CONFIREMEORDERFAIL("0010", "订单确认失败"),
     UNFREEAMOUNTFAIL("0011","解冻金额失败" ),
     CANCLEORDERFAIL("0012","该订单暂不能取消，可能原因是已有商户在提供抢票服务！"),
-
+    LACK_PARAMS("0013","缺少参数"),
+    PAYSIGNFAIL("0014", "签名失败"),
 
     /*
      调用微信外部接口以1开头
     * */
     WX_CODE_GET_OPENID_FAIL("1000", "调用微信获取openid失败"),
-
-
-
+    WX_CODE_CALL_FAIL("1001", "微信调用通讯失败"),
+    WX_CODE_NOAUTH("1002","商户未开通此接口权限"),
+    WX_CODE_NOTENOUGH("1003","帐号余额不足，请用户充值或更换支付卡后再支付"),
+    WX_CODE_ORDERPAID("1004","商户订单已支付，无需重复操作"),
+    WX_CODE_ORDERCLOSED("1005","当前订单已关闭，请重新下单"),
+    WX_CODE_APPID_NOT_EXIST("1006","请检查APPID是否正确"),
+    WX_CODE_MCHID_NOT_EXIST("1007","请检查MCHID是否正确"),
+    WX_CODE_APPID_MCHID_NOT_MATCH("1008","请确认appid和mch_id是否匹配"),
+    WX_CODE_OUT_TRADE_NO_USED("1009","请核实商户订单号是否重复提交"),
+    WX_CODE_SIGNERROR("1010","请检查签名参数和方法是否都符合签名算法要求"),
+    WX_CODE_XML_FORMAT_ERROR("1011","请检查XML参数格式是否正确"),
+    WX_CODE_REQUIRE_POST_METHOD("1012","请检查请求参数是否通过post方法提交"),
+    WX_CODE_POST_DATA_EMPTY("1013","请检查post数据是否为空"),
+    WX_CODE_NOT_UTF8("1014","请使用UTF-8编码格式"),
 
 
     SUCCESS("0000","成功"),

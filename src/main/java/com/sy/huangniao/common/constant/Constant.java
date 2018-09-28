@@ -16,7 +16,12 @@ public class Constant {
      */
     public static final String CACHELOGINKEY ="USERLOGINKEY" ;
     public static final String GETUSERIDBYOPENID ="USEROPENID" ;
+    //第三方调用小程序前缀
+    public static final String ERRORCODEXCX ="WX_CODE_" ;
+    
     public static final String USERIDSESSIONKEY ="USERIDSESSIONKEY" ;
+
+
     /**
      * 小程序账户前缀
      */

@@ -14,7 +14,7 @@ public class UserDeposit implements Serializable {
     /**
      * 第三方渠道订单号--微信订单号
      */
-    private Integer tradeChannelsNo;
+    private String tradeChannelsNo;
 
     /**
      * 充值用户
@@ -94,11 +94,11 @@ public class UserDeposit implements Serializable {
         this.depositNo = depositNo == null ? null : depositNo.trim();
     }
 
-    public Integer getTradeChannelsNo() {
+    public String getTradeChannelsNo() {
         return tradeChannelsNo;
     }
 
-    public void setTradeChannelsNo(Integer tradeChannelsNo) {
+    public void setTradeChannelsNo(String tradeChannelsNo) {
         this.tradeChannelsNo = tradeChannelsNo;
     }
 
