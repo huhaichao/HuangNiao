@@ -1,7 +1,6 @@
 package com.sy.huangniao.common.Util;
 
-import net.sf.json.JSONObject;
-import org.apache.commons.lang.*;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.BeanUtils;
 
 import java.io.File;
@@ -89,7 +88,7 @@ public class MD5Utils {
             String mkey = entry.getKey();
             String mvalue = entry.getValue();
 
-            if(!org.apache.commons.lang.StringUtils.isBlank(mkey)&&!org.apache.commons.lang.StringUtils.isBlank(mvalue)){
+            if(!StringUtils.isBlank(mkey)&&!StringUtils.isBlank(mvalue)){
                 String temValue = new String(mvalue);
                 //如果 mvalue 包含转移 \ 去除
                 if(temValue.contains("\\")){

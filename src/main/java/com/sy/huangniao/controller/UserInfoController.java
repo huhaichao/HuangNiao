@@ -1,5 +1,6 @@
 package com.sy.huangniao.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sy.huangniao.common.bo.RequestBody;
 import com.sy.huangniao.common.bo.RespondBody;
 import com.sy.huangniao.common.bo.UserInfoBody;
@@ -10,8 +11,6 @@ import com.sy.huangniao.controller.context.HNContext;
 import com.sy.huangniao.service.impl.AbstractUserAppService;
 import com.sy.huangniao.service.impl.AbstractUserinfoService;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.json.JSONObject;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Created by huchao on 2018/9/14.
  */
-@RestController("/api/v1/user/")
 @Slf4j
+@RestController(value = "/api/v1/user/")
 public class UserInfoController {
 
     @Autowired
@@ -40,7 +39,7 @@ public class UserInfoController {
        try {
            log.info("requestBody={} login......",requestBody);
            AbstractUserAppService abstractUserAppService = hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(requestBody.getAppCode()));
-           JSONObject json = JSONObject.fromObject(requestBody.getData());
+           JSONObject json = JSONObject.parseObject(requestBody.getData());
            json.put("userRole",requestBody.getUserRole());
            json.put("appCode",requestBody.getAppCode());
            JSONObject jsonObject = abstractUserAppService.login(json);
@@ -81,7 +80,7 @@ public class UserInfoController {
         try {
             log.info("requestBody={} updateUserInfo......",requestBody);
             AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
-            JSONObject jsonObject = JSONObject.fromObject(requestBody.getData());
+            JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("id",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
@@ -105,7 +104,7 @@ public class UserInfoController {
         try {
             log.info("requestBody={} createOrder......",requestBody);
             AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
-            JSONObject jsonObject = JSONObject.fromObject(requestBody.getData());
+            JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
             jsonObject.put("appCode",requestBody.getAppCode());
@@ -126,7 +125,7 @@ public class UserInfoController {
     public RespondBody payOrder(RequestBody requestBody){
         try {
             log.info("requestBody={} payOrder......",requestBody);
-            JSONObject jsonObject = JSONObject.fromObject(requestBody.getData());
+            JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
             jsonObject.put("appCode",requestBody.getAppCode());
@@ -159,7 +158,7 @@ public class UserInfoController {
         try {
             log.info("requestBody={} confirmeOrder......",requestBody);
             AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
-            JSONObject jsonObject = JSONObject.fromObject(requestBody.getData());
+            JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
             jsonObject.put("appCode",requestBody.getAppCode());
@@ -185,7 +184,7 @@ public class UserInfoController {
         try {
             log.info("requestBody={} getOrderList......",requestBody);
             AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
-            JSONObject jsonObject = JSONObject.fromObject(requestBody.getData());
+            JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
             jsonObject.put("appCode",requestBody.getAppCode());
@@ -209,10 +208,10 @@ public class UserInfoController {
     public  RespondBody   cancleOrder (RequestBody requestBody){try {
         log.info("requestBody={} cancleOrder......",requestBody);
         AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
-        JSONObject jsonObject = JSONObject.fromObject(requestBody.getData());
+        JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
        // jsonObject.put("userId",requestBody.getUserId());
        // jsonObject.put("userRole",requestBody.getUserRole());
-        if(abstractUserinfoService.cancleOrder(Integer.parseInt(requestBody.getUserId()),jsonObject.getInt("orderId")))
+        if(abstractUserinfoService.cancleOrder(Integer.parseInt(requestBody.getUserId()),jsonObject.getIntValue("orderId")))
             return new RespondBody(RespondMessageEnum.SUCCESS);
         else
             return new RespondBody(RespondMessageEnum.CANCLEORDERFAIL);
@@ -234,7 +233,7 @@ public class UserInfoController {
     public  RespondBody  deposit(RequestBody requestBody){
          try {
                 log.info("requestBody={} deposit......",requestBody);
-                JSONObject jsonObject = JSONObject.fromObject(requestBody.getData());
+                JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
                 jsonObject.put("userId",requestBody.getUserId());
                 jsonObject.put("userRole",requestBody.getUserRole());
                 jsonObject.put("appCode",requestBody.getAppCode());
@@ -262,7 +261,7 @@ public class UserInfoController {
     public  RespondBody  payQuery(RequestBody requestBody){
         try {
             log.info("requestBody={} payQuery......",requestBody);
-            JSONObject jsonObject = JSONObject.fromObject(requestBody.getData());
+            JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
             jsonObject.put("appCode",requestBody.getAppCode());

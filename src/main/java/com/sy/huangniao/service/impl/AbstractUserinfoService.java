@@ -1,21 +1,17 @@
 package com.sy.huangniao.service.impl;
 
-import com.sy.huangniao.common.Util.IdGenerator;
+
+import com.alibaba.fastjson.JSONObject;
 import com.sy.huangniao.common.bo.UserInfoBody;
 import com.sy.huangniao.common.Util.StringUtils;
-import com.sy.huangniao.common.constant.Constant;
 import com.sy.huangniao.common.enums.*;
 import com.sy.huangniao.common.exception.HNException;
 import com.sy.huangniao.controller.context.HNContext;
 import com.sy.huangniao.pojo.UserAccount;
-import com.sy.huangniao.pojo.UserDeposit;
 import com.sy.huangniao.pojo.UserInfo;
-import com.sy.huangniao.pojo.UserWithdraw;
 import com.sy.huangniao.service.IDaoService;
 import com.sy.huangniao.service.UserInfoService;
-import com.sy.huangniao.service.pay.IWXPaychannelsService;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;

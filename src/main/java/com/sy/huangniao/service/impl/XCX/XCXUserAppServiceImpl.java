@@ -1,5 +1,6 @@
 package com.sy.huangniao.service.impl.XCX;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.wxpay.sdk.WXPayConstants;
 import com.github.wxpay.sdk.WXPayUtil;
 import com.sy.huangniao.common.Util.*;
@@ -15,7 +16,6 @@ import com.sy.huangniao.service.impl.AbstractUserAppService;
 import com.sy.huangniao.service.pay.IWXPaychannelsService;
 import com.sy.huangniao.service.impl.AbstractUserinfoService;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
 
 /**
  * Created by huchao on 2018/9/24.
@@ -60,8 +59,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
     @Transactional(rollbackFor = {Exception.class})
     public JSONObject login (JSONObject json){
       //去微信获取openid
-      JSONObject jsonObjectData = JSONObject.fromObject(json.get("data"));
-      String jsCode = jsonObjectData.getString("code");
+      String jsCode = json.getString("code");
       log.info("userCode={} 获取openID......",jsCode);
       IWXPaychannelsService  iwxPaychannelsService =hnContext.getIWXPaychannelsService(getAppCode());
       JSONObject jsonObject = iwxPaychannelsService.code2Session(json);
@@ -91,7 +89,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
            List<UserWxinfo> list =iDaoService.selectList(userWxinfo,SqlTypeEnum.DEAFULT);
            if(list==null || list.size()==0){
               AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(json.getString("userRole"));
-              UserInfo userInfo =abstractUserinfoService.createUserInfo(jsonObjectData);
+              UserInfo userInfo =abstractUserinfoService.createUserInfo(json);
               userid = userInfo.getId().toString();
               //保存微信信息
                userWxinfo.setUserId(userInfo.getId());

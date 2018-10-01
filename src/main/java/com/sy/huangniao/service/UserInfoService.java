@@ -1,12 +1,8 @@
 package com.sy.huangniao.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sy.huangniao.common.bo.UserInfoBody;
-import com.sy.huangniao.pojo.UserDeposit;
 import com.sy.huangniao.pojo.UserInfo;
-import com.sy.huangniao.pojo.UserWithdraw;
-import net.sf.json.JSONObject;
-
-import java.util.Map;
 
 /**
  * Created by huchao on 2018/9/14.

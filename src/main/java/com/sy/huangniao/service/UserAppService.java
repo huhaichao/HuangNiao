@@ -1,10 +1,10 @@
 package com.sy.huangniao.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sy.huangniao.common.enums.AppCodeEnum;
-import net.sf.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+
 
 /**
  * Created by huchao on 2018/9/24.

@@ -1,5 +1,6 @@
 package com.sy.huangniao.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.sy.huangniao.common.Util.MD5Utils;
 import com.sy.huangniao.common.bo.UserInfoBody;
 import com.sy.huangniao.common.constant.Constant;
@@ -8,17 +9,14 @@ import com.sy.huangniao.common.exception.HNException;
 import com.sy.huangniao.controller.context.HNContext;
 import com.sy.huangniao.pojo.UserDeposit;
 import com.sy.huangniao.pojo.UserInfo;
-import com.sy.huangniao.pojo.UserWxinfo;
 import com.sy.huangniao.service.IDaoService;
 import com.sy.huangniao.service.UserAppService;
 import com.sy.huangniao.service.pay.IWXPaychannelsService;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 /**
@@ -62,7 +60,7 @@ public abstract class AbstractUserAppService implements UserAppService {
 
         abstractUserinfoService.handleUserInfoBody(userInfoBody);
         log.info("用户登录成功......");
-        JSONObject json=  JSONObject.fromObject(userInfoBody);
+        JSONObject json=  (JSONObject) JSONObject.toJSON(userInfoBody);
         return  json;
     }
 
@@ -99,7 +97,7 @@ public abstract class AbstractUserAppService implements UserAppService {
         userInfoBody.setUserId(userInfo.getId());
         abstractUserinfoService.handleUserInfoBody(userInfoBody);
         log.info("用户注册信息 userid{} ...",userInfo.getId());
-        JSONObject json=  JSONObject.fromObject(userInfoBody);
+        JSONObject json=  (JSONObject) JSONObject.toJSON(userInfoBody);
         return  json;
     }
 

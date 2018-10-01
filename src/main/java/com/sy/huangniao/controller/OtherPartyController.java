@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Created by huchao on 2018/9/25.
  */
-@RestController("/api/v1/OtherParty/")
+@RestController(value = "/api/v1/OtherParty/")
 public class OtherPartyController {
 
 

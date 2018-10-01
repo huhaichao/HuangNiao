@@ -1,5 +1,6 @@
 package com.sy.huangniao.service.impl.customer;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sy.huangniao.common.bo.UserInfoBody;
@@ -13,7 +14,6 @@ import com.sy.huangniao.service.customer.TicketCustomerService;
 import com.sy.huangniao.service.impl.AbstractUserAppService;
 import com.sy.huangniao.service.impl.AbstractUserinfoService;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

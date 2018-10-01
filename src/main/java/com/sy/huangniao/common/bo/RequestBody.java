@@ -21,7 +21,7 @@ public class RequestBody {
     //private String loginkey;
 
     //请求数据
-    private Object data;
+    private String data;
 
     //app代号
     private String appCode;

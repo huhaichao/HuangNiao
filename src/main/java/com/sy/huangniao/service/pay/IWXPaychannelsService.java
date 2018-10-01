@@ -1,9 +1,7 @@
 package com.sy.huangniao.service.pay;
 
-import com.sy.huangniao.service.pay.IPayChannelsService;
-import net.sf.json.JSONObject;
 
-import java.util.Map;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * Created by huchao on 2018/9/24.
@@ -15,5 +13,5 @@ public interface IWXPaychannelsService  extends IPayChannelsService {
      * @param jsonObject
      * @return
      */
-    public JSONObject  code2Session(JSONObject jsonObject);
+    public JSONObject code2Session(JSONObject jsonObject);
 }

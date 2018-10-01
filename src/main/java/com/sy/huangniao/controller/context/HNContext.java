@@ -77,7 +77,7 @@ public class HNContext implements InitializingBean, ApplicationContextAware {
 
         for (Map.Entry<String,IWXPaychannelsService> entry :cachedIWXPaychannelsService.entrySet()){
             IWXPaychannelsService iwxPaychannelsService=   entry.getValue();
-            if (iwxPaychannelsService.ChannelsName().equals(appCode)){
+            if (iwxPaychannelsService.ChannelsName().equals(appCode.getCode())){
                 return  iwxPaychannelsService;
             }
         }

@@ -1,5 +1,6 @@
 package com.sy.huangniao.service.impl.business;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sy.huangniao.common.bo.UserInfoBody;
@@ -11,14 +12,12 @@ import com.sy.huangniao.service.IDaoService;
 import com.sy.huangniao.service.business.TicketBusinessService;
 import com.sy.huangniao.service.impl.AbstractUserinfoService;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by huchao on 2018/9/14.

@@ -1,5 +1,6 @@
 package com.sy.huangniao.service.impl.XCX;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.wxpay.sdk.WXPay;
 import com.sy.huangniao.common.Util.HttpClientUtils;
 import com.sy.huangniao.common.constant.Constant;
@@ -8,7 +9,6 @@ import com.sy.huangniao.common.enums.ChannelTradeTypeEnum;
 import com.sy.huangniao.config.wx.WxPayConfig;
 import com.sy.huangniao.service.pay.IWXPaychannelsService;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -166,7 +166,7 @@ public class XCXPaychannelsServiceImpl implements IWXPaychannelsService {
         params.put("grant_type","authorization_code");
         String  result = HttpClientUtils.get(constant.getWX_XCX_URL_JSCODE2SESSION(),params,
                 null,30000,30000);
-        JSONObject json = net.sf.json.JSONObject.fromObject(result);
+        JSONObject json =(JSONObject)JSONObject.toJSON(result);
         return  json;
     }
 }

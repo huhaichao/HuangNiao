@@ -4,7 +4,6 @@ package com.sy.huangniao.controller;
 import com.sy.huangniao.common.enums.AppCodeEnum;
 import com.sy.huangniao.controller.context.HNContext;
 import com.sy.huangniao.service.impl.AbstractUserAppService;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
