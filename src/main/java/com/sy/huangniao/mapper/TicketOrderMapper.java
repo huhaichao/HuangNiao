@@ -22,4 +22,6 @@ public interface TicketOrderMapper {
     int updateByOrderIdSelective(TicketOrder ticketOrder);
 
     TicketOrder selectObjectBySelective(TicketOrder ticketOrder);
+
+    int updateByUserIdAndOrderNo(TicketOrder ticketOrder);
 }

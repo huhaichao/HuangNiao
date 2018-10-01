@@ -378,5 +378,47 @@
       and rob_count = #{robCount,jdbcType=INTEGER},
     </if>
   </select>
+  <update id="updateByUserIdAndOrderNo" parameterType="com.sy.huangniao.pojo.TicketOrder">
+    update ticket_order
+    <set>
+      <if test="ticketIdentity != null">
+        ticket_identity = #{ticketIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketName != null">
+        ticket_name = #{ticketName,jdbcType=VARCHAR},
+      </if>
+      <if test="from != null">
+        from = #{from,jdbcType=VARCHAR},
+      </if>
+      <if test="to != null">
+        to = #{to,jdbcType=VARCHAR},
+      </if>
+      <if test="departureDate != null">
+        departure_date = #{departureDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="trainNum != null">
+        train_num = #{trainNum,jdbcType=VARCHAR},
+      </if>
+      <if test="seatType != null">
+        seat_type = #{seatType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderAmount != null">
+        order_amount = #{orderAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="robCount != null">
+        rob_count = #{robCount,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where  user_id = #{userId,jdbcType=INTEGER} AND   order_no = #{orderNo,jdbcType=VARCHAR}
+  </update>
   <cache />
 </mapper>

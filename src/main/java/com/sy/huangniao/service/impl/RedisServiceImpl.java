@@ -60,4 +60,5 @@ public class RedisServiceImpl implements IRedisService {
             log.error("从redis中删除数据成功出错, key:{}", k, e);
         }
     }
+
 }

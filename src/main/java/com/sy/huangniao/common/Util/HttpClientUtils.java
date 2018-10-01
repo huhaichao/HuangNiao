@@ -17,6 +17,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -189,4 +190,34 @@ public final class HttpClientUtils {
         return result;
     }
 
+    public static   String respondString(InputStream inputStream) {
+        InputStreamReader inputStreamReader = null;
+        BufferedReader br = null;
+        try {
+            inputStreamReader = new InputStreamReader(inputStream,Charset.forName("UTF-8"));
+            br = new BufferedReader( inputStreamReader );
+            final StringBuffer resBuffer = new StringBuffer();
+            String resTemp = "";
+            while ((resTemp = br.readLine()) != null) {
+                resBuffer.append( resTemp );
+            }
+           return resBuffer.toString();
+        }catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (br != null) {
+                    br.close();
+                }
+                if (inputStreamReader != null) {
+                    inputStreamReader.close();
+                }
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            }catch (Exception e){}
+
+        }
+        return  null;
+    }
 }

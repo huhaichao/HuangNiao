@@ -3,6 +3,7 @@ package com.sy.huangniao.service;
 import com.sy.huangniao.common.enums.AppCodeEnum;
 import net.sf.json.JSONObject;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -69,66 +70,11 @@ public interface UserAppService {
     public  JSONObject  withdraw(JSONObject jsonObject);
 
 
-   /* *//**
-     *
-     * 获取第三方调用token
+    /**
+     *  支付结果回调接口
+     * @param request
      * @return
-     *//*
-    public String  applyToken(JSONObject jsonObject);
+     */
+    public  String callback(HttpServletRequest request);
 
-    *//**
-     * 统一下单接口
-     * @param jsonObject
-     * @return
-     *//*
-    public JSONObject  unifiedorder(JSONObject jsonObject);
-
-
-    *//**
-     * 订单支付查询接口
-     * @param jsonObject
-     * @return
-     *//*
-    public JSONObject  orderquery(JSONObject jsonObject);
-
-
-    *//**
-     * 关闭订单接口
-     * @param jsonObject
-     * @return
-     *//*
-    public JSONObject  closeorder(JSONObject jsonObject);
-
-
-    *//**
-     * 退款接口
-     * @param jsonObject
-     * @return
-     *//*
-    public JSONObject  refund(JSONObject jsonObject);
-
-
-    *//**
-     * 退款查询接口
-     * @param jsonObject
-     * @return
-     *//*
-    public JSONObject  refundquery(JSONObject jsonObject);
-
-
-    *//**
-     * 回调通知接口
-     * @param jsonObject
-     * @return
-     *//*
-    public JSONObject  callback(JSONObject jsonObject);
-
-
-    *//**
-     * 企业向用户付款 -- 可以用于提现
-     * @param jsonObject
-     * @return
-     *//*
-    public JSONObject transfers(JSONObject jsonObject);
-    */
 }

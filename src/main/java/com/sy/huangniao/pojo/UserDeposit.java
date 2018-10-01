@@ -72,6 +72,16 @@ public class UserDeposit implements Serializable {
     private String prepayId;
 
     /**
+     * 支付完成时间
+     */
+    private String timeEnd;
+
+    /**
+     * 付款银行
+     */
+    private String bankType;
+
+    /**
      * 备注
      */
     private String remark;
@@ -190,6 +200,22 @@ public class UserDeposit implements Serializable {
         this.prepayId = prepayId == null ? null : prepayId.trim();
     }
 
+    public String getTimeEnd() {
+        return timeEnd;
+    }
+
+    public void setTimeEnd(String timeEnd) {
+        this.timeEnd = timeEnd == null ? null : timeEnd.trim();
+    }
+
+    public String getBankType() {
+        return bankType;
+    }
+
+    public void setBankType(String bankType) {
+        this.bankType = bankType == null ? null : bankType.trim();
+    }
+
     public String getRemark() {
         return remark;
     }
@@ -218,6 +244,8 @@ public class UserDeposit implements Serializable {
         sb.append(", ip=").append(ip);
         sb.append(", tradeType=").append(tradeType);
         sb.append(", prepayId=").append(prepayId);
+        sb.append(", timeEnd=").append(timeEnd);
+        sb.append(", bankType=").append(bankType);
         sb.append(", remark=").append(remark);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

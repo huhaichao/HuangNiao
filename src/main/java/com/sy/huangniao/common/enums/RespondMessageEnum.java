@@ -24,6 +24,7 @@ public enum RespondMessageEnum {
     CANCLEORDERFAIL("0012","该订单暂不能取消，可能原因是已有商户在提供抢票服务！"),
     LACK_PARAMS("0013","缺少参数"),
     PAYSIGNFAIL("0014", "签名失败"),
+    UPDATEDEPOSITSTATUSFAIL("0015", "修改钱包充值金额有误"),
 
     /*
      调用微信外部接口以1开头
@@ -43,10 +44,13 @@ public enum RespondMessageEnum {
     WX_CODE_REQUIRE_POST_METHOD("1012","请检查请求参数是否通过post方法提交"),
     WX_CODE_POST_DATA_EMPTY("1013","请检查post数据是否为空"),
     WX_CODE_NOT_UTF8("1014","请使用UTF-8编码格式"),
+    WX_CODE_CALLBACK_FAIL("1015", "小程序回调异常s"),
+    WX_CODE_CALLBACK_NO_DEPOSIT("1016","查询不到愿订单信息"),
+    WX_CODE_CASH_FEE_NOT_EQUAL("1017","实际付款金额与充值金额不等" ),
 
 
     SUCCESS("0000","成功"),
-    EXCEPTION("9999","服务器异常");
+    EXCEPTION("9999","服务器异常"), ;
 
     private  String  code;
 

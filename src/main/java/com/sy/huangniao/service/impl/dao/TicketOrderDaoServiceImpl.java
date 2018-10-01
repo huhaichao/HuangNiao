@@ -44,6 +44,8 @@ public class TicketOrderDaoServiceImpl implements IDaoService<TicketOrder>{
     public int updateObject(TicketOrder ticketOrder,SqlTypeEnum sqlType) {
         if (sqlType==SqlTypeEnum.DEAFULT)
             return  ticketOrderMapper.updateByPrimaryKeySelective(ticketOrder);
+        else if (sqlType == SqlTypeEnum.UPDATEBYUSERIDANDORDERNO)
+            return  ticketOrderMapper.updateByUserIdAndOrderNo(ticketOrder);
         return 0;
     }
 

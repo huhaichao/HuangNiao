@@ -45,7 +45,9 @@ public class UserDepositDaoServiceImpl implements IDaoService<UserDeposit>{
     @Override
     public int updateObject(UserDeposit userDeposit, SqlTypeEnum sqlType) {
         if(sqlType==SqlTypeEnum.DEAFULT){
-            return userDepositMapper.updateByPrimaryKey(userDeposit);
+            return userDepositMapper.updateByPrimaryKeySelective(userDeposit);
+        }else if(sqlType==SqlTypeEnum.UPADTEBYIDANDBYSTATUS){
+            return userDepositMapper.updateByIDAndStatus(userDeposit);
         }
         return 0;
     }
@@ -62,7 +64,8 @@ public class UserDepositDaoServiceImpl implements IDaoService<UserDeposit>{
     public UserDeposit selectObject(UserDeposit userDeposit, SqlTypeEnum sqlType) {
         if(sqlType==SqlTypeEnum.DEAFULT){
             return userDepositMapper.selectByPrimaryKey(userDeposit.getId());
-        }
+        }else if (sqlType==SqlTypeEnum.SELECTOBJECTBYSELECTIVE)
+            return userDepositMapper.selectObjectBySelective(userDeposit);
         return null;
     }
 }

@@ -18,4 +18,8 @@ public interface UserDepositMapper {
     int updateByPrimaryKey(UserDeposit record);
 
     List<UserDeposit> selectList(UserDeposit userDeposit);
+
+    UserDeposit selectObjectBySelective(UserDeposit userDeposit);
+
+    int updateByIDAndStatus(UserDeposit userDeposit);
 }

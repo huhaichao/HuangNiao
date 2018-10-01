@@ -16,14 +16,16 @@
     <result column="ip" jdbcType="VARCHAR" property="ip" />
     <result column="trade_type" jdbcType="VARCHAR" property="tradeType" />
     <result column="prepay_id" jdbcType="VARCHAR" property="prepayId" />
+    <result column="time_end" jdbcType="VARCHAR" property="timeEnd" />
+    <result column="bank_type" jdbcType="VARCHAR" property="bankType" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, deposit_no, trade_channels_no, user_id, amount, create_date, status, modify_date, 
-    app_code, order_no, from, ip, trade_type, prepay_id, remark
+    id, deposit_no, trade_channels_no, user_id, amount, create_date, status, modify_date,
+    app_code, order_no, from, ip, trade_type, prepay_id, time_end, bank_type, remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from user_deposit
     where id = #{id,jdbcType=INTEGER}
@@ -33,16 +35,18 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.UserDeposit" useGeneratedKeys="true">
-    insert into user_deposit (deposit_no, trade_channels_no, user_id, 
-      amount, create_date, status, 
-      modify_date, app_code, order_no, 
-      from, ip, trade_type, 
-      prepay_id, remark)
-    values (#{depositNo,jdbcType=VARCHAR}, #{tradeChannelsNo,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{amount,jdbcType=DOUBLE}, #{createDate,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
-      #{modifyDate,jdbcType=TIMESTAMP}, #{appCode,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, 
-      #{from,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{tradeType,jdbcType=VARCHAR}, 
-      #{prepayId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+    insert into user_deposit (deposit_no, trade_channels_no, user_id,
+    amount, create_date, status,
+    modify_date, app_code, order_no,
+    from, ip, trade_type,
+    prepay_id, time_end, bank_type,
+    remark)
+    values (#{depositNo,jdbcType=VARCHAR}, #{tradeChannelsNo,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+    #{amount,jdbcType=DOUBLE}, #{createDate,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR},
+    #{modifyDate,jdbcType=TIMESTAMP}, #{appCode,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR},
+    #{from,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{tradeType,jdbcType=VARCHAR},
+    #{prepayId,jdbcType=VARCHAR}, #{timeEnd,jdbcType=VARCHAR}, #{bankType,jdbcType=VARCHAR},
+    #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.UserDeposit" useGeneratedKeys="true">
     insert into user_deposit
@@ -85,6 +89,12 @@
       </if>
       <if test="prepayId != null">
         prepay_id,
+      </if>
+      <if test="timeEnd != null">
+        time_end,
+      </if>
+      <if test="bankType != null">
+        bank_type,
       </if>
       <if test="remark != null">
         remark,
@@ -129,6 +139,12 @@
       </if>
       <if test="prepayId != null">
         #{prepayId,jdbcType=VARCHAR},
+      </if>
+      <if test="timeEnd != null">
+        #{timeEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="bankType != null">
+        #{bankType,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -177,6 +193,12 @@
       <if test="prepayId != null">
         prepay_id = #{prepayId,jdbcType=VARCHAR},
       </if>
+      <if test="timeEnd != null">
+        time_end = #{timeEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="bankType != null">
+        bank_type = #{bankType,jdbcType=VARCHAR},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -198,6 +220,8 @@
       ip = #{ip,jdbcType=VARCHAR},
       trade_type = #{tradeType,jdbcType=VARCHAR},
       prepay_id = #{prepayId,jdbcType=VARCHAR},
+      time_end = #{timeEnd,jdbcType=VARCHAR},
+      bank_type = #{bankType,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -246,7 +270,88 @@
     <if test="prepayId != null">
       AND prepay_id = #{prepayId,jdbcType=VARCHAR},
     </if>
-
   </select>
+  <select id="selectObjectBySelective" parameterType="com.sy.huangniao.pojo.UserDeposit" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_deposit
+    where 1=1
+    <if test="depositNo != null">
+      AND deposit_no = #{depositNo,jdbcType=VARCHAR},
+    </if>
+    <if test="tradeChannelsNo != null">
+      AND trade_channels_no = #{tradeChannelsNo,jdbcType=INTEGER},
+    </if>
+    <if test="userId != null">
+      AND  user_id = #{userId,jdbcType=INTEGER},
+    </if>
+    <if test="amount != null">
+      AND  amount = #{amount,jdbcType=DOUBLE},
+    </if>
+    <if test="createDate != null">
+      AND  create_date = #{createDate,jdbcType=TIMESTAMP},
+    </if>
+    <if test="status != null">
+      AND status = #{status,jdbcType=VARCHAR},
+    </if>
+    <if test="modifyDate != null">
+      AND  modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+    </if>
+    <if test="appCode != null">
+      AND app_code = #{appCode,jdbcType=VARCHAR},
+    </if>
+    <if test="orderNo != null">
+      AND order_no = #{orderNo,jdbcType=VARCHAR},
+    </if>
+    <if test="from != null">
+      AND  from = #{from,jdbcType=VARCHAR},
+    </if>
+    <if test="ip != null">
+      AND  ip = #{ip,jdbcType=VARCHAR},
+    </if>
+    <if test="tradeType != null">
+      AND  trade_type = #{tradeType,jdbcType=VARCHAR},
+    </if>
+    <if test="prepayId != null">
+      AND prepay_id = #{prepayId,jdbcType=VARCHAR},
+    </if>
+  </select>
+
+  <update id="updateByIDAndStatus" parameterType="com.sy.huangniao.pojo.UserDeposit">
+    update user_deposit
+    <set>
+      <if test="tradeChannelsNo != null">
+        trade_channels_no = #{tradeChannelsNo,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="from != null">
+        from = #{from,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeType != null">
+        trade_type = #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="prepayId != null">
+        prepay_id = #{prepayId,jdbcType=VARCHAR},
+      </if>
+      <if test="timeEnd != null">
+        time_end = #{timeEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="bankType != null">
+        bank_type = #{bankType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER} and  status ='depositing'
+  </update>
   <cache />
 </mapper>
