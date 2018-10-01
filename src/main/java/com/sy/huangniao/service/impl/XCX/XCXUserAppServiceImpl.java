@@ -45,7 +45,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
     }
 
     @Autowired
-    private IRedisService iRedisService;
+    private IRedisService redisServiceImpl;
 
     @Autowired
     private WxPayConfig wxPayConfig;
@@ -75,7 +75,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
       }
 
       //通过openID查询登陆状
-      String userid =iRedisService.get(Constant.GETUSERIDBYOPENID+getAppCode().getCode()+userWxinfo.getOpenid(),String.class);
+      String userid =redisServiceImpl.get(Constant.GETUSERIDBYOPENID+getAppCode().getCode()+userWxinfo.getOpenid(),String.class);
       JSONObject jsonResult = new JSONObject();
       IDaoService iDaoService = hnContext.getDaoService(UserWxinfo.class.getSimpleName());
       if(!StringUtils.isEmpty(userid)){
@@ -104,11 +104,11 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
 
      String salt = DateUtils.date2yyyyMMddhhmmssString(new Date())+userid;
      String loginKey = MD5Utils.getMD5String(salt).substring(0,10);
-     iRedisService.set(Constant.CACHELOGINKEY+getAppCode().getCode()+userid,loginKey,constant.getLoginKeyexprirTime(), TimeUnit.SECONDS);
+        redisServiceImpl.set(Constant.CACHELOGINKEY+getAppCode().getCode()+userid,loginKey,constant.getLoginKeyexprirTime(), TimeUnit.SECONDS);
      //续租openid
-     iRedisService.set(Constant.GETUSERIDBYOPENID+getAppCode().getCode()+userWxinfo.getOpenid(),userid,constant.getLoginKeyexprirTime(), TimeUnit.SECONDS);
+        redisServiceImpl.set(Constant.GETUSERIDBYOPENID+getAppCode().getCode()+userWxinfo.getOpenid(),userid,constant.getLoginKeyexprirTime(), TimeUnit.SECONDS);
      //保存session_key
-     iRedisService.set(Constant.USERIDSESSIONKEY+getAppCode().getCode()+userid,userWxinfo.getSessionKey(),constant.getLoginKeyexprirTime(), TimeUnit.SECONDS);
+        redisServiceImpl.set(Constant.USERIDSESSIONKEY+getAppCode().getCode()+userid,userWxinfo.getSessionKey(),constant.getLoginKeyexprirTime(), TimeUnit.SECONDS);
      jsonResult.put("loginKey",loginKey);
      jsonResult.put("userId",userid);
 
@@ -120,7 +120,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
         String prepay_id =  result.getString("prepay_id");
         String nonceStr = WXPayUtil.generateNonceStr();
         long timeStamp = WXPayUtil.getCurrentTimestamp();
-        Map<String,String> map = new HashMap<>();
+        Map<String,String> map = new HashMap<String,String>();
         map.put("appId", wxPayConfig.getAppID());
         map.put("timeStamp",timeStamp+"");
         map.put("nonceStr",nonceStr);

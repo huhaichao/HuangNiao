@@ -80,7 +80,7 @@ public final class HttpClientUtils {
         if (params != null && params.size() > 0) {
             List<NameValuePair> paramList = null;
             final Set<Map.Entry<String, String>> entrySet = params.entrySet();
-            paramList = new ArrayList<>();
+            paramList = new ArrayList<NameValuePair>();
             for (final Iterator<Map.Entry<String, String>> it = entrySet.iterator(); it.hasNext(); ) {
                 final Map.Entry<String, String> entry = it.next();
                 final String key = entry.getKey();

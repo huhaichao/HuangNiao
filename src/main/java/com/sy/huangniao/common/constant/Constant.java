@@ -26,25 +26,25 @@ public class Constant {
      * 小程序账户前缀
      */
     @Value("${user.account.xcx}")
-    private  String USERACCOUNTXCX ="10" ;
+    private  String USERACCOUNTXCX  ;
     public  String getUSERACCOUNTXCX(){
         return  this.USERACCOUNTXCX;
     }
     //订单号前缀
     @Value("${user.orderno.xcx}")
-    private  String ORDERNOXCX ="88";
+    private  String ORDERNOXCX ;
     public  String getORDERNOXCX(){
         return  this.ORDERNOXCX;
     }
     //交易单号前缀
-    @Value("${user.orderno.xcx}")
-    private   String TRADENOXCX ="99" ;
+    @Value("${user.tradeno.xcx}")
+    private   String TRADENOXCX  ;
     public  String getTRADENOXCX(){
         return  this.TRADENOXCX;
     }
     //失效时间37*24*3600
     @Value("${user.loginKeyexprirTime}")
-    private   long   loginKeyexprirTime=3196800;
+    private   long   loginKeyexprirTime;
     public  long getLoginKeyexprirTime(){
         return  this.loginKeyexprirTime;
     }

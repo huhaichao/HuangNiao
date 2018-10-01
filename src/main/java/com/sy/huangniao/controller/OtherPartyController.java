@@ -15,7 +15,7 @@ public class OtherPartyController {
     /**
      * 手机号验证码接口
      */
-    @PostMapping(name="checkPhoneCode",produces = {"application/json;charset=utf-8"})
+    @PostMapping(value="checkPhoneCode",produces = {"application/json;charset=utf-8"})
     public RespondBody checkPhoneCode(RequestBody requestBody){
         return  null;
     }
@@ -24,7 +24,7 @@ public class OtherPartyController {
     /**
      * 实名认证接口
      */
-    @PostMapping(name="realName",produces = {"application/json;charset=utf-8"})
+    @PostMapping(value="realName",produces = {"application/json;charset=utf-8"})
     public RespondBody realName(RequestBody requestBody){
         return  null;
     }

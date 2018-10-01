@@ -47,7 +47,7 @@ public class XCXPaychannelsServiceImpl implements IWXPaychannelsService {
     public JSONObject unifiedorder(JSONObject jsonObject) {
         try {
             log.info("微信预下单接口上送参数jsonObject={}",jsonObject);
-            Map<String,String> reqdata = new HashMap<>();
+            Map<String,String> reqdata = new HashMap<String,String>();
             BeanUtils.copyProperties(jsonObject,reqdata);
             WXPay wxPay = new WXPay(wxPayConfig,constant.getWX_XCX_URL_NOTIFY(),constant.getWX_AUTOREPORT(),constant.getWX_USESENDBOX());
             Map<String, String> result = wxPay.unifiedOrder(reqdata);
@@ -73,7 +73,7 @@ public class XCXPaychannelsServiceImpl implements IWXPaychannelsService {
     public JSONObject orderquery(JSONObject jsonObject) {
         try {
             log.info("微信查询接口上送参数jsonObject={}",jsonObject);
-            Map<String,String> reqdata = new HashMap<>();
+            Map<String,String> reqdata = new HashMap<String,String>();
             BeanUtils.copyProperties(jsonObject,reqdata);
             WXPay wxPay = new WXPay(wxPayConfig,constant.getWX_XCX_URL_NOTIFY(),constant.getWX_AUTOREPORT(),constant.getWX_USESENDBOX());
             Map<String, String> result = wxPay.orderQuery(reqdata);
@@ -91,7 +91,7 @@ public class XCXPaychannelsServiceImpl implements IWXPaychannelsService {
     public JSONObject closeorder(JSONObject jsonObject) {
         try {
             log.info("微信订单关闭接口上送参数jsonObject={}",jsonObject);
-            Map<String,String> reqdata = new HashMap<>();
+            Map<String,String> reqdata = new HashMap<String,String>();
             BeanUtils.copyProperties(jsonObject,reqdata);
             WXPay wxPay = new WXPay(wxPayConfig,constant.getWX_XCX_URL_NOTIFY(),constant.getWX_AUTOREPORT(),constant.getWX_USESENDBOX());
             Map<String, String> result = wxPay.closeOrder(reqdata);
@@ -109,7 +109,7 @@ public class XCXPaychannelsServiceImpl implements IWXPaychannelsService {
     public JSONObject refund(JSONObject jsonObject) {
         try {
             log.info("微信退款接口上送参数jsonObject={}",jsonObject);
-            Map<String,String> reqdata = new HashMap<>();
+            Map<String,String> reqdata = new HashMap<String,String>();
             BeanUtils.copyProperties(jsonObject,reqdata);
             WXPay wxPay = new WXPay(wxPayConfig,constant.getWX_XCX_URL_NOTIFY(),constant.getWX_AUTOREPORT(),constant.getWX_USESENDBOX());
             Map<String, String> result = wxPay.refund(reqdata);
@@ -127,7 +127,7 @@ public class XCXPaychannelsServiceImpl implements IWXPaychannelsService {
     public JSONObject refundquery(JSONObject jsonObject) {
         try {
             log.info("微信退款查询接口上送参数jsonObject={}",jsonObject);
-            Map<String,String> reqdata = new HashMap<>();
+            Map<String,String> reqdata = new HashMap<String,String>();
             BeanUtils.copyProperties(jsonObject,reqdata);
             WXPay wxPay = new WXPay(wxPayConfig,constant.getWX_XCX_URL_NOTIFY(),constant.getWX_AUTOREPORT(),constant.getWX_USESENDBOX());
             Map<String, String> result = wxPay.refund(reqdata);

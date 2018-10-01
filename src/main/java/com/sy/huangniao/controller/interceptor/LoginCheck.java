@@ -24,7 +24,7 @@ import java.io.PrintWriter;
 public class LoginCheck implements HandlerInterceptor {
 
     @Autowired
-    private IRedisService redisService;
+    private IRedisService redisServiceImpl;
 	
 	public void afterCompletion(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, Exception arg3)
 			throws Exception {
@@ -61,7 +61,7 @@ public class LoginCheck implements HandlerInterceptor {
 			return false;
 		}
 		
-		String userLoginkey = redisService.get(Constant.CACHELOGINKEY+userId,String.class);
+		String userLoginkey = redisServiceImpl.get(Constant.CACHELOGINKEY+userId,String.class);
 		
 		if(userLoginkey == null || "".equals(userLoginkey)){
 			PrintWriter  pw =arg1.getWriter();
