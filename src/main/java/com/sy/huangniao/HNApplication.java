@@ -2,7 +2,6 @@ package com.sy.huangniao;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -11,9 +10,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication(scanBasePackages = {"com.sy.huangniao"})
 @EnableTransactionManagement
 //@EnableScheduling
-public class Application {
+public class HNApplication {
 
     public static void main(final String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(HNApplication.class, args);
     }
 }
