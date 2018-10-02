@@ -78,6 +78,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
       IDaoService iDaoService = hnContext.getDaoService(UserWxinfo.class.getSimpleName());
       if(!StringUtils.isEmpty(userid)){
           userWxinfo.setUserId(Integer.parseInt(userid));
+          userWxinfo.setModifyDate(new Date());
           if(iDaoService.updateObject(userWxinfo, SqlTypeEnum.UPDATEBYUSERID)!=1){
               log.info("userid={} openid={} 修改数据失败",userid,userWxinfo.getOpenid());
               throw  new HNException(RespondMessageEnum.UPDATEWXINFOFAIL);
@@ -93,6 +94,8 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
               userid = userInfo.getId().toString();
               //保存微信信息
                userWxinfo.setUserId(userInfo.getId());
+               userWxinfo.setCreateDate(new Date());
+               userWxinfo.setModifyDate(new Date());
                if(iDaoService.save(userWxinfo,SqlTypeEnum.DEAFULT)!=1) {
                    log.info("userid={} openid={} userRole={} appcode ={} 保存用户微信信息失败", userid, userWxinfo.getOpenid(), userInfo.getAppCode());
                    throw new HNException(RespondMessageEnum.SAVEUSERINFOERROR);
@@ -252,6 +255,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
                         TicketOrder ticketOrder = new TicketOrder();
                         ticketOrder.setOrderNo(orderNo);
                         ticketOrder.setUserId(userId);
+                        ticketOrder.setModifyDate(new Date());
                         ticketOrder.setOrderStatus(OrderStatusEnum.WAITROB.getStatus());
                         IDaoService<TicketOrder> iTicketOrderDaoService= hnContext.getDaoService(TicketOrder.class.getSimpleName());
                         if (iTicketOrderDaoService.updateObject(ticketOrder,SqlTypeEnum.UPDATEBYUSERID)!=1){
@@ -266,6 +270,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
                     updateUserAccount.setId(userAccount.getId());
                     updateUserAccount.setAccountNo(userAccount.getAccountNo());
                     updateUserAccount.setUserId(userId);
+                    updateUserAccount.setModifyDate(new Date());
                     if(iUserAccountDaoService.updateObject(updateUserAccount,SqlTypeEnum.UPDATEACCOUNTAMOUNT)!=1){
                         log.info("xcx 账户修改余额失败 acountNo={} userId={} amount={}",userAccount.getAccountNo(),userId,updateDeposit.getAmount()
                         );

@@ -166,7 +166,7 @@ public class XCXPaychannelsServiceImpl implements IWXPaychannelsService {
         params.put("grant_type","authorization_code");
         String  result = HttpClientUtils.get(constant.getWX_XCX_URL_JSCODE2SESSION(),params,
                 null,30000,30000);
-        JSONObject json =(JSONObject)JSONObject.toJSON(result);
+        JSONObject json =(JSONObject)JSONObject.parseObject(result);
         return  json;
     }
 }

@@ -1,9 +1,11 @@
 package com.sy.huangniao.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sy.huangniao.common.Util.MD5Utils;
 import com.sy.huangniao.common.bo.RequestBody;
 import com.sy.huangniao.common.bo.RespondBody;
 import com.sy.huangniao.common.bo.UserInfoBody;
+import com.sy.huangniao.common.constant.Constant;
 import com.sy.huangniao.common.enums.AppCodeEnum;
 import com.sy.huangniao.common.enums.RespondMessageEnum;
 import com.sy.huangniao.common.exception.HNException;
@@ -25,6 +27,9 @@ public class UserInfoController {
     @Autowired
     private HNContext hnContext;
 
+    @Autowired
+    private Constant constant;
+
 
     /**
      * 目前小程序不需要--暂不开放
@@ -43,6 +48,7 @@ public class UserInfoController {
            json.put("userRole",requestBody.getUserRole());
            json.put("appCode",requestBody.getAppCode());
            JSONObject jsonObject = abstractUserAppService.login(json);
+           MD5Utils.encryption(jsonObject,constant.getUSERLOGINSIGNKEY());
            return new RespondBody(RespondMessageEnum.SUCCESS,jsonObject);
        }catch (HNException e){
            log.info("requestBody={} login exception code={} msg={}",requestBody,e.getCode(),e.getMsg());

@@ -240,6 +240,8 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
             ticketCustomer.setUserId(userInfoBody.getUserId());
             ticketCustomer.setCustomerAccount(userInfoBody.getCustomerAccount());
             ticketCustomer.setCustomerPassword(userInfoBody.getCustomerAccount());
+            ticketCustomer.setCreateDate(new Date());
+            ticketCustomer.setModifyDate(new Date());
             if(iDaoService.save(ticketCustomer, SqlTypeEnum.DEAFULT)!=1){
                 log.info("保存用户信息失败userId{} 保存成功多条",userInfoBody.getUserId());
                 throw new HNException(RespondMessageEnum.SAVEUSERINFOERROR);

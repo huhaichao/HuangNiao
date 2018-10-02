@@ -16,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -43,6 +44,8 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
         userInfo.setUserPhoneno(jsonObject.getString("userPhone"));
         userInfo.setUserWxno(jsonObject.getString("userWxno"));
         userInfo.setUserStatus(UserStatusEnum.WAITAUTHEN.getStatus());
+        userInfo.setCreateDate(new Date());
+        userInfo.setModifyDate(new Date());
         IDaoService userInfoDao = hnContext.getDaoService(UserInfo.class.getSimpleName());
         int i =userInfoDao.save(userInfo, SqlTypeEnum.DEAFULT);
         if(i!=1){
@@ -69,6 +72,9 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
         AbstractUserAppService abstractUserAppService =hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(userInfo.getAppCode()));
         userAccount.setAccountNo(abstractUserAppService.createUserAcountNo());
         userAccount.setUserId(userInfo.getId());
+        userAccount.setCoolAmount(0.0);
+        userAccount.setCreateDate(new Date());
+        userAccount.setModifyDate(new Date());
         IDaoService userAccountDao = hnContext.getDaoService(UserAccount.class.getSimpleName());
         if(userAccountDao.save(userAccount,SqlTypeEnum.DEAFULT)!=1){
             log.info("userId={} userRole={}  appcode ={} 保存用户账户失败",userid,userRole,userInfo.getAppCode());

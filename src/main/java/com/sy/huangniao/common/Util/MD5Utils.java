@@ -1,5 +1,6 @@
 package com.sy.huangniao.common.Util;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.BeanUtils;
 
@@ -109,6 +110,13 @@ public class MD5Utils {
         retMsg = getMD5String(retMsg).toUpperCase();
         System.out.println("加密验签字符串为： " + retMsg);
         return retMsg.toString();
+    }
+
+    public static JSONObject encryption(JSONObject jsonObject, String key){
+        Map<String, String> map = new HashMap<String, String>();
+        BeanUtils.copyProperties(jsonObject,map);
+        jsonObject.put("sign",encryption(map,key));
+        return jsonObject;
     }
 
     /**

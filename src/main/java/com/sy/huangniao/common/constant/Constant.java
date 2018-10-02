@@ -21,6 +21,14 @@ public class Constant {
     
     public static final String USERIDSESSIONKEY ="USERIDSESSIONKEY" ;
 
+    /**
+     * 登陆签名key
+     */
+    @Value("${user.login.sign.key}")
+    private String USERLOGINSIGNKEY;
+    public  String getUSERLOGINSIGNKEY(){
+        return  this.USERLOGINSIGNKEY;
+    }
 
     /**
      * 小程序账户前缀

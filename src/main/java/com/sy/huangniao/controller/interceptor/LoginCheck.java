@@ -60,8 +60,14 @@ public class LoginCheck implements HandlerInterceptor {
 			respondBody(pw,new RespondBody(RespondMessageEnum.NOINFO_USERID));
 			return false;
 		}
-		
-		String userLoginkey = redisServiceImpl.get(Constant.CACHELOGINKEY+userId,String.class);
+		String appCode = arg0.getParameter("appCode");
+		if(appCode==null || "".equals(appCode)){
+
+			PrintWriter  pw =arg1.getWriter();
+			respondBody(pw,new RespondBody(RespondMessageEnum.NOINFO_USERID));
+			return false;
+		}
+		String userLoginkey = redisServiceImpl.get(Constant.CACHELOGINKEY+appCode+userId,String.class);
 		
 		if(userLoginkey == null || "".equals(userLoginkey)){
 			PrintWriter  pw =arg1.getWriter();
