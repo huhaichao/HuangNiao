@@ -52,7 +52,7 @@ public class UserInfoController {
                return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
            }
            json.remove("sign");
-           if(MD5Utils.checkEncryption(json,constant.getUSERLOGINSIGNKEY(),sign)){
+           if(!MD5Utils.checkEncryption(json,constant.getUSERLOGINSIGNKEY(),sign)){
                log.info("requestBody={}  login 签名校验失败..... ",requestBody);
                return new RespondBody(RespondMessageEnum.SIGNERROR);
            }
