@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by huchao on 2018/9/14.
  */
 @Slf4j
-@RestController(value = "/api/v1/user/")
+@RestController
 public class UserInfoController {
 
     @Autowired
@@ -34,7 +34,7 @@ public class UserInfoController {
     /**
      * 登陆
      */
-    @PostMapping(value="login",produces = {"application/json;charset=utf-8"})
+    @PostMapping(value="/api/v1/user/login",produces = {"application/json;charset=utf-8"})
     public RespondBody login(RequestBody requestBody){
        try {
            log.info("requestBody={} login......",requestBody);
@@ -56,7 +56,7 @@ public class UserInfoController {
     /**
      * 获取用户个人信息
      */
-    @PostMapping(value="getUserInfo",produces = {"application/json;charset=utf-8"})
+    @PostMapping(value="/api/v1/user/getUserInfo",produces = {"application/json;charset=utf-8"})
     public RespondBody getUserInfo(RequestBody requestBody){
         try {
             log.info("requestBody={} getUserInfo......",requestBody);
@@ -75,7 +75,7 @@ public class UserInfoController {
     /**
      * 获取修改个人信息
      */
-    @PostMapping(value="updateUserInfo",produces = {"application/json;charset=utf-8"})
+    @PostMapping(value="/api/v1/user/updateUserInfo",produces = {"application/json;charset=utf-8"})
     public RespondBody updateUserInfo(RequestBody requestBody){
         try {
             log.info("requestBody={} updateUserInfo......",requestBody);
@@ -99,7 +99,7 @@ public class UserInfoController {
     /**
      * 下单
      */
-    @PostMapping(value="createOrder",produces = {"application/json;charset=utf-8"})
+    @PostMapping(value="/api/v1/user/createOrder",produces = {"application/json;charset=utf-8"})
     public RespondBody createOrder(RequestBody requestBody){
         try {
             log.info("requestBody={} createOrder......",requestBody);
@@ -121,7 +121,7 @@ public class UserInfoController {
         }
     }
 
-    @PostMapping(value="payOrder",produces = {"application/json;charset=utf-8"})
+    @PostMapping(value="/api/v1/user/payOrder",produces = {"application/json;charset=utf-8"})
     public RespondBody payOrder(RequestBody requestBody){
         try {
             log.info("requestBody={} payOrder......",requestBody);
@@ -147,13 +147,13 @@ public class UserInfoController {
     /**
      * 添加联系人
      */
-    @PostMapping(value="addContacts",produces = {"application/json;charset=utf-8"})
+    @PostMapping(value="/api/v1/user/addContacts",produces = {"application/json;charset=utf-8"})
     public  RespondBody addContacts(RequestBody requestBody){return  null;}
 
     /**
      * 确认订单
      */
-    @PostMapping(value="confirmeOrder",produces = {"application/json;charset=utf-8"})
+    @PostMapping(value="/api/v1/user/confirmeOrder",produces = {"application/json;charset=utf-8"})
     public RespondBody  confirmeOrder(RequestBody requestBody){
         try {
             log.info("requestBody={} confirmeOrder......",requestBody);
@@ -179,7 +179,7 @@ public class UserInfoController {
      * 获取订单列表
      * @return
      */
-    @PostMapping(value="getOrderList",produces = {"application/json;charset=utf-8"})
+    @PostMapping(value="/api/v1/user/getOrderList",produces = {"application/json;charset=utf-8"})
     public RespondBody getOrderList(RequestBody requestBody){
         try {
             log.info("requestBody={} getOrderList......",requestBody);
@@ -204,7 +204,7 @@ public class UserInfoController {
      * @param
      * @return
      */
-    @PostMapping(value="cancleOrder",produces = {"application/json;charset=utf-8"})
+    @PostMapping(value="/api/v1/user/cancleOrder",produces = {"application/json;charset=utf-8"})
     public  RespondBody   cancleOrder (RequestBody requestBody){try {
         log.info("requestBody={} cancleOrder......",requestBody);
         AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
@@ -229,7 +229,7 @@ public class UserInfoController {
      * @param
      * @return
      */
-    @PostMapping(value="deposit",produces = {"application/json;charset=utf-8"})
+    @PostMapping(value="/api/v1/user/deposit",produces = {"application/json;charset=utf-8"})
     public  RespondBody  deposit(RequestBody requestBody){
          try {
                 log.info("requestBody={} deposit......",requestBody);
@@ -257,7 +257,7 @@ public class UserInfoController {
      * @param
      * @return
      */
-    @PostMapping(value="payQuery",produces = {"application/json;charset=utf-8"})
+    @PostMapping(value="/api/v1/user/payQuery",produces = {"application/json;charset=utf-8"})
     public  RespondBody  payQuery(RequestBody requestBody){
         try {
             log.info("requestBody={} payQuery......",requestBody);
@@ -283,7 +283,7 @@ public class UserInfoController {
      * @param
      * @return
      */
-    @PostMapping(value="withdraw",produces = {"application/json;charset=utf-8"})
+    @PostMapping(value="/api/v1/user/withdraw",produces = {"application/json;charset=utf-8"})
     public RespondBody withdraw(RequestBody requestBody){return  null;}
 
 

@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Created by huchao on 2018/9/25.
  */
-@RestController("/api/")
+@RestController
 public class PayInfoController {
 
     @Autowired
@@ -26,7 +26,7 @@ public class PayInfoController {
      * 统一回调接口
      * @return
      */
-    @RequestMapping(value = "/{appCode}/callback",method = {RequestMethod.GET,RequestMethod.POST}
+    @RequestMapping(value = "/api/{appCode}/callback",method = {RequestMethod.GET,RequestMethod.POST}
                      ,produces = {"application/json;charset=utf-8"})
     public  String  callback(@PathVariable("appCode") String appCode,HttpServletRequest
              request){
