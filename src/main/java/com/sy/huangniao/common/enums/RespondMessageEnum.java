@@ -27,6 +27,7 @@ public enum RespondMessageEnum {
     UPDATEDEPOSITSTATUSFAIL("0015", "修改钱包充值金额有误"),
     NOINFO_APPCODE("0016","缺少appCode" ),
     SIGNERROR("0017","签名失败"),
+    NOINFO_SIGN("0018", "缺少签名"),
     /*
      调用微信外部接口以1开头
     * */
@@ -51,7 +52,7 @@ public enum RespondMessageEnum {
 
 
     SUCCESS("0000","成功"),
-    EXCEPTION("9999","服务器异常"),;
+    EXCEPTION("9999","服务器异常"), ;
 
     private  String  code;
 

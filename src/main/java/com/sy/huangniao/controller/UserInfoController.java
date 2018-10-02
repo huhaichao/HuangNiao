@@ -2,6 +2,7 @@ package com.sy.huangniao.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.sy.huangniao.common.Util.MD5Utils;
+import com.sy.huangniao.common.Util.StringUtils;
 import com.sy.huangniao.common.bo.RequestBody;
 import com.sy.huangniao.common.bo.RespondBody;
 import com.sy.huangniao.common.bo.UserInfoBody;
@@ -46,6 +47,10 @@ public class UserInfoController {
            AbstractUserAppService abstractUserAppService = hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(requestBody.getAppCode()));
            JSONObject json = JSONObject.parseObject(requestBody.getData());
            String sign = json.getString("sign");
+           if(StringUtils.isEmpty(sign)){
+               log.info("requestBody={}  login 没有签名..... ",requestBody);
+               return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
+           }
            json.remove("sign");
            if(MD5Utils.checkEncryption(json,constant.getUSERLOGINSIGNKEY(),sign)){
                log.info("requestBody={}  login 签名校验失败..... ",requestBody);
@@ -94,6 +99,10 @@ public class UserInfoController {
             AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
             JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
             String sign = jsonObject.getString("sign");
+            if(StringUtils.isEmpty(sign)){
+                log.info("requestBody={}  login 没有签名..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
+            }
             jsonObject.remove("sign");
             if(MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
                 log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
@@ -124,6 +133,10 @@ public class UserInfoController {
             AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
             JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
             String sign = jsonObject.getString("sign");
+            if(StringUtils.isEmpty(sign)){
+                log.info("requestBody={}  login 没有签名..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
+            }
             jsonObject.remove("sign");
             if(MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
                 log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
@@ -151,6 +164,10 @@ public class UserInfoController {
             log.info("requestBody={} payOrder......",requestBody);
             JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
             String sign = jsonObject.getString("sign");
+            if(StringUtils.isEmpty(sign)){
+                log.info("requestBody={}  login 没有签名..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
+            }
             jsonObject.remove("sign");
             if(MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
                 log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
@@ -190,6 +207,10 @@ public class UserInfoController {
             AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
             JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
             String sign = jsonObject.getString("sign");
+            if(StringUtils.isEmpty(sign)){
+                log.info("requestBody={}  login 没有签名..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
+            }
             jsonObject.remove("sign");
             if(MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
                 log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
@@ -222,6 +243,10 @@ public class UserInfoController {
             AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
             JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
             String sign = jsonObject.getString("sign");
+            if(StringUtils.isEmpty(sign)){
+                log.info("requestBody={}  login 没有签名..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
+            }
             jsonObject.remove("sign");
             if(MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
                 log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
@@ -252,6 +277,10 @@ public class UserInfoController {
         AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
         JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
         String sign = jsonObject.getString("sign");
+        if(StringUtils.isEmpty(sign)){
+            log.info("requestBody={}  login 没有签名..... ",requestBody);
+            return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
+        }
         jsonObject.remove("sign");
         if(MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
             log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
@@ -286,6 +315,10 @@ public class UserInfoController {
                 log.info("requestBody={} deposit......",requestBody);
                 JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
                 String sign = jsonObject.getString("sign");
+                 if(StringUtils.isEmpty(sign)){
+                     log.info("requestBody={}  login 没有签名..... ",requestBody);
+                     return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
+                 }
                 jsonObject.remove("sign");
                 if(MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
                     log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
@@ -320,6 +353,10 @@ public class UserInfoController {
             log.info("requestBody={} payQuery......",requestBody);
             JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
             String sign = jsonObject.getString("sign");
+            if(StringUtils.isEmpty(sign)){
+                log.info("requestBody={}  login 没有签名..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
+            }
             jsonObject.remove("sign");
             if(MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
                 log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
