@@ -113,9 +113,8 @@ public class MD5Utils {
     }
 
     public static JSONObject encryption(JSONObject jsonObject, String key){
-        Map<String, String> map = new HashMap<String, String>();
-        BeanUtils.copyProperties(jsonObject,map);
-        jsonObject.put("sign",encryption(map,key));
+        Map<String,String> maps = (Map)JSON.parse(jsonObject.toJSONString());
+        jsonObject.put("sign",encryption(maps,key));
         return jsonObject;
     }
 
@@ -126,9 +125,8 @@ public class MD5Utils {
      * @return
      */
     public static boolean checkEncryption(JSONObject json, String key, String sign){
-        Map<String, String> map = new HashMap<String, String>();
-        BeanUtils.copyProperties(json,map);
-        if(encryption(map,key).equals(sign)){
+        Map<String,String> maps = (Map)JSON.parse(json.toJSONString());
+        if(encryption(maps,key).equals(sign)){
             return true;
         }else {
             return false;

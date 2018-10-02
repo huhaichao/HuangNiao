@@ -64,7 +64,7 @@ public class LoginCheck implements HandlerInterceptor {
 		if(appCode==null || "".equals(appCode)){
 
 			PrintWriter  pw =arg1.getWriter();
-			respondBody(pw,new RespondBody(RespondMessageEnum.NOINFO_USERID));
+			respondBody(pw,new RespondBody(RespondMessageEnum.NOINFO_APPCODE));
 			return false;
 		}
 		String userLoginkey = redisServiceImpl.get(Constant.CACHELOGINKEY+appCode+userId,String.class);

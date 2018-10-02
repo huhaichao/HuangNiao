@@ -45,6 +45,12 @@ public class UserInfoController {
            log.info("requestBody={} login......",requestBody);
            AbstractUserAppService abstractUserAppService = hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(requestBody.getAppCode()));
            JSONObject json = JSONObject.parseObject(requestBody.getData());
+           String sign = json.getString("sign");
+           json.remove("sign");
+           if(MD5Utils.checkEncryption(json,constant.getUSERLOGINSIGNKEY(),sign)){
+               log.info("requestBody={}  login 签名校验失败..... ",requestBody);
+               return new RespondBody(RespondMessageEnum.SIGNERROR);
+           }
            json.put("userRole",requestBody.getUserRole());
            json.put("appCode",requestBody.getAppCode());
            JSONObject jsonObject = abstractUserAppService.login(json);
@@ -87,6 +93,12 @@ public class UserInfoController {
             log.info("requestBody={} updateUserInfo......",requestBody);
             AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
             JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
+            String sign = jsonObject.getString("sign");
+            jsonObject.remove("sign");
+            if(MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
+                log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.SIGNERROR);
+            }
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("id",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
@@ -111,6 +123,12 @@ public class UserInfoController {
             log.info("requestBody={} createOrder......",requestBody);
             AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
             JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
+            String sign = jsonObject.getString("sign");
+            jsonObject.remove("sign");
+            if(MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
+                log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.SIGNERROR);
+            }
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
             jsonObject.put("appCode",requestBody.getAppCode());
@@ -132,6 +150,12 @@ public class UserInfoController {
         try {
             log.info("requestBody={} payOrder......",requestBody);
             JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
+            String sign = jsonObject.getString("sign");
+            jsonObject.remove("sign");
+            if(MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
+                log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.SIGNERROR);
+            }
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
             jsonObject.put("appCode",requestBody.getAppCode());
@@ -165,6 +189,12 @@ public class UserInfoController {
             log.info("requestBody={} confirmeOrder......",requestBody);
             AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
             JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
+            String sign = jsonObject.getString("sign");
+            jsonObject.remove("sign");
+            if(MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
+                log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.SIGNERROR);
+            }
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
             jsonObject.put("appCode",requestBody.getAppCode());
@@ -191,6 +221,12 @@ public class UserInfoController {
             log.info("requestBody={} getOrderList......",requestBody);
             AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
             JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
+            String sign = jsonObject.getString("sign");
+            jsonObject.remove("sign");
+            if(MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
+                log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.SIGNERROR);
+            }
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
             jsonObject.put("appCode",requestBody.getAppCode());
@@ -215,6 +251,15 @@ public class UserInfoController {
         log.info("requestBody={} cancleOrder......",requestBody);
         AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
         JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
+        String sign = jsonObject.getString("sign");
+        jsonObject.remove("sign");
+        if(MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
+            log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
+            return new RespondBody(RespondMessageEnum.SIGNERROR);
+        }
+        jsonObject.put("userId",requestBody.getUserId());
+        jsonObject.put("userRole",requestBody.getUserRole());
+        jsonObject.put("appCode",requestBody.getAppCode());
        // jsonObject.put("userId",requestBody.getUserId());
        // jsonObject.put("userRole",requestBody.getUserRole());
         if(abstractUserinfoService.cancleOrder(Integer.parseInt(requestBody.getUserId()),jsonObject.getIntValue("orderId")))
@@ -240,6 +285,12 @@ public class UserInfoController {
          try {
                 log.info("requestBody={} deposit......",requestBody);
                 JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
+                String sign = jsonObject.getString("sign");
+                jsonObject.remove("sign");
+                if(MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
+                    log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
+                    return new RespondBody(RespondMessageEnum.SIGNERROR);
+                }
                 jsonObject.put("userId",requestBody.getUserId());
                 jsonObject.put("userRole",requestBody.getUserRole());
                 jsonObject.put("appCode",requestBody.getAppCode());
@@ -268,6 +319,12 @@ public class UserInfoController {
         try {
             log.info("requestBody={} payQuery......",requestBody);
             JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
+            String sign = jsonObject.getString("sign");
+            jsonObject.remove("sign");
+            if(MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
+                log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.SIGNERROR);
+            }
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
             jsonObject.put("appCode",requestBody.getAppCode());
