@@ -2,6 +2,8 @@ package com.sy.huangniao;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -9,6 +11,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @SpringBootApplication(scanBasePackages = {"com.sy.huangniao"})
 @EnableTransactionManagement
+@PropertySources({
+        @PropertySource(value="classpath:params.properties")
+ })
 //@EnableScheduling
 public class HNApplication {
 

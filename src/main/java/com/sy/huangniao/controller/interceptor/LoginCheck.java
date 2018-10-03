@@ -42,7 +42,8 @@ public class LoginCheck implements HandlerInterceptor {
 		log.info("url="+arg0.getRequestURI());
 		log.info("param="+arg0.getParameterMap());
 		String loginKey = arg0.getHeader("loginKey");
-		
+		arg1.setCharacterEncoding("utf-8");
+		arg1.setContentType("application/json");
 		if(loginKey == null){
 			 loginKey = arg0.getParameter("loginKey");
 		}

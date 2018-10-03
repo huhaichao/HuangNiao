@@ -157,34 +157,56 @@
 
      </dependencies>
 
-    <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>**/*.properties</exclude>
-                    <exclude>**/*.yml</exclude>
-                    <exclude>**/*.xml</exclude>
-                </excludes>
-            </resource>
-        </resources>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF-8</encoding>
-                    <compilerArguments>
-                        <verbose />
-                    </compilerArguments>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-
     <profiles>
+        <!-- 开发环境编译代码的方式命令：clean package -Pdev -Dmaven.test.skip=true -->
+        <profile>
+            <id>dev</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <source>1.8</source>
+                            <target>1.8</target>
+                            <encoding>UTF-8</encoding>
+                            <compilerArguments>
+                                <verbose />
+                            </compilerArguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <!-- 单独部署工程jar编译方式命令：clean package -Pjar -Dmaven.test.skip=true -->
+        <profile>
+            <id>jar</id>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                        <excludes>
+                            <exclude>**/*.properties</exclude>
+                            <exclude>**/*.xml</exclude>
+                        </excludes>
+                    </resource>
+                </resources>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <source>1.8</source>
+                            <target>1.8</target>
+                            <encoding>UTF-8</encoding>
+                            <compilerArguments>
+                                <verbose />
+                            </compilerArguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <!-- 生产编译部署所有jar编译方式命令：clean assembly:assembly -Pproduction -Dmaven.test.skip=true -->
         <profile>
             <id>production</id>
             <build>
@@ -193,7 +215,7 @@
                         <directory>src/main/resources</directory>
                         <filtering>true</filtering>
                         <excludes>
-                            <exclude>application.yml</exclude>
+                            <exclude>application.properties</exclude>
                         </excludes>
                         <targetPath>../conf</targetPath>
                     </resource>
@@ -212,10 +234,10 @@
                             </descriptors>
                         </configuration>
                     </plugin>
-                    <plugin>
+                    <!--<plugin>
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
-                    </plugin>
+                    </plugin>-->
                     <plugin>
                         <artifactId>maven-compiler-plugin</artifactId>
                         <configuration>
@@ -230,7 +252,7 @@
                 </plugins>
             </build>
         </profile>
-
+        <!-- 测试编译部署所有jar编译方式命令：clean assembly:assembly -Ptest -Dmaven.test.skip=true -->
         <profile>
             <id>test</id>
             <build>
@@ -250,10 +272,10 @@
                             </descriptors>
                         </configuration>
                     </plugin>
-                    <plugin>
+                    <!--<plugin>
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
-                    </plugin>
+                    </plugin>-->
                     <plugin>
                         <artifactId>maven-compiler-plugin</artifactId>
                         <configuration>
