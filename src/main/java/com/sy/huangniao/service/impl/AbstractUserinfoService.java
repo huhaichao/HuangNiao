@@ -56,7 +56,7 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
         log.info("userId={}  userRole={} appcode ={} 保存数据成功",userid,userRole,userInfo.getAppCode());
         //保存用户成功
         UserInfoBody  userInfoBody = new UserInfoBody();
-        userInfoBody.setUserId(userInfo.getId());
+        userInfoBody.setUserId(userInfo.getId()+"");
         userInfoBody.setUserRole(userRole);
         userInfoBody.setUserPhoneno(userInfo.getUserPhoneno());
         userInfoBody.setUserStatus(userInfo.getUserStatus());
@@ -96,10 +96,12 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
         IDaoService iDaoService = hnContext.getDaoService(UserInfo.class.getSimpleName());
         UserInfo userInfo = new UserInfo();
         userInfo.setId(userId);
-        userInfo = (UserInfo)iDaoService.selectObject(userInfo,null);
-        UserInfoBody userInfoBody= getRoleInfo(userInfo);
+        userInfo = (UserInfo)iDaoService.selectObject(userInfo,SqlTypeEnum.DEAFULT);
+        UserInfoBody userInfoBody = new UserInfoBody();
+        if (!UserStatusEnum.WAITAUTHEN.getStatus().equals(userInfo.getUserStatus()))
+              userInfoBody= getRoleInfo(userInfo);
         BeanUtils.copyProperties(userInfo,userInfoBody);
-
+        userInfoBody.setUserId(userInfo.getId()+"");
         handleUserInfoBody(userInfoBody);
         log.info("获取用户信息成功信息脱敏userInfo... {}",userInfoBody);
         return  userInfoBody;

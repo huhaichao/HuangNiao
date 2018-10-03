@@ -79,7 +79,9 @@ public class UserInfoController {
             log.info("requestBody={} getUserInfo......",requestBody);
             AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
             UserInfoBody userInfoBody = abstractUserinfoService.getUserInfo(Integer.parseInt(requestBody.getUserId()));
-            return new RespondBody(RespondMessageEnum.SUCCESS,userInfoBody);
+            JSONObject jsonObject = (JSONObject) JSONObject.toJSON(userInfoBody);
+            MD5Utils.encryption(jsonObject,constant.getUSERLOGINSIGNKEY());
+            return new RespondBody(RespondMessageEnum.SUCCESS,jsonObject);
         }catch (HNException e){
             log.info("requestBody={} getUserInfo exception code={} msg={}",requestBody,e.getCode(),e.getMsg());
             return new RespondBody(e.getRespondMessageEnum());

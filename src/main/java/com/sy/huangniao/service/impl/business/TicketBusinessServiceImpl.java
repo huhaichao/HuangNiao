@@ -108,7 +108,7 @@ public class TicketBusinessServiceImpl extends AbstractUserinfoService implement
         if (StringUtils.isEmpty(userInfoBody.getUserIdentity())){
             log.info("保存商户信息...userId{} ",userInfoBody.getUserId());
             ticketBusiness.setBusinessStatus(userInfoBody.getUserStatus());
-            ticketBusiness.setUserId(userInfoBody.getUserId());
+            ticketBusiness.setUserId(Integer.parseInt(userInfoBody.getUserId()));
             ticketBusiness.setBenefitRate(benefitRate);
             if(iDaoService.save(ticketBusiness,SqlTypeEnum.DEAFULT)!=1){
                 log.info("保存商户信息失败userId{} 保存成功多条",userInfoBody.getUserId());
@@ -117,7 +117,7 @@ public class TicketBusinessServiceImpl extends AbstractUserinfoService implement
         }else {
             log.info("修改商户信息...userId{} ",userInfoBody.getUserId());
             ticketBusiness.setBusinessStatus(userInfoBody.getUserStatus());
-            ticketBusiness.setUserId(userInfoBody.getUserId());
+            ticketBusiness.setUserId(Integer.parseInt(userInfoBody.getUserId()));
             ticketBusiness.setBusinessName(userInfoBody.getRealName());
             ticketBusiness.setIdentityImage(userInfoBody.getUserImage());
             ticketBusiness.setBusinessIdentity(userInfoBody.getUserIdentity());
@@ -152,7 +152,7 @@ public class TicketBusinessServiceImpl extends AbstractUserinfoService implement
         UserInfoBody  userInfoBody = new UserInfoBody();
         userInfoBody.setRealName(ticketBusiness.getBusinessName());
         userInfoBody.setUserIdentity(ticketBusiness.getBusinessIdentity());
-        userInfoBody.setBenefitRate(ticketBusiness.getBenefitRate());
+        userInfoBody.setBenefitRate(ticketBusiness.getBenefitRate()+"");
         return userInfoBody;
     }
 }

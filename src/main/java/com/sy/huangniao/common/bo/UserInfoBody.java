@@ -1,5 +1,6 @@
 package com.sy.huangniao.common.bo;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 import java.util.Date;
@@ -11,7 +12,7 @@ import java.util.Date;
 @Data
 public class UserInfoBody {
 
-    private Integer userId;
+    private String userId;
 
     /**
      * 用户手机号
@@ -46,6 +47,7 @@ public class UserInfoBody {
     /**
      * 用户生日
      */
+    @JSONField(format = "yyyy-mm-dd")
     private Date userBirthday;
 
     /** 身份证
@@ -61,7 +63,7 @@ public class UserInfoBody {
     /**
      * 如果分润比率 -- 商户返回
      */
-    private Integer benefitRate;
+    private String benefitRate;
 
     /**
      * 客户12306账号 -- 客户返回
@@ -71,6 +73,6 @@ public class UserInfoBody {
     /**
      * 客户12306密码 -- 客户返回
      */
-    private String customerPassword;
+   // private String customerPassword;
 
 }

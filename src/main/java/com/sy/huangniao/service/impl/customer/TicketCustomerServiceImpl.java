@@ -237,7 +237,7 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         if (StringUtils.isEmpty(userInfoBody.getUserIdentity())){
             log.info("保存用户信息...userId{} ",userInfoBody.getUserId());
             ticketCustomer.setCustomerStatus(userInfoBody.getUserStatus());
-            ticketCustomer.setUserId(userInfoBody.getUserId());
+            ticketCustomer.setUserId(Integer.parseInt(userInfoBody.getUserId()));
             ticketCustomer.setCustomerAccount(userInfoBody.getCustomerAccount());
             ticketCustomer.setCustomerPassword(userInfoBody.getCustomerAccount());
             ticketCustomer.setCreateDate(new Date());
@@ -249,7 +249,7 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         }else {
             log.info("修改用户信息...userId{} ",userInfoBody.getUserId());
             ticketCustomer.setCustomerStatus(userInfoBody.getUserStatus());
-            ticketCustomer.setUserId(userInfoBody.getUserId());
+            ticketCustomer.setUserId(Integer.parseInt(userInfoBody.getUserId()));
             ticketCustomer.setCustomerName(userInfoBody.getRealName());
             ticketCustomer.setIdentityImage(userInfoBody.getUserImage());
             ticketCustomer.setCustomerIdentity(userInfoBody.getUserIdentity());

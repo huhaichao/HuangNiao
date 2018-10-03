@@ -94,7 +94,7 @@ public abstract class AbstractUserAppService implements UserAppService {
             log.info("用户注册信息{}",userInfo);
             throw new HNException(RespondMessageEnum.SAVEUSERINFOERROR);
         }
-        userInfoBody.setUserId(userInfo.getId());
+        userInfoBody.setUserId(userInfo.getId()+"");
         abstractUserinfoService.handleUserInfoBody(userInfoBody);
         log.info("用户注册信息 userid{} ...",userInfo.getId());
         JSONObject json=  (JSONObject) JSONObject.toJSON(userInfoBody);
