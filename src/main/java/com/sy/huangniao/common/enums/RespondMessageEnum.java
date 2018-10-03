@@ -28,6 +28,10 @@ public enum RespondMessageEnum {
     NOINFO_APPCODE("0016","缺少appCode" ),
     SIGNERROR("0017","签名失败"),
     NOINFO_SIGN("0018", "缺少签名"),
+    SEND_CODE_FAIL("0019","发送验证码操作失败，请重试"),
+    SMS_CODE_EXPIRE("0020","验证码已失效，请重试"),
+    SMS_CODE_ERROR("0021","验证码错误，请重新输入"),
+    SMS_CODE_FAIL("0022","验证码操作失败，请重试"),
     /*
      调用微信外部接口以1开头
     * */

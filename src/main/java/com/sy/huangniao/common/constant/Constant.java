@@ -20,6 +20,8 @@ public class Constant {
     public static final String ERRORCODEXCX ="WX_CODE_" ;
     
     public static final String USERIDSESSIONKEY ="USERIDSESSIONKEY" ;
+    //校验手机号前缀
+    public static final String CACHEPHONECODE ="CACHEPHONECODE" ;
 
     /**
      * 登陆签名key
@@ -91,5 +93,55 @@ public class Constant {
     private static  boolean WX_USESENDBOX  ;
     public boolean getWX_USESENDBOX() {
         return this.WX_USESENDBOX;
+    }
+
+
+    //短信通道
+    @Value("${http.sms.url}")
+    private String SMS_URL;
+    @Value("${http.sms.account}")
+    private String SMS_ACCOUNT;
+    @Value("${http.sms.password}")
+    private String SMS_PWD;
+    @Value("${http.sms.content}")
+    private String SMS_CONTENT;
+    @Value("${http.sms.needstatus}")
+    private String SMS_NEEDSTATUS;
+    @Value("${http.sms.product}")
+    private String SMS_PRODUCT;
+    @Value("${http.sms.extno}")
+    private String SMS_EXTNO;
+    @Value("${http.sms.exprirTime}")
+    private long SMS_ExprirTime;
+    public String getSMS_URL() {
+        return SMS_URL;
+    }
+
+    public String getSMS_ACCOUNT() {
+        return SMS_ACCOUNT;
+    }
+
+    public String getSMS_PWD() {
+        return SMS_PWD;
+    }
+
+    public String getSMS_CONTENT() {
+        return SMS_CONTENT;
+    }
+
+    public String getSMS_NEEDSTATUS() {
+        return SMS_NEEDSTATUS;
+    }
+
+    public String getSMS_PRODUCT() {
+        return SMS_PRODUCT;
+    }
+
+    public String getSMS_EXTNO() {
+        return SMS_EXTNO;
+    }
+
+    public long getSMS_ExprirTime() {
+        return SMS_ExprirTime;
     }
 }

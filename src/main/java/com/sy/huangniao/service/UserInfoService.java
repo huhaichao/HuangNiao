@@ -39,12 +39,6 @@ public interface UserInfoService {
      */
     public  UserInfoBody updateUserInfo(JSONObject jsonObject);
 
-    /**
-     * 实名认证接口
-     * @return
-     */
-    public  boolean  realName (JSONObject jsonObject);
-
 
     /**
      * 抢单或者下单
@@ -79,6 +73,26 @@ public interface UserInfoService {
      * @return
      */
     public  boolean  cancleOrder (int userId ,int orderId);
+
+    /**
+     * 实名认证接口
+     * @return
+     */
+    public  boolean  realName (JSONObject jsonObject);
+
+
+    /**
+     * 验证码检查
+     * @return
+     */
+    public  boolean  checkPhoneCode(JSONObject jsonObject);
+
+    /**
+     * 发送验证码
+     * @param jsonObject
+     * @return
+     */
+    public  JSONObject  sendPhoneCode(JSONObject jsonObject);
 
     /**
      *

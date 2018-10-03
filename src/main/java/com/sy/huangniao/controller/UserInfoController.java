@@ -388,8 +388,69 @@ public class UserInfoController {
     @PostMapping(value="/api/v1/user/withdraw",produces = {"application/json;charset=utf-8"})
     public RespondBody withdraw(RequestBody requestBody){return  null;}
 
+    /**
+     * 手机号验证接口
+     */
+    @PostMapping(value="/api/v1/user/checkPhoneCode",produces = {"application/json;charset=utf-8"})
+    public RespondBody checkPhoneCode(RequestBody requestBody){
+        try {
+            log.info("requestBody={} checkPhoneCode",requestBody);
+            JSONObject json = JSONObject.parseObject(requestBody.getData());
+            String sign = json.getString("sign");
+            if(StringUtils.isEmpty(sign)){
+                log.info("requestBody={}  checkPhoneCode 没有签名..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
+            }
+            json.remove("sign");
+            if(!MD5Utils.checkEncryption(json,constant.getUSERLOGINSIGNKEY(),sign)){
+                log.info("requestBody={}  checkPhoneCode 签名校验失败..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.SIGNERROR);
+            }
+            json.put("userId",requestBody.getUserId());
+            json.put("userRole",requestBody.getUserRole());
+            json.put("appCode",requestBody.getAppCode());
+            AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
+            abstractUserinfoService.checkPhoneCode(json);
+            return  new RespondBody(RespondMessageEnum.SUCCESS);
+        }catch (HNException e){
+            log.info("requestBody={} checkPhoneCode  code={} msg={}",requestBody,e.getCode(),e.getMsg());
+            return new RespondBody(e.getRespondMessageEnum());
+        }catch (Exception e){
+            log.info("requestBody={} checkPhoneCode exception={}",requestBody,e.getMessage());
+            return new RespondBody(RespondMessageEnum.EXCEPTION);
+        }
+    }
 
-
+    /**
+     * 发送验证码接口
+     */
+    @PostMapping(value="/api/v1/user/sendPhoneCode",produces = {"application/json;charset=utf-8"})
+    public RespondBody sendPhoneCode(RequestBody requestBody){
+        try {
+            log.info("requestBody={} sendPhoneCode",requestBody);
+            JSONObject json = JSONObject.parseObject(requestBody.getData());
+            String sign = json.getString("sign");
+            if(StringUtils.isEmpty(sign)){
+                log.info("requestBody={}  sendPhoneCode 没有签名..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
+            }
+            json.remove("sign");
+            if(!MD5Utils.checkEncryption(json,constant.getUSERLOGINSIGNKEY(),sign)){
+                log.info("requestBody={}  sendPhoneCodein 签名校验失败..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.SIGNERROR);
+            }
+            AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
+            JSONObject jsonObject =abstractUserinfoService.sendPhoneCode(json);
+            MD5Utils.encryption(jsonObject,constant.getUSERLOGINSIGNKEY());
+            return  new RespondBody(RespondMessageEnum.SUCCESS,jsonObject);
+        }catch (HNException e){
+            log.info("requestBody={} sendPhoneCode  code={} msg={}",requestBody,e.getCode(),e.getMsg());
+            return new RespondBody(e.getRespondMessageEnum());
+        }catch (Exception e){
+            log.info("requestBody={} sendPhoneCode exception={}",requestBody,e.getMessage());
+            return new RespondBody(RespondMessageEnum.EXCEPTION);
+        }
+    }
     /**
      * 待定义接口
      * 退票  --- 暂不提供

@@ -40,7 +40,7 @@ public class LoginCheck implements HandlerInterceptor {
 
 	public boolean preHandle(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2) throws Exception {
 		log.info("url="+arg0.getRequestURI());
-		log.info("param="+arg0.getParameterMap());
+		log.info("param"+arg0.getParameterMap().entrySet().toString());
 		String loginKey = arg0.getHeader("loginKey");
 		arg1.setCharacterEncoding("utf-8");
 		arg1.setContentType("application/json");
@@ -72,7 +72,7 @@ public class LoginCheck implements HandlerInterceptor {
 		
 		if(userLoginkey == null || "".equals(userLoginkey)){
 			PrintWriter  pw =arg1.getWriter();
-            respondBody(pw,new RespondBody(RespondMessageEnum.NO_LOGIN));
+            respondBody(pw,new RespondBody(RespondMessageEnum.NOINFO_LOGINKEY));
 			return false;
 		}
 		

@@ -255,7 +255,7 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
             ticketCustomer.setCustomerIdentity(userInfoBody.getUserIdentity());
             ticketCustomer.setModifyDate(new Date());
             ticketCustomer.setCustomerAccount(userInfoBody.getCustomerAccount());
-            ticketCustomer.setCustomerPassword(userInfoBody.getCustomerPassword());
+           // ticketCustomer.setCustomerPassword(userInfoBody.getCustomerPassword());
             if(iDaoService.updateObject(ticketCustomer, SqlTypeEnum.UPDATEBYUSERID)!=1) {
                 log.info("修改商户信息失败userId{} 修改成功多条", userInfoBody.getUserId());
                 throw new HNException(RespondMessageEnum.UPDATEUSERINFOERROR);
@@ -288,7 +288,7 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         userInfoBody.setRealName(ticketCustomer.getCustomerName());
         userInfoBody.setUserIdentity(ticketCustomer.getCustomerIdentity());
         userInfoBody.setCustomerAccount(ticketCustomer.getCustomerAccount());
-        userInfoBody.setCustomerPassword(ticketCustomer.getCustomerPassword());
+        //userInfoBody.setCustomerPassword(ticketCustomer.getCustomerPassword());
         return userInfoBody;
     }
 }
