@@ -113,6 +113,14 @@ public class Constant {
     private String SMS_EXTNO;
     @Value("${http.sms.exprirTime}")
     private long SMS_ExprirTime;
+
+    //实名认证通道
+    @Value("${realName.url}")
+    private String REALNAME_URL;
+    @Value("${realName.appCode}")
+    private String REALNAME_APPCODE;
+
+
     public String getSMS_URL() {
         return SMS_URL;
     }
@@ -143,5 +151,13 @@ public class Constant {
 
     public long getSMS_ExprirTime() {
         return SMS_ExprirTime;
+    }
+
+    public String getREALNAME_URL() {
+        return REALNAME_URL;
+    }
+
+    public String getREALNAME_APPCODE() {
+        return REALNAME_APPCODE;
     }
 }

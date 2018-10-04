@@ -10,10 +10,17 @@
     <result column="app_code" jdbcType="VARCHAR" property="appCode" />
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="modify_date" jdbcType="DATE" property="modifyDate" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="prefecture" jdbcType="VARCHAR" property="prefecture" />
+    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+    <result column="addrCode" jdbcType="VARCHAR" property="addrcode" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, indentity, name, create_date, app_code, status, modify_date, remark
+    id, user_id, indentity, name, create_date, app_code, status, modify_date, area, province, 
+    city, prefecture, birthday, addrCode, remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -28,10 +35,14 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.UserLinkman" useGeneratedKeys="true">
     insert into user_linkman (user_id, indentity, name, 
       create_date, app_code, status, 
-      modify_date, remark)
+      modify_date, area, province, 
+      city, prefecture, birthday, 
+      addrCode, remark)
     values (#{userId,jdbcType=INTEGER}, #{indentity,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{createDate,jdbcType=DATE}, #{appCode,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
-      #{modifyDate,jdbcType=DATE}, #{remark,jdbcType=VARCHAR})
+      #{modifyDate,jdbcType=DATE}, #{area,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{prefecture,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR}, 
+      #{addrcode,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.UserLinkman" useGeneratedKeys="true">
     insert into user_linkman
@@ -56,6 +67,24 @@
       </if>
       <if test="modifyDate != null">
         modify_date,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="prefecture != null">
+        prefecture,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="addrcode != null">
+        addrCode,
       </if>
       <if test="remark != null">
         remark,
@@ -82,6 +111,24 @@
       </if>
       <if test="modifyDate != null">
         #{modifyDate,jdbcType=DATE},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="prefecture != null">
+        #{prefecture,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="addrcode != null">
+        #{addrcode,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -112,6 +159,24 @@
       <if test="modifyDate != null">
         modify_date = #{modifyDate,jdbcType=DATE},
       </if>
+      <if test="area != null">
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="prefecture != null">
+        prefecture = #{prefecture,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="addrcode != null">
+        addrCode = #{addrcode,jdbcType=VARCHAR},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -127,6 +192,12 @@
       app_code = #{appCode,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
       modify_date = #{modifyDate,jdbcType=DATE},
+      area = #{area,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      prefecture = #{prefecture,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=VARCHAR},
+      addrCode = #{addrcode,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -136,25 +207,43 @@
     from user_linkman
     where 1=1
     <if test="userId != null">
-     and  user_id = #{userId,jdbcType=INTEGER}
+      AND  user_id = #{userId,jdbcType=INTEGER},
     </if>
     <if test="indentity != null">
-     and  indentity = #{indentity,jdbcType=VARCHAR}
+      AND indentity = #{indentity,jdbcType=VARCHAR},
     </if>
     <if test="name != null">
-      and  name = #{name,jdbcType=VARCHAR}
+      AND  name = #{name,jdbcType=VARCHAR},
     </if>
     <if test="createDate != null">
-     and  create_date = #{createDate,jdbcType=DATE}
+      AND create_date = #{createDate,jdbcType=DATE},
     </if>
     <if test="appCode != null">
-     and app_code = #{appCode,jdbcType=VARCHAR}
+      AND  app_code = #{appCode,jdbcType=VARCHAR},
     </if>
     <if test="status != null">
-     and  status = #{status,jdbcType=VARCHAR}
+      AND  status = #{status,jdbcType=VARCHAR},
     </if>
     <if test="modifyDate != null">
-     and  modify_date = #{modifyDate,jdbcType=DATE}
+      AND  modify_date = #{modifyDate,jdbcType=DATE},
+    </if>
+    <if test="area != null">
+      AND  area = #{area,jdbcType=VARCHAR},
+    </if>
+    <if test="province != null">
+      AND province = #{province,jdbcType=VARCHAR},
+    </if>
+    <if test="city != null">
+      AND  city = #{city,jdbcType=VARCHAR},
+    </if>
+    <if test="prefecture != null">
+      AND prefecture = #{prefecture,jdbcType=VARCHAR},
+    </if>
+    <if test="birthday != null">
+      AND birthday = #{birthday,jdbcType=VARCHAR},
+    </if>
+    <if test="addrcode != null">
+      AND  addrCode = #{addrcode,jdbcType=VARCHAR},
     </if>
   </select>
   <cache />

@@ -286,23 +286,20 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
 
     @Override
     public boolean addContacts(JSONObject jsonObject) {
+        log.info("添加联系人 jsonObject={}",jsonObject);
+        JSONObject json = otherPartyServiceImpl.realName(jsonObject);
+        jsonObject.putAll(json);
         UserLinkman userLinkman =jsonObject.toJavaObject(UserLinkman.class);
         log.info("添加联系人开始userId={}  indentity ={} name={}  appCode={} .....",userLinkman.getUserId(),
                 userLinkman.getIndentity(),userLinkman.getName(),userLinkman.getAppCode());
-        if(!otherPartyServiceImpl.realName(jsonObject)){
-            log.info("调用外部接口实名认证 失败 userID {}",userLinkman.getUserId());
-            throw new HNException(RespondMessageEnum.REALNAME_FAIL);
-        }
         userLinkman.setCreateDate(new Date());
         userLinkman.setModifyDate(new Date());
         userLinkman.setStatus(UserLinkmanEnum.NORMAL.getStatus());
         IDaoService iDaoService = hnContext.getDaoService(UserLinkman.class.getSimpleName());
-
         if(iDaoService.save(userLinkman,SqlTypeEnum.DEAFULT)!=1){
             log.info("添加联系人 失败 userID {}",userLinkman.getUserId());
             throw new HNException(RespondMessageEnum.ADDCONTACTS_FAIL);
         }
-
         return true;
     }
 

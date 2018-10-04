@@ -14,7 +14,7 @@ public interface OtherPartyService {
      * 实名认证接口
      * @return
      */
-    public  boolean  realName (JSONObject jsonObject);
+    public  JSONObject  realName (JSONObject jsonObject);
 
 
 

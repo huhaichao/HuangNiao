@@ -169,10 +169,7 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
         BeanUtils.copyProperties(jsonObject,userInfoBody);
         //调用服务接口实名认证 -- 外部接口
         log.info("调用外部接口实名认证 userID {}",userInfoBody.getUserId());
-        if (!otherPartyServiceImpl.realName(jsonObject)){
-            log.info("调用外部接口实名认证 失败 userID {}",userInfoBody.getUserId());
-            throw new HNException(RespondMessageEnum.REALNAME_FAIL);
-        }
+        JSONObject json = otherPartyServiceImpl.realName(jsonObject);
         //todo 实名认证
         log.info("调用外部接口实名认证成功 userID {}",userInfoBody.getUserId());
         //认证成功保存信息

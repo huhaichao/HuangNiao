@@ -2,13 +2,21 @@ package com.sy.huangniao.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bcloud.msg.http.HttpSender;
+import com.sun.deploy.net.HttpUtils;
+import com.sy.huangniao.common.Util.HttpClientUtils;
 import com.sy.huangniao.common.constant.Constant;
 import com.sy.huangniao.common.enums.RespondMessageEnum;
 import com.sy.huangniao.common.exception.HNException;
 import com.sy.huangniao.service.OtherPartyService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by huchao on 2018/10/3.
@@ -21,8 +29,27 @@ public class OtherPartyServiceImpl implements OtherPartyService {
     protected Constant constant;
 
     @Override
-    public boolean realName(JSONObject jsonObject) {
-        return true;
+    public JSONObject realName(JSONObject jsonObject) {
+        String url =constant.getREALNAME_URL();
+        String appcode =constant.getREALNAME_APPCODE();
+        Map<String, String> headers = new HashMap<String, String>();
+        //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+        headers.put("Authorization", "APPCODE " + appcode);
+        Map<String, String> querys = new HashMap<String, String>();
+        querys.put("idCard", jsonObject.getString("indentity"));
+        querys.put("name", jsonObject.getString("name"));
+        try {
+            String string = HttpClientUtils.get(url,querys,headers,30000,30000);;
+            JSONObject json = JSONObject.parseObject(string);
+            if (!"01".equals(json.getString("status"))){
+               log.info("实名认证异常 实名认证异常idCard={} ,name={} result={}",jsonObject.getString("indentity"),jsonObject.getString("name"),string);
+               throw  new HNException(RespondMessageEnum.REALNAME_FAIL);
+            }
+            return  json;
+        } catch (Exception e) {
+            log.info("实名认证异常idCard={} ,name={} ",jsonObject.getString("indentity"),jsonObject.getString("name"));
+            throw  new HNException(RespondMessageEnum.REALNAME_FAIL);
+        }
     }
 
 
@@ -68,6 +95,25 @@ public class OtherPartyServiceImpl implements OtherPartyService {
             e.printStackTrace();
         }*/
         return  false;
+    }
+
+    public static void main(String[] args) {
+        String url = "https://idcert.market.alicloudapi.com/idcard";
+        String method = "GET";
+        String appcode = "7cdc9c4d22ab4c2cb57eb8223f444db0";
+        Map<String, String> headers = new HashMap<String, String>();
+        //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+        headers.put("Authorization", "APPCODE " + appcode);
+        Map<String, String> querys = new HashMap<String, String>();
+        querys.put("idCard", "411522198911174538");
+        querys.put("name", "胡超");
+
+        try {
+            String string = HttpClientUtils.get(url,querys,headers,30000,30000);
+            System.out.println(string);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

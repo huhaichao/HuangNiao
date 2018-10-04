@@ -1,7 +1,7 @@
 package com.sy.huangniao.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -47,6 +47,42 @@ public class UserLinkman implements Serializable {
      */
     @JsonIgnore
     private Date modifyDate;
+
+    /**
+     * 籍贯
+     */
+    @JsonIgnore
+    private String area;
+
+    /**
+     * 省份
+     */
+    @JsonIgnore
+    private String province;
+
+    /**
+     * 城市
+     */
+    @JsonIgnore
+    private String city;
+
+    /**
+     * 县
+     */
+    @JsonIgnore
+    private String prefecture;
+
+    /**
+     * 生日
+     */
+    @JsonIgnore
+    private String birthday;
+
+    /**
+     * 地址编码
+     */
+    @JsonIgnore
+    private String addrcode;
 
     /**
      * 备注
@@ -120,6 +156,54 @@ public class UserLinkman implements Serializable {
         this.modifyDate = modifyDate;
     }
 
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area == null ? null : area.trim();
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province == null ? null : province.trim();
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city == null ? null : city.trim();
+    }
+
+    public String getPrefecture() {
+        return prefecture;
+    }
+
+    public void setPrefecture(String prefecture) {
+        this.prefecture = prefecture == null ? null : prefecture.trim();
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday == null ? null : birthday.trim();
+    }
+
+    public String getAddrcode() {
+        return addrcode;
+    }
+
+    public void setAddrcode(String addrcode) {
+        this.addrcode = addrcode == null ? null : addrcode.trim();
+    }
+
     public String getRemark() {
         return remark;
     }
@@ -142,6 +226,12 @@ public class UserLinkman implements Serializable {
         sb.append(", appCode=").append(appCode);
         sb.append(", status=").append(status);
         sb.append(", modifyDate=").append(modifyDate);
+        sb.append(", area=").append(area);
+        sb.append(", province=").append(province);
+        sb.append(", city=").append(city);
+        sb.append(", prefecture=").append(prefecture);
+        sb.append(", birthday=").append(birthday);
+        sb.append(", addrcode=").append(addrcode);
         sb.append(", remark=").append(remark);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
