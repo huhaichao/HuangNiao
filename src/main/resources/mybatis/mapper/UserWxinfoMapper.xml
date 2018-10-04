@@ -317,5 +317,23 @@
        AND  openid = #{openid,jdbcType=VARCHAR}
      </if>
   </update>
+  <select id="selectBySelective" parameterType="com.sy.huangniao.pojo.UserWxinfo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_wxinfo
+    where 1=1
+    <if test="userId != null">
+      AND user_id = #{userId,jdbcType=INTEGER}
+    </if>
+    <if test="openid != null">
+      AND  openid = #{openid,jdbcType=VARCHAR}
+    </if>
+    <if test="unionid != null">
+      AND  unionid = #{unionid,jdbcType=VARCHAR}
+    </if>
+    <if test="phonenumber != null">
+      AND  phoneNumber = #{phonenumber,jdbcType=VARCHAR}
+    </if>
+  </select>
   <cache />
 </mapper>

@@ -63,6 +63,8 @@ public class UserWxInfoDaoServiceImpl implements IDaoService<UserWxinfo> {
     public UserWxinfo selectObject(UserWxinfo userWxinfo, SqlTypeEnum sqlType) {
         if(sqlType==SqlTypeEnum.DEAFULT){
             return userWxinfoMapper.selectByPrimaryKey(userWxinfo.getId());
+        }else if (sqlType ==SqlTypeEnum.SELECTOBJECTBYSELECTIVE){
+            return userWxinfoMapper.selectBySelective(userWxinfo);
         }
         return null;
     }

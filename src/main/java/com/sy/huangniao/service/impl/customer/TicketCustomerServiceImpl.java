@@ -41,6 +41,8 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         String orderNo =abstractUserAppService.createOrderNO();
         ticketOrder.setOrderNo(orderNo);
         ticketOrder.setOrderStatus(OrderStatusEnum.WAITPAY.getStatus());
+        ticketOrder.setModifyDate(new Date());
+        ticketOrder.setCreateDate(new Date());
         IDaoService iDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());
         if(iDaoService.save(ticketOrder,SqlTypeEnum.DEAFULT)!=1){
             log.info("下单失败 userid={} orderid={}",ticketOrder.getUserId(),ticketOrder.getId());
@@ -137,8 +139,8 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
             userTrade.setAmount(orderAmount);
             userTrade.setFactAmount(skAmount);
             userTrade.setFee(orderAmount-skAmount);
-            userTrade.setFrom(fkUserAccount.getAccountNo());
-            userTrade.setTo(skUserAccount.getAccountNo());
+            userTrade.setFromAccount(fkUserAccount.getAccountNo());
+            userTrade.setToAccount(skUserAccount.getAccountNo());
             userTrade.setOrderNo(ticketOrder.getOrderNo());
             AbstractUserAppService abstractUserAppService =hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(ticketOrder.getAppCode()));
             userTrade.setTradeNo(abstractUserAppService.createTradeNo());
@@ -167,9 +169,9 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
                 userInfo.setId(skUserId);
                 userInfo =(UserInfo) iUserInfoDaoService.selectObject(userInfo,SqlTypeEnum.DEAFULT);
                 Notify notify = new Notify();
-                notify.setTo(userInfo.getUserPhoneno());
+                notify.setToNo(userInfo.getUserPhoneno());
                 notify.setCreateDate(new Date());
-                notify.setFrom("sys");
+                notify.setFromNo("sys");
                 notify.setTitle("手续费到账通知");
                 notify.setContext("尊敬的商户，你好！你的抢单订单号为["+ticketOrder.getOrderNo()+"]订单手续费已尽被支付，请注意查收！");
                 notify.setNotifyStatus(NotifyStatusEnum.WAIT_NOTIFY.getStatus());

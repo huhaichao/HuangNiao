@@ -20,4 +20,6 @@ public interface UserWxinfoMapper {
     List<UserWxinfo> selectList(UserWxinfo userWxinfo);
 
     int updateByUserIdAndOpenid(UserWxinfo userWxinfo);
+
+    UserWxinfo selectBySelective(UserWxinfo userWxinfo);
 }

@@ -34,12 +34,12 @@ public class UserTrade implements Serializable {
     /**
      * 付款账号
      */
-    private String from;
+    private String fromAccount;
 
     /**
      * 收款账号
      */
-    private String to;
+    private String toAccount;
 
     /**
      * 订单状态
@@ -111,20 +111,20 @@ public class UserTrade implements Serializable {
         this.fee = fee;
     }
 
-    public String getFrom() {
-        return from;
+    public String getFromAccount() {
+        return fromAccount;
     }
 
-    public void setFrom(String from) {
-        this.from = from == null ? null : from.trim();
+    public void setFromAccount(String fromAccount) {
+        this.fromAccount = fromAccount == null ? null : fromAccount.trim();
     }
 
-    public String getTo() {
-        return to;
+    public String getToAccount() {
+        return toAccount;
     }
 
-    public void setTo(String to) {
-        this.to = to == null ? null : to.trim();
+    public void setToAccount(String toAccount) {
+        this.toAccount = toAccount == null ? null : toAccount.trim();
     }
 
     public String getStatus() {
@@ -171,8 +171,8 @@ public class UserTrade implements Serializable {
         sb.append(", amount=").append(amount);
         sb.append(", factAmount=").append(factAmount);
         sb.append(", fee=").append(fee);
-        sb.append(", from=").append(from);
-        sb.append(", to=").append(to);
+        sb.append(", from=").append(fromAccount);
+        sb.append(", to=").append(toAccount);
         sb.append(", status=").append(status);
         sb.append(", createDate=").append(createDate);
         sb.append(", modifyDate=").append(modifyDate);

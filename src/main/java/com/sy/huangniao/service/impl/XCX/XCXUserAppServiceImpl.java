@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -152,7 +153,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
         JSONObject params = new JSONObject();
         String tradeNo = createOrderNO();
         params.put("body","小黄妞充值中心-服务费充值");
-        params.put("total_fee",jsonObject.getDouble("amount")*100);
+        params.put("total_fee", BigDecimal.valueOf(jsonObject.getDouble("orderAmount")).multiply(BigDecimal.valueOf(100)).longValue());
         params.put("spbill_create_ip",jsonObject.getString("termIp"));
         params.put("trade_type",iwxPaychannelsService.getTradeType());
         params.put("openid",userWxinfo.getOpenid());
