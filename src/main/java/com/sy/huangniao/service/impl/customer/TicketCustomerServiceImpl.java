@@ -220,17 +220,6 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
 
 
     @Override
-    public boolean addContacts() {
-        return false;
-    }
-
-
-    @Override
-    public boolean returnTicket() {
-        return false;
-    }
-
-    @Override
     public boolean saveRoleInfo(UserInfoBody userInfoBody) {
         TicketCustomer ticketCustomer = new TicketCustomer();
         IDaoService iDaoService = hnContext.getDaoService(TicketCustomer.class.getSimpleName());
@@ -290,5 +279,40 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         userInfoBody.setCustomerAccount(ticketCustomer.getCustomerAccount());
         //userInfoBody.setCustomerPassword(ticketCustomer.getCustomerPassword());
         return userInfoBody;
+    }
+
+    @Override
+    public boolean addContacts(JSONObject jsonObject) {
+        UserLinkman userLinkman = new UserLinkman();
+        BeanUtils.copyProperties(jsonObject,userLinkman);
+        log.info("添加联系人开始userId={}  indentity ={} name={}  appCode={} .....",userLinkman.getUserId(),
+                userLinkman.getIndentity(),userLinkman.getName(),userLinkman.getAppCode());
+        if(!otherPartyService.realName(jsonObject)){
+            log.info("调用外部接口实名认证 失败 userID {}",userLinkman.getUserId());
+            throw new HNException(RespondMessageEnum.REALNAME_FAIL);
+        }
+        userLinkman.setCreateDate(new Date());
+        userLinkman.setModifyDate(new Date());
+        IDaoService iDaoService = hnContext.getDaoService(UserLinkman.class.getSimpleName());
+        if(iDaoService.save(userLinkman,SqlTypeEnum.DEAFULT)!=1){
+            log.info("添加联系人 失败 userID {}",userLinkman.getUserId());
+            throw new HNException(RespondMessageEnum.ADDCONTACTS_FAIL);
+        }
+        return true;
+    }
+
+    @Override
+    public List<UserLinkman> selectContacts(JSONObject jsonObject) {
+        UserLinkman userLinkman = new UserLinkman();
+        BeanUtils.copyProperties(jsonObject,userLinkman);
+        IDaoService iDaoService = hnContext.getDaoService(UserLinkman.class.getSimpleName());
+        iDaoService.selectList(userLinkman,SqlTypeEnum.DEAFULT);
+        return         iDaoService.selectList(userLinkman,SqlTypeEnum.DEAFULT);
+
+    }
+
+    @Override
+    public boolean returnTicket() {
+        return false;
     }
 }

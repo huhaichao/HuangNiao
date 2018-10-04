@@ -1,5 +1,10 @@
 package com.sy.huangniao.service.customer;
 
+import com.alibaba.fastjson.JSONObject;
+import com.sy.huangniao.pojo.UserLinkman;
+
+import java.util.List;
+
 /**
  * Created by huchao on 2018/9/14.
  *
@@ -12,7 +17,15 @@ public interface TicketCustomerService{
      * 添加联系人接口
      * @return
      */
-     public boolean  addContacts();
+     public boolean  addContacts(JSONObject jsonObject);
+
+
+    /**
+     * 查询联系人信息
+     * @param jsonObject
+     * @return
+     */
+     public List<UserLinkman> selectContacts(JSONObject jsonObject);
 
 
     /**

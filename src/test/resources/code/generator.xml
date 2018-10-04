@@ -62,7 +62,7 @@
 
         <!-- 修改以下 table 生成相应的mapper  -->
         <table enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               enableUpdateByExample="false" schema="general" selectByExampleQueryId="false" tableName="user_deposit">
+               enableUpdateByExample="false" schema="general" selectByExampleQueryId="false" tableName="user_linkman">
             <generatedKey column="id" identity="true" sqlStatement="JDBC"/>
         </table>
     </context>

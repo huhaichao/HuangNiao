@@ -35,14 +35,14 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
     protected HNContext hnContext;
 
     @Autowired
-    private OtherPartyService otherPartyService;
+    protected OtherPartyService otherPartyService;
 
     @Autowired
-    private Constant constant;
+    protected Constant constant;
 
 
     @Autowired
-    private IRedisService redisServiceImpl;
+    protected IRedisService redisServiceImpl;
 
 
 
@@ -169,6 +169,10 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
         BeanUtils.copyProperties(jsonObject,userInfoBody);
         //调用服务接口实名认证 -- 外部接口
         log.info("调用外部接口实名认证 userID {}",userInfoBody.getUserId());
+        if (!otherPartyService.realName(jsonObject)){
+            log.info("调用外部接口实名认证 失败 userID {}",userInfoBody.getUserId());
+            throw new HNException(RespondMessageEnum.REALNAME_FAIL);
+        }
         //todo 实名认证
         log.info("调用外部接口实名认证成功 userID {}",userInfoBody.getUserId());
         //认证成功保存信息
@@ -178,7 +182,6 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
             log.info("保存用户信息失败 {}",userInfoBody);
             throw new HNException(RespondMessageEnum.SAVEUSERINFOERROR);
         }
-
         return  true;
     }
 

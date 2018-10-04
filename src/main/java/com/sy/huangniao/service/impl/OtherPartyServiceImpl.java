@@ -2,14 +2,11 @@ package com.sy.huangniao.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bcloud.msg.http.HttpSender;
-import com.sy.huangniao.common.bo.UserInfoBody;
 import com.sy.huangniao.common.constant.Constant;
 import com.sy.huangniao.common.enums.RespondMessageEnum;
-import com.sy.huangniao.common.enums.UserStatusEnum;
 import com.sy.huangniao.common.exception.HNException;
 import com.sy.huangniao.service.OtherPartyService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,8 +21,8 @@ public class OtherPartyServiceImpl implements OtherPartyService {
     protected Constant constant;
 
     @Override
-    public JSONObject realName(JSONObject jsonObject) {
-        return null;
+    public boolean realName(JSONObject jsonObject) {
+        return true;
     }
 
 
