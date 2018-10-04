@@ -42,9 +42,8 @@ public class TicketBusinessServiceImpl extends AbstractUserinfoService implement
     }
 
     @Override
-    public boolean createOrder(JSONObject jsonObject) {
-        RobOrder robOrder = new RobOrder();
-        BeanUtils.copyProperties(jsonObject,robOrder);
+    public JSONObject createOrder(JSONObject jsonObject) {
+        RobOrder robOrder = jsonObject.toJavaObject(RobOrder.class);
         log.info("userid={} 抢单中....",robOrder.getUserId());
         robOrder.setRobStatus(OrderStatusEnum.ROBING.getStatus());
         IDaoService iDaoService = hnContext.getDaoService(RobOrder.class.getSimpleName());
@@ -58,13 +57,12 @@ public class TicketBusinessServiceImpl extends AbstractUserinfoService implement
             log.info("抢单失败 userid={} orderid={}",robOrder.getUserId(),robOrder.getOrderId());
              throw new HNException(RespondMessageEnum.CREATROBORDERFAIL);
         }
-        return true;
+        return null;
     }
 
     @Override
     public String getOrderList(JSONObject jsonObject) {
-        RobOrder robOrder = new RobOrder();
-        BeanUtils.copyProperties(jsonObject,robOrder);
+        RobOrder robOrder = jsonObject.toJavaObject(RobOrder.class);
         log.info("userid={} 查询订单....",robOrder.getUserId());
         int pageNum  = Integer.parseInt(jsonObject.getString("pageNum"));
         int pageSize = Integer.parseInt(jsonObject.getString("pageSize"));
@@ -81,8 +79,7 @@ public class TicketBusinessServiceImpl extends AbstractUserinfoService implement
 
     @Override
     public boolean confirmeOrder(JSONObject jsonObject) {
-        RobOrder robOrder = new RobOrder();
-        BeanUtils.copyProperties(jsonObject,robOrder);
+        RobOrder robOrder = jsonObject.toJavaObject(RobOrder.class);
         robOrder.setRobStatus(OrderStatusEnum.ORDER_AUDIT.getStatus());
         robOrder.setModifyDate(new Date());
         IDaoService iDaoService = hnContext.getDaoService(RobOrder.class.getSimpleName());

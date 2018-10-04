@@ -46,7 +46,7 @@ public interface UserInfoService {
      * @param
      * @return
      */
-    public  boolean createOrder(JSONObject jsonObject);
+    public  JSONObject createOrder(JSONObject jsonObject);
 
     /**
      * 获取订单列表

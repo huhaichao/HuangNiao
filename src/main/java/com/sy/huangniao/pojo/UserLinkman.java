@@ -1,9 +1,13 @@
 package com.sy.huangniao.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class UserLinkman implements Serializable {
+    @JsonIgnore
     private Integer id;
 
     /**
@@ -24,11 +28,13 @@ public class UserLinkman implements Serializable {
     /**
      * 创建时间
      */
+    @JsonIgnore
     private Date createDate;
 
     /**
      * app代码
      */
+    @JsonIgnore
     private String appCode;
 
     /**
@@ -39,11 +45,13 @@ public class UserLinkman implements Serializable {
     /**
      * 修改时间
      */
+    @JsonIgnore
     private Date modifyDate;
 
     /**
      * 备注
      */
+    @JsonIgnore
     private String remark;
 
     private static final long serialVersionUID = 1L;

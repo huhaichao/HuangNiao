@@ -155,10 +155,8 @@ public class UserInfoController {
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
             jsonObject.put("appCode",requestBody.getAppCode());
-            if(abstractUserinfoService.createOrder(jsonObject))
-                 return new RespondBody(RespondMessageEnum.SUCCESS);
-            else
-                 return new RespondBody(RespondMessageEnum.CREATORDERFAIL);
+            JSONObject result =abstractUserinfoService.createOrder(jsonObject);
+            return new RespondBody(RespondMessageEnum.SUCCESS,result);
         }catch (HNException e){
             log.info("requestBody={} createOrder  code={} msg={}",requestBody,e.getCode(),e.getMsg());
             return new RespondBody(e.getRespondMessageEnum());

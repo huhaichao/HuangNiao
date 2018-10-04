@@ -112,7 +112,7 @@ public abstract class AbstractUserAppService implements UserAppService {
         userDeposit.setUserId(Integer.parseInt(userId));
         userDeposit.setCreateDate(new Date());
         userDeposit.setOrderNo(jsonObject.getString("orderNo"));
-        userDeposit.setAmount(jsonObject.getDouble("amount"));
+        userDeposit.setAmount(jsonObject.getDouble("orderAmount"));
         userDeposit.setIp(jsonObject.getString("termIp"));
         userDeposit.setPrepayId(result.getString("prepay_id"));
         userDeposit.setTradeType(result.getString("trade_type"));

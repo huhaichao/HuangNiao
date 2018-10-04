@@ -34,25 +34,26 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
     }
 
     @Override
-    public boolean createOrder(JSONObject jsonObject) {
-        TicketOrder ticketOrder = new TicketOrder();
-        BeanUtils.copyProperties(jsonObject,ticketOrder);
+    public JSONObject createOrder(JSONObject jsonObject) {
+        TicketOrder ticketOrder = jsonObject.toJavaObject(TicketOrder.class);
         log.info("userid={} 下单中....",ticketOrder.getUserId());
         AbstractUserAppService abstractUserAppService =hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(ticketOrder.getAppCode()));
-        ticketOrder.setOrderNo(abstractUserAppService.createOrderNO());
+        String orderNo =abstractUserAppService.createOrderNO();
+        ticketOrder.setOrderNo(orderNo);
         ticketOrder.setOrderStatus(OrderStatusEnum.WAITPAY.getStatus());
         IDaoService iDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());
         if(iDaoService.save(ticketOrder,SqlTypeEnum.DEAFULT)!=1){
             log.info("下单失败 userid={} orderid={}",ticketOrder.getUserId(),ticketOrder.getId());
             throw new HNException(RespondMessageEnum.CREATORDERFAIL);
         }
-        return true;
+        jsonObject.put("orderNo",orderNo);
+        JSONObject result = abstractUserAppService.deposit(jsonObject);
+        return result;
     }
 
     @Override
     public String getOrderList(JSONObject jsonObject) {
-        TicketOrder ticketOrder = new TicketOrder();
-        BeanUtils.copyProperties(jsonObject,ticketOrder);
+        TicketOrder ticketOrder = jsonObject.toJavaObject(TicketOrder.class);
         log.info("userid={} 查询订单....",ticketOrder.getUserId());
         int pageNum  = Integer.parseInt(jsonObject.getString("pageNum"));
         int pageSize = Integer.parseInt(jsonObject.getString("pageSize"));
@@ -70,8 +71,7 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
     @Override
     @Transactional(rollbackFor = {Exception.class})
     public boolean confirmeOrder(JSONObject jsonObject) {
-        TicketOrder ticketOrder = new TicketOrder();
-        BeanUtils.copyProperties(jsonObject,ticketOrder);
+        TicketOrder ticketOrder = jsonObject.toJavaObject(TicketOrder.class);
         ticketOrder.setOrderStatus(OrderStatusEnum.SUCCESS.getStatus());
         ticketOrder.setModifyDate(new Date());
         IDaoService iDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());
@@ -284,8 +284,6 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
 
     @Override
     public boolean addContacts(JSONObject jsonObject) {
-        //UserLinkman userLinkman = new UserLinkman();
-        //BeanUtils.copyProperties(jsonObject,userLinkman);
         UserLinkman userLinkman =jsonObject.toJavaObject(UserLinkman.class);
         log.info("添加联系人开始userId={}  indentity ={} name={}  appCode={} .....",userLinkman.getUserId(),
                 userLinkman.getIndentity(),userLinkman.getName(),userLinkman.getAppCode());
@@ -295,6 +293,7 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         }
         userLinkman.setCreateDate(new Date());
         userLinkman.setModifyDate(new Date());
+        userLinkman.setStatus(UserLinkmanEnum.NORMAL.getStatus());
         IDaoService iDaoService = hnContext.getDaoService(UserLinkman.class.getSimpleName());
 
         if(iDaoService.save(userLinkman,SqlTypeEnum.DEAFULT)!=1){
@@ -307,12 +306,9 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
 
     @Override
     public List<UserLinkman> selectContacts(JSONObject jsonObject) {
-        UserLinkman userLinkman = new UserLinkman();
-        BeanUtils.copyProperties(jsonObject,userLinkman);
+        UserLinkman userLinkman =jsonObject.toJavaObject(UserLinkman.class);
         IDaoService iDaoService = hnContext.getDaoService(UserLinkman.class.getSimpleName());
-        iDaoService.selectList(userLinkman,SqlTypeEnum.DEAFULT);
-        return         iDaoService.selectList(userLinkman,SqlTypeEnum.DEAFULT);
-
+        return iDaoService.selectList(userLinkman,SqlTypeEnum.DEAFULT);
     }
 
     @Override

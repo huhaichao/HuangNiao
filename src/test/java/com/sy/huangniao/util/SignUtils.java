@@ -12,10 +12,10 @@ public class SignUtils {
 
 
     public  static void main(String[] args){
-        String json = "{\"indentity\":\"411522198911174538\",\"name\":\"胡超\",\"nonceStr\":\"123456\"}";
+        String json = "{\"ticketIdentity\":\"411522198911174538\",\"ticketName\":\"胡超\",\"nonceStr\":\"123456\",\"from\":\"北京\",\"to\":\"河南\",\"departureDate\":\"2018-10-01\",\"trainNum\":\"k180\",\"seatType\":\"二等座\",\"orderAmount\":\"80\",\"termIp\":\"113.46.163.196\"}";
         Map<String,String> maps = (Map) JSON.parse(json);
         String sign = MD5Utils.encryption(maps,"319ceidcbweifbwi");
-        json =  "{\"indentity\":\"411522198911174538\",\"name\":\"胡超\",\"nonceStr\":\"123456\",\"sign\":\""+sign+"\"}";
+        json =  "{\"ticketIdentity\":\"411522198911174538\",\"ticketName\":\"胡超\",\"nonceStr\":\"123456\",\"from\":\"北京\",\"to\":\"河南\",\"departureDate\":\"2018-10-01\",\"trainNum\":\"k180\",\"seatType\":\"二等座\",\"orderAmount\":\"80\",\"termIp\":\"113.46.163.196\",\"sign\":\""+sign+"\"}";
         System.out.println(json);
 
     }

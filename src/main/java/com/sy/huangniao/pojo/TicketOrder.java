@@ -29,12 +29,12 @@ public class TicketOrder implements Serializable {
     /**
      * 出发地
      */
-    private String from;
+    private String fromSite;
 
     /**
      * 目的地
      */
-    private String to;
+    private String toSite;
 
     /**
      * 出发时间
@@ -129,19 +129,19 @@ public class TicketOrder implements Serializable {
     }
 
     public String getFrom() {
-        return from;
+        return fromSite;
     }
 
     public void setFrom(String from) {
-        this.from = from == null ? null : from.trim();
+        this.fromSite = from == null ? null : from.trim();
     }
 
     public String getTo() {
-        return to;
+        return toSite;
     }
 
     public void setTo(String to) {
-        this.to = to == null ? null : to.trim();
+        this.toSite = to == null ? null : to.trim();
     }
 
     public Date getDepartureDate() {
@@ -235,8 +235,8 @@ public class TicketOrder implements Serializable {
         sb.append(", userId=").append(userId);
         sb.append(", ticketIdentity=").append(ticketIdentity);
         sb.append(", ticketName=").append(ticketName);
-        sb.append(", from=").append(from);
-        sb.append(", to=").append(to);
+        sb.append(", from=").append(fromSite);
+        sb.append(", to=").append(toSite);
         sb.append(", departureDate=").append(departureDate);
         sb.append(", trainNum=").append(trainNum);
         sb.append(", seatType=").append(seatType);
