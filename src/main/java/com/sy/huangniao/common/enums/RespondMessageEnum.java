@@ -35,6 +35,7 @@ public enum RespondMessageEnum {
     REALNAME_FAIL("0023","身份证或者姓名有误，请检查"),
     ADDCONTACTS_FAIL("0024","添加联系人失败"),
     ADDCONTACTS_REPEAT("0025","重复添加联系人"),
+    CREATORDERDETAILSFAIL("0026", "创建订单明细失败"),
     /*
      调用微信外部接口以1开头
     * */

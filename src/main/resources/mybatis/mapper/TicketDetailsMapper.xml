@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.huangniao.mapper.TicketDetailsMapper">
+  <resultMap id="BaseResultMap" type="com.sy.huangniao.pojo.TicketDetails">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="seat_type" jdbcType="VARCHAR" property="seatType" />
+    <result column="departure_date" jdbcType="DATE" property="departureDate" />
+    <result column="train_num" jdbcType="VARCHAR" property="trainNum" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="sort" jdbcType="VARCHAR" property="sort" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, order_no, seat_type, departure_date, train_num, status, sort, create_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ticket_details
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ticket_details
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.TicketDetails" useGeneratedKeys="true">
+    insert into ticket_details (user_id, order_no, seat_type, 
+      departure_date, train_num, status, 
+      sort, create_date)
+    values (#{userId,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{seatType,jdbcType=VARCHAR}, 
+      #{departureDate,jdbcType=DATE}, #{trainNum,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="insertBatch" keyColumn="id" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
+    insert into ticket_details (user_id, order_no, seat_type,
+    departure_date, train_num, status,
+    sort, create_date)
+    values  <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.userId,jdbcType=INTEGER}, #{item.orderNo,jdbcType=VARCHAR}, #{item.seatType,jdbcType=VARCHAR},
+      #{item.departureDate,jdbcType=DATE}, #{item.trainNum,jdbcType=VARCHAR}, #{item.status,jdbcType=VARCHAR},
+      #{item.sort,jdbcType=VARCHAR}, #{item.createDate,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.TicketDetails" useGeneratedKeys="true">
+    insert into ticket_details
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="seatType != null">
+        seat_type,
+      </if>
+      <if test="departureDate != null">
+        departure_date,
+      </if>
+      <if test="trainNum != null">
+        train_num,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="seatType != null">
+        #{seatType,jdbcType=VARCHAR},
+      </if>
+      <if test="departureDate != null">
+        #{departureDate,jdbcType=DATE},
+      </if>
+      <if test="trainNum != null">
+        #{trainNum,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.huangniao.pojo.TicketDetails">
+    update ticket_details
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="seatType != null">
+        seat_type = #{seatType,jdbcType=VARCHAR},
+      </if>
+      <if test="departureDate != null">
+        departure_date = #{departureDate,jdbcType=DATE},
+      </if>
+      <if test="trainNum != null">
+        train_num = #{trainNum,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.huangniao.pojo.TicketDetails">
+    update ticket_details
+    set user_id = #{userId,jdbcType=INTEGER},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      seat_type = #{seatType,jdbcType=VARCHAR},
+      departure_date = #{departureDate,jdbcType=DATE},
+      train_num = #{trainNum,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <cache />
+</mapper>

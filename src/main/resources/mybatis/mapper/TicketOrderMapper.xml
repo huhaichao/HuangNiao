@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sy.huangniao.mapper.TicketOrderMapper">
+  <resultMap id="BaseResultMapList" type="com.sy.huangniao.pojo.TicketOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="ticket_identity" jdbcType="VARCHAR" property="ticketIdentity" />
+    <result column="ticket_name" jdbcType="VARCHAR" property="ticketName" />
+    <result column="from_site" jdbcType="VARCHAR" property="fromSite" />
+    <result column="to_site" jdbcType="VARCHAR" property="toSite" />
+    <result column="departure_date" jdbcType="TIMESTAMP" property="departureDate" />
+    <result column="train_num" jdbcType="VARCHAR" property="trainNum" />
+    <result column="seat_type" jdbcType="VARCHAR" property="seatType" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="order_status" jdbcType="VARCHAR" property="orderStatus" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="order_amount" jdbcType="DOUBLE" property="orderAmount" />
+    <result column="rob_count" jdbcType="INTEGER" property="robCount" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="app_code" jdbcType="VARCHAR" property="appCode" />
+    <collection property="ticketDetails" ofType="com.sy.huangniao.pojo.TicketDetails">
+      <id column="id" jdbcType="INTEGER" property="id" />
+      <result column="user_id" jdbcType="INTEGER" property="userId" />
+      <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+      <result column="seat_type" jdbcType="VARCHAR" property="seatType" />
+      <result column="departure_date" jdbcType="DATE" property="departureDate" />
+      <result column="train_num" jdbcType="VARCHAR" property="trainNum" />
+      <result column="status" jdbcType="VARCHAR" property="status" />
+      <result column="sort" jdbcType="VARCHAR" property="sort" />
+      <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    </collection>
+  </resultMap>
   <resultMap id="BaseResultMap" type="com.sy.huangniao.pojo.TicketOrder">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
@@ -227,10 +257,9 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="selectList" parameterType="com.sy.huangniao.pojo.TicketOrder"  resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from ticket_order
+  <select id="selectList" parameterType="com.sy.huangniao.pojo.TicketOrder"  resultMap="BaseResultMapList">
+    select tor.* ,tde.*
+    from ticket_order tor left  join ticket_details tde on  tor.order_no=tde.order_no and  tor.user_id=tde.user_id
     where 1=1
     <if test="orderNo != null">
       and order_no = #{orderNo,jdbcType=VARCHAR},

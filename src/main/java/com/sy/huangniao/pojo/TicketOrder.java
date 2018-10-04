@@ -1,7 +1,10 @@
 package com.sy.huangniao.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class TicketOrder implements Serializable {
     private Integer id;
@@ -39,16 +42,19 @@ public class TicketOrder implements Serializable {
     /**
      * 出发时间
      */
+    @JsonIgnore
     private Date departureDate;
 
     /**
      * 车次
      */
+    @JsonIgnore
     private String trainNum;
 
     /**
      * 席位
      */
+    @JsonIgnore
     private String seatType;
 
     /**
@@ -85,6 +91,11 @@ public class TicketOrder implements Serializable {
      * app代码
      */
     private String appCode;
+
+    /**
+     * 1对多车票明细
+     */
+    private List<TicketDetails> ticketDetails;
 
     private static final long serialVersionUID = 1L;
 
@@ -250,5 +261,13 @@ public class TicketOrder implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public List<TicketDetails> getTicketDetails() {
+        return ticketDetails;
+    }
+
+    public void setTicketDetails(List<TicketDetails> ticketDetails) {
+        this.ticketDetails = ticketDetails;
     }
 }

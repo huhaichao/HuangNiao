@@ -48,6 +48,18 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
             log.info("下单失败 userid={} orderid={}",ticketOrder.getUserId(),ticketOrder.getId());
             throw new HNException(RespondMessageEnum.CREATORDERFAIL);
         }
+
+        List<TicketDetails> list = ticketOrder.getTicketDetails();
+        for (TicketDetails ticketDetails: list){
+            ticketDetails.setCreateDate(new Date());
+            ticketDetails.setOrderNo(orderNo);
+            ticketDetails.setUserId(ticketOrder.getUserId());
+        }
+        IDaoService iTicketDetailsDaoService = hnContext.getDaoService(TicketDetails.class.getSimpleName());
+        if (iTicketDetailsDaoService.saveBatch(list,SqlTypeEnum.DEAFULT)!=list.size()){
+            log.info("下单失败 userid={} orderid={}",ticketOrder.getUserId(),ticketOrder.getId());
+            throw new HNException(RespondMessageEnum.CREATORDERDETAILSFAIL);
+        }
         jsonObject.put("orderNo",orderNo);
         JSONObject result = abstractUserAppService.deposit(jsonObject);
         return result;

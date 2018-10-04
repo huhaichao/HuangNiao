@@ -1,8 +1,6 @@
 package com.sy.huangniao.service;
 
 import com.sy.huangniao.common.enums.SqlTypeEnum;
-import com.sy.huangniao.pojo.RobOrder;
-
 import java.util.List;
 
 /**
@@ -22,6 +20,15 @@ public interface IDaoService<T> {
      * @return
      */
     public int save(T t,SqlTypeEnum sqlTypeEnum);
+
+    /**
+     * 批量保存对象
+     *
+     * @return
+     */
+    public default int saveBatch(List<T> ts, SqlTypeEnum sqlTypeEnum) {
+        return 0;
+    }
 
     /**
      * 删除对象
