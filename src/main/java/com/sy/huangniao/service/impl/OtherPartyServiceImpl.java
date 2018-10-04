@@ -8,13 +8,13 @@ import com.sy.huangniao.common.exception.HNException;
 import com.sy.huangniao.service.OtherPartyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by huchao on 2018/10/3.
  */
 @Slf4j
-@Component
+@Service
 public class OtherPartyServiceImpl implements OtherPartyService {
 
     @Autowired
@@ -43,15 +43,15 @@ public class OtherPartyServiceImpl implements OtherPartyService {
         String extno = constant.getSMS_EXTNO();//扩展码
         try {
             log.info("phonNo={} sendPhoneCode 发送内容={}",mobiles,content);
-            String returnString = HttpSender.send(uri, account, pswd, mobiles, content, needstatus, product, extno);
+            String returnString = HttpSender.send(uri, account, pswd, mobiles, content, needstatus, "", "");
             log.info("phonNo={} sendPhoneCode returnString={}",mobiles,returnString);
             String[] returns = returnString.split("\n");
             if(returns.length!=0){
                 String[] msgs = returns[0].split(",");
-                if("0".equals(msgs[0])){
+                if("0".equals(msgs[1])){
                    return  true;
                 }else{
-                    log.info("phonNo={} sendPhoneCode errCode={}",mobiles,msgs[0]);
+                    log.info("phonNo={} sendPhoneCode errCode={}",mobiles,msgs[1]);
                     throw  new HNException(RespondMessageEnum.SEND_CODE_FAIL);
                 }
             }

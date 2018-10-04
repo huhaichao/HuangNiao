@@ -12,10 +12,10 @@ public class SignUtils {
 
 
     public  static void main(String[] args){
-        String json = "{\"code\":\"001EnPdQ0dZ9ja2DqCaQ0uDKdQ0EnPdd\",\"nonceStr\":\"123456\"}";
+        String json = "{\"indentity\":\"411522198911174538\",\"name\":\"胡超\",\"nonceStr\":\"123456\"}";
         Map<String,String> maps = (Map) JSON.parse(json);
         String sign = MD5Utils.encryption(maps,"319ceidcbweifbwi");
-        json =  "{\"code\":\"001EnPdQ0dZ9ja2DqCaQ0uDKdQ0EnPdd\",\"nonceStr\":\"123456\",\"sign\":\""+sign+"\"}";
+        json =  "{\"indentity\":\"411522198911174538\",\"name\":\"胡超\",\"nonceStr\":\"123456\",\"sign\":\""+sign+"\"}";
         System.out.println(json);
 
     }

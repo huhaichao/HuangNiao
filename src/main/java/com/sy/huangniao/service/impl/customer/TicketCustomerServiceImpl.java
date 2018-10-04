@@ -18,6 +18,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 
@@ -283,21 +284,24 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
 
     @Override
     public boolean addContacts(JSONObject jsonObject) {
-        UserLinkman userLinkman = new UserLinkman();
-        BeanUtils.copyProperties(jsonObject,userLinkman);
+        //UserLinkman userLinkman = new UserLinkman();
+        //BeanUtils.copyProperties(jsonObject,userLinkman);
+        UserLinkman userLinkman =jsonObject.toJavaObject(UserLinkman.class);
         log.info("添加联系人开始userId={}  indentity ={} name={}  appCode={} .....",userLinkman.getUserId(),
                 userLinkman.getIndentity(),userLinkman.getName(),userLinkman.getAppCode());
-        if(!otherPartyService.realName(jsonObject)){
+        if(!otherPartyServiceImpl.realName(jsonObject)){
             log.info("调用外部接口实名认证 失败 userID {}",userLinkman.getUserId());
             throw new HNException(RespondMessageEnum.REALNAME_FAIL);
         }
         userLinkman.setCreateDate(new Date());
         userLinkman.setModifyDate(new Date());
         IDaoService iDaoService = hnContext.getDaoService(UserLinkman.class.getSimpleName());
+
         if(iDaoService.save(userLinkman,SqlTypeEnum.DEAFULT)!=1){
             log.info("添加联系人 失败 userID {}",userLinkman.getUserId());
             throw new HNException(RespondMessageEnum.ADDCONTACTS_FAIL);
         }
+
         return true;
     }
 

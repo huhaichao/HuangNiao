@@ -34,6 +34,7 @@ public enum RespondMessageEnum {
     SMS_CODE_FAIL("0022","验证码操作失败，请重试"),
     REALNAME_FAIL("0023","身份证或者姓名有误，请检查"),
     ADDCONTACTS_FAIL("0024","添加联系人失败"),
+    ADDCONTACTS_REPEAT("0025","重复添加联系人"),
     /*
      调用微信外部接口以1开头
     * */

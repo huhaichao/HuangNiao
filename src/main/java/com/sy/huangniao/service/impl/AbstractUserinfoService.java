@@ -35,7 +35,7 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
     protected HNContext hnContext;
 
     @Autowired
-    protected OtherPartyService otherPartyService;
+    protected OtherPartyService otherPartyServiceImpl;
 
     @Autowired
     protected Constant constant;
@@ -169,7 +169,7 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
         BeanUtils.copyProperties(jsonObject,userInfoBody);
         //调用服务接口实名认证 -- 外部接口
         log.info("调用外部接口实名认证 userID {}",userInfoBody.getUserId());
-        if (!otherPartyService.realName(jsonObject)){
+        if (!otherPartyServiceImpl.realName(jsonObject)){
             log.info("调用外部接口实名认证 失败 userID {}",userInfoBody.getUserId());
             throw new HNException(RespondMessageEnum.REALNAME_FAIL);
         }
@@ -212,7 +212,7 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
     @Override
     public  boolean  checkPhoneCode(JSONObject jsonObject){
         String phoneNo =jsonObject.getString("phoneNo");
-        String code = jsonObject.getString("code");
+        String code = jsonObject.getString("smsCode");
         String codeCache =redisServiceImpl.get(Constant.CACHEPHONECODE+phoneNo,String.class);
         if (StringUtils.isEmpty(codeCache)) {
             log.info(" phoneNo ={} checkPhoneCode 验证码已失效请重新获取 ", phoneNo);
@@ -243,8 +243,8 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
     public  JSONObject  sendPhoneCode(JSONObject jsonObject){
         String code = MathUtils.getRanomCode(6);
         String content = constant.getSMS_CONTENT().replace("code",code);
-        if(otherPartyService.sendPhoneCode(jsonObject,content,false));{
-            jsonObject.put("code",code);
+        if(otherPartyServiceImpl.sendPhoneCode(jsonObject,content,false));{
+            jsonObject.put("smsCode",code);
         }
         redisServiceImpl.set(Constant.CACHEPHONECODE+jsonObject.getString("phoneNo"),code,constant.getSMS_ExprirTime(), TimeUnit.SECONDS);
         return  jsonObject;

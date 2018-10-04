@@ -11,12 +11,17 @@ import com.sy.huangniao.common.enums.AppCodeEnum;
 import com.sy.huangniao.common.enums.RespondMessageEnum;
 import com.sy.huangniao.common.exception.HNException;
 import com.sy.huangniao.controller.context.HNContext;
+import com.sy.huangniao.pojo.UserLinkman;
+import com.sy.huangniao.service.customer.TicketCustomerService;
 import com.sy.huangniao.service.impl.AbstractUserAppService;
 import com.sy.huangniao.service.impl.AbstractUserinfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by huchao on 2018/9/14.
@@ -30,6 +35,9 @@ public class UserInfoController {
 
     @Autowired
     private Constant constant;
+
+    @Autowired
+    private TicketCustomerService ticketCustomerServiceImpl;
 
 
     /**
@@ -197,7 +205,60 @@ public class UserInfoController {
      * 添加联系人
      */
     @PostMapping(value="/api/v1/user/addContacts",produces = {"application/json;charset=utf-8"})
-    public  RespondBody addContacts(RequestBody requestBody){return  null;}
+    public  RespondBody addContacts(RequestBody requestBody){
+        try {
+            log.info("requestBody={} addContacts......",requestBody);
+            JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
+            String sign = jsonObject.getString("sign");
+            if(StringUtils.isEmpty(sign)){
+                log.info("addContacts={}  addContacts 没有签名..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
+            }
+            jsonObject.remove("sign");
+            if(!MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
+                log.info("addContacts={}  addContacts 签名校验失败..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.SIGNERROR);
+            }
+            jsonObject.put("userId",requestBody.getUserId());
+            jsonObject.put("userRole",requestBody.getUserRole());
+            jsonObject.put("appCode",requestBody.getAppCode());
+            if(ticketCustomerServiceImpl.addContacts(jsonObject))
+                return new RespondBody(RespondMessageEnum.SUCCESS);
+            else
+                return new RespondBody(RespondMessageEnum.ADDCONTACTS_FAIL);
+        }catch (HNException e){
+            log.info("requestBody={} addContacts exception code={} msg={}",requestBody,e.getCode(),e.getMsg());
+            return new RespondBody(e.getRespondMessageEnum());
+        }catch (Exception e){
+            log.info("requestBody={} addContacts exception={}",requestBody,e.getMessage());
+            if(e.getMessage().indexOf("SQLIntegrityConstraintViolationException")>0){
+                return new RespondBody(RespondMessageEnum.ADDCONTACTS_REPEAT);
+            }
+            return new RespondBody(RespondMessageEnum.EXCEPTION);
+        }
+
+    }
+
+    /**
+     * 添加联系人
+     */
+    @PostMapping(value="/api/v1/user/selectContacts",produces = {"application/json;charset=utf-8"})
+    public  RespondBody selectContacts(RequestBody requestBody){
+        try {
+            log.info("requestBody={} selectContacts......",requestBody);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("userId",requestBody.getUserId());
+            List<UserLinkman> list =ticketCustomerServiceImpl.selectContacts(jsonObject);
+            return new RespondBody(RespondMessageEnum.SUCCESS,list);
+        }catch (HNException e){
+            log.info("requestBody={} selectContacts exception code={} msg={}",requestBody,e.getCode(),e.getMsg());
+            return new RespondBody(e.getRespondMessageEnum());
+        }catch (Exception e){
+            log.info("requestBody={} selectContacts exception={}",requestBody,e.getMessage());
+            return new RespondBody(RespondMessageEnum.EXCEPTION);
+        }
+
+    }
 
     /**
      * 确认订单
@@ -439,6 +500,7 @@ public class UserInfoController {
                 log.info("requestBody={}  sendPhoneCodein 签名校验失败..... ",requestBody);
                 return new RespondBody(RespondMessageEnum.SIGNERROR);
             }
+            json.remove("nonceStr");
             AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
             JSONObject jsonObject =abstractUserinfoService.sendPhoneCode(json);
             MD5Utils.encryption(jsonObject,constant.getUSERLOGINSIGNKEY());
@@ -451,6 +513,16 @@ public class UserInfoController {
             return new RespondBody(RespondMessageEnum.EXCEPTION);
         }
     }
+
+    /**
+     * 实名认证接口
+     */
+    @PostMapping(value="/api/v1/user/realName",produces = {"application/json;charset=utf-8"})
+    public RespondBody realName(RequestBody requestBody){
+        return  null;
+    }
+
+
     /**
      * 待定义接口
      * 退票  --- 暂不提供
