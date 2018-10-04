@@ -9,12 +9,12 @@ public class Notify implements Serializable {
     /**
      * 发送方
      */
-    private String from;
+    private String fromNo;
 
     /**
      * 接收方 -- 为空通知所有
      */
-    private String to;
+    private String toNo;
 
     /**
      * 主题
@@ -53,20 +53,20 @@ public class Notify implements Serializable {
         this.id = id;
     }
 
-    public String getFrom() {
-        return from;
+    public String getFromNo() {
+        return fromNo;
     }
 
-    public void setFrom(String from) {
-        this.from = from == null ? null : from.trim();
+    public void setFromNo(String fromNo) {
+        this.fromNo = fromNo == null ? null : fromNo.trim();
     }
 
-    public String getTo() {
-        return to;
+    public String getToNo() {
+        return toNo;
     }
 
-    public void setTo(String to) {
-        this.to = to == null ? null : to.trim();
+    public void setToNo(String toNo) {
+        this.toNo = toNo == null ? null : toNo.trim();
     }
 
     public String getTitle() {
@@ -124,8 +124,8 @@ public class Notify implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", from=").append(from);
-        sb.append(", to=").append(to);
+        sb.append(", fromNo=").append(fromNo);
+        sb.append(", toNo=").append(toNo);
         sb.append(", title=").append(title);
         sb.append(", notifyStatus=").append(notifyStatus);
         sb.append(", createDate=").append(createDate);

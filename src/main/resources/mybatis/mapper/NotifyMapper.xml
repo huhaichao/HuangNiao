@@ -3,8 +3,8 @@
 <mapper namespace="com.sy.huangniao.mapper.NotifyMapper">
   <resultMap id="BaseResultMap" type="com.sy.huangniao.pojo.Notify">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="from" jdbcType="VARCHAR" property="from" />
-    <result column="to" jdbcType="VARCHAR" property="to" />
+    <result column="from_no" jdbcType="VARCHAR" property="fromNo" />
+    <result column="to_no" jdbcType="VARCHAR" property="toNo" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="notify_status" jdbcType="VARCHAR" property="notifyStatus" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
@@ -15,7 +15,7 @@
     <result column="context" jdbcType="LONGVARCHAR" property="context" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, from, to, title, notify_status, create_date, notify_date, modify_date
+    id, from_no, to_no, title, notify_status, create_date, notify_date, modify_date
   </sql>
   <sql id="Blob_Column_List">
     context
@@ -33,21 +33,21 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.Notify" useGeneratedKeys="true">
-    insert into notify (from, to, title, 
+    insert into notify (from_no, to_no, title,
       notify_status, create_date, notify_date, 
       modify_date, context)
-    values (#{from,jdbcType=VARCHAR}, #{to,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+    values (#{fromNo,jdbcType=VARCHAR}, #{toNo,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR},
       #{notifyStatus,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{notifyDate,jdbcType=TIMESTAMP},
       #{modifyDate,jdbcType=TIMESTAMP}, #{context,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.Notify" useGeneratedKeys="true">
     insert into notify
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="from != null">
-        from,
+      <if test="fromNo != null">
+        from_no,
       </if>
-      <if test="to != null">
-        to,
+      <if test="toNo != null">
+        to_no,
       </if>
       <if test="title != null">
         title,
@@ -69,11 +69,11 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="from != null">
-        #{from,jdbcType=VARCHAR},
+      <if test="fromNo != null">
+        #{fromNo,jdbcType=VARCHAR},
       </if>
-      <if test="to != null">
-        #{to,jdbcType=VARCHAR},
+      <if test="toNo != null">
+        #{toNo,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
@@ -98,11 +98,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.sy.huangniao.pojo.Notify">
     update notify
     <set>
-      <if test="from != null">
-        from = #{from,jdbcType=VARCHAR},
+      <if test="fromNo != null">
+        from_no = #{fromNo,jdbcType=VARCHAR},
       </if>
-      <if test="to != null">
-        to = #{to,jdbcType=VARCHAR},
+      <if test="toNo != null">
+        to_no = #{toNo,jdbcType=VARCHAR},
       </if>
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
@@ -127,8 +127,8 @@
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sy.huangniao.pojo.Notify">
     update notify
-    set from = #{from,jdbcType=VARCHAR},
-      to = #{to,jdbcType=VARCHAR},
+    set from_no = #{fromNo,jdbcType=VARCHAR},
+      to_no = #{toNo,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       notify_status = #{notifyStatus,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -139,8 +139,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sy.huangniao.pojo.Notify">
     update notify
-    set from = #{from,jdbcType=VARCHAR},
-      to = #{to,jdbcType=VARCHAR},
+    set from_no = #{fromNo,jdbcType=VARCHAR},
+      to_no = #{toNo,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       notify_status = #{notifyStatus,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},

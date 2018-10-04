@@ -8,15 +8,15 @@
     <result column="amount" jdbcType="DOUBLE" property="amount" />
     <result column="fact_amount" jdbcType="DOUBLE" property="factAmount" />
     <result column="fee" jdbcType="DOUBLE" property="fee" />
-    <result column="from" jdbcType="VARCHAR" property="from" />
-    <result column="to" jdbcType="VARCHAR" property="to" />
+    <result column="from_account" jdbcType="VARCHAR" property="fromAccount" />
+    <result column="to_account" jdbcType="VARCHAR" property="toAccount" />
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, trade_no, order_no, amount, fact_amount, fee, from, to, status, create_date, 
+    id, trade_no, order_no, amount, fact_amount, fee, from_account, to_account, status, create_date,
     modify_date, remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -31,12 +31,12 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.UserTrade" useGeneratedKeys="true">
     insert into user_trade (trade_no, order_no, amount, 
-      fact_amount, fee, from, 
-      to, status, create_date, 
+      fact_amount, fee, from_account,
+      to_account, status, create_date,
       modify_date, remark)
     values (#{tradeNo,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{amount,jdbcType=DOUBLE}, 
-      #{factAmount,jdbcType=DOUBLE}, #{fee,jdbcType=DOUBLE}, #{from,jdbcType=VARCHAR}, 
-      #{to,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{factAmount,jdbcType=DOUBLE}, #{fee,jdbcType=DOUBLE}, #{fromAccount,jdbcType=VARCHAR},
+      #{toAccount,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP},
       #{modifyDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.UserTrade" useGeneratedKeys="true">
@@ -57,11 +57,11 @@
       <if test="fee != null">
         fee,
       </if>
-      <if test="from != null">
-        from,
+      <if test="fromAccount != null">
+        from_account,
       </if>
-      <if test="to != null">
-        to,
+      <if test="toAccount != null">
+        to_account,
       </if>
       <if test="status != null">
         status,
@@ -92,11 +92,11 @@
       <if test="fee != null">
         #{fee,jdbcType=DOUBLE},
       </if>
-      <if test="from != null">
-        #{from,jdbcType=VARCHAR},
+      <if test="fromAccount != null">
+        #{fromAccount,jdbcType=VARCHAR},
       </if>
-      <if test="to != null">
-        #{to,jdbcType=VARCHAR},
+      <if test="toAccount != null">
+        #{toAccount,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
@@ -130,11 +130,11 @@
       <if test="fee != null">
         fee = #{fee,jdbcType=DOUBLE},
       </if>
-      <if test="from != null">
-        from = #{from,jdbcType=VARCHAR},
+      <if test="fromAccount != null">
+        from_account = #{fromAccount,jdbcType=VARCHAR},
       </if>
-      <if test="to != null">
-        to = #{to,jdbcType=VARCHAR},
+      <if test="toAccount != null">
+        to_account = #{toAccount,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         status = #{status,jdbcType=VARCHAR},
@@ -158,8 +158,8 @@
       amount = #{amount,jdbcType=DOUBLE},
       fact_amount = #{factAmount,jdbcType=DOUBLE},
       fee = #{fee,jdbcType=DOUBLE},
-      from = #{from,jdbcType=VARCHAR},
-      to = #{to,jdbcType=VARCHAR},
+      from_account = #{fromAccount,jdbcType=VARCHAR},
+      to_account = #{toAccount,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       modify_date = #{modifyDate,jdbcType=TIMESTAMP},
@@ -186,11 +186,11 @@
     <if test="fee != null">
       AND fee = #{fee,jdbcType=DOUBLE},
     </if>
-    <if test="from != null">
-      AND from = #{from,jdbcType=VARCHAR},
+    <if test="fromAccount != null">
+      AND from_account = #{fromAccount,jdbcType=VARCHAR},
     </if>
-    <if test="to != null">
-      AND to = #{to,jdbcType=VARCHAR},
+    <if test="toAccount != null">
+      AND toAccount = #{toAccount,jdbcType=VARCHAR},
     </if>
     <if test="status != null">
       AND status = #{status,jdbcType=VARCHAR},

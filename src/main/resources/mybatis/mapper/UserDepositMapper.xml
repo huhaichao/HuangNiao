@@ -12,7 +12,7 @@
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
     <result column="app_code" jdbcType="VARCHAR" property="appCode" />
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
-    <result column="from" jdbcType="VARCHAR" property="from" />
+    <result column="from_account" jdbcType="VARCHAR" property="fromAccount" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
     <result column="trade_type" jdbcType="VARCHAR" property="tradeType" />
     <result column="prepay_id" jdbcType="VARCHAR" property="prepayId" />
@@ -22,7 +22,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     id, deposit_no, trade_channels_no, user_id, amount, create_date, status, modify_date,
-    app_code, order_no, from, ip, trade_type, prepay_id, time_end, bank_type, remark
+    app_code, order_no, from_account, ip, trade_type, prepay_id, time_end, bank_type, remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select
@@ -38,13 +38,13 @@
     insert into user_deposit (deposit_no, trade_channels_no, user_id,
     amount, create_date, status,
     modify_date, app_code, order_no,
-    from, ip, trade_type,
+    from_account, ip, trade_type,
     prepay_id, time_end, bank_type,
     remark)
     values (#{depositNo,jdbcType=VARCHAR}, #{tradeChannelsNo,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
     #{amount,jdbcType=DOUBLE}, #{createDate,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR},
     #{modifyDate,jdbcType=TIMESTAMP}, #{appCode,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR},
-    #{from,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{tradeType,jdbcType=VARCHAR},
+    #{fromAccount,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{tradeType,jdbcType=VARCHAR},
     #{prepayId,jdbcType=VARCHAR}, #{timeEnd,jdbcType=VARCHAR}, #{bankType,jdbcType=VARCHAR},
     #{remark,jdbcType=VARCHAR})
   </insert>
@@ -78,8 +78,8 @@
       <if test="orderNo != null">
         order_no,
       </if>
-      <if test="from != null">
-        from,
+      <if test="from_Account != null">
+        from_account,
       </if>
       <if test="ip != null">
         ip,
@@ -128,8 +128,8 @@
       <if test="orderNo != null">
         #{orderNo,jdbcType=VARCHAR},
       </if>
-      <if test="from != null">
-        #{from,jdbcType=VARCHAR},
+      <if test="fromAccount != null">
+        #{from_account,jdbcType=VARCHAR},
       </if>
       <if test="ip != null">
         #{ip,jdbcType=VARCHAR},
@@ -181,8 +181,8 @@
       <if test="orderNo != null">
         order_no = #{orderNo,jdbcType=VARCHAR},
       </if>
-      <if test="from != null">
-        from = #{from,jdbcType=VARCHAR},
+      <if test="fromAccount != null">
+        from_account = #{fromAccount,jdbcType=VARCHAR},
       </if>
       <if test="ip != null">
         ip = #{ip,jdbcType=VARCHAR},
@@ -216,7 +216,7 @@
       modify_date = #{modifyDate,jdbcType=TIMESTAMP},
       app_code = #{appCode,jdbcType=VARCHAR},
       order_no = #{orderNo,jdbcType=VARCHAR},
-      from = #{from,jdbcType=VARCHAR},
+      from_account = #{fromAccount,jdbcType=VARCHAR},
       ip = #{ip,jdbcType=VARCHAR},
       trade_type = #{tradeType,jdbcType=VARCHAR},
       prepay_id = #{prepayId,jdbcType=VARCHAR},
@@ -258,8 +258,8 @@
     <if test="orderNo != null">
       AND order_no = #{orderNo,jdbcType=VARCHAR},
     </if>
-    <if test="from != null">
-      AND  from = #{from,jdbcType=VARCHAR},
+    <if test="fromAccount != null">
+      AND  from_account = #{fromAccount,jdbcType=VARCHAR},
     </if>
     <if test="ip != null">
       AND  ip = #{ip,jdbcType=VARCHAR},
@@ -303,8 +303,8 @@
     <if test="orderNo != null">
       AND order_no = #{orderNo,jdbcType=VARCHAR},
     </if>
-    <if test="from != null">
-      AND  from = #{from,jdbcType=VARCHAR},
+    <if test="fromAccount != null">
+      AND  from_account = #{fromAccount,jdbcType=VARCHAR},
     </if>
     <if test="ip != null">
       AND  ip = #{ip,jdbcType=VARCHAR},
@@ -332,8 +332,8 @@
       <if test="orderNo != null">
         order_no = #{orderNo,jdbcType=VARCHAR},
       </if>
-      <if test="from != null">
-        from = #{from,jdbcType=VARCHAR},
+      <if test="fromAccount != null">
+        from_account = #{fromAccount,jdbcType=VARCHAR},
       </if>
       <if test="ip != null">
         ip = #{ip,jdbcType=VARCHAR},

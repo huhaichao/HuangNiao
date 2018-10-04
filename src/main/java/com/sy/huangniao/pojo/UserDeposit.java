@@ -54,7 +54,7 @@ public class UserDeposit implements Serializable {
     /**
      * 资金来源账号
      */
-    private String from;
+    private String fromAccount;
 
     /**
      * 用户IP
@@ -168,12 +168,12 @@ public class UserDeposit implements Serializable {
         this.orderNo = orderNo == null ? null : orderNo.trim();
     }
 
-    public String getFrom() {
-        return from;
+    public String getFromAccount() {
+        return fromAccount;
     }
 
-    public void setFrom(String from) {
-        this.from = from == null ? null : from.trim();
+    public void setFromAccount(String fromAccount) {
+        this.fromAccount = fromAccount == null ? null : fromAccount.trim();
     }
 
     public String getIp() {
@@ -240,7 +240,7 @@ public class UserDeposit implements Serializable {
         sb.append(", modifyDate=").append(modifyDate);
         sb.append(", appCode=").append(appCode);
         sb.append(", orderNo=").append(orderNo);
-        sb.append(", from=").append(from);
+        sb.append(", from_account=").append(fromAccount);
         sb.append(", ip=").append(ip);
         sb.append(", tradeType=").append(tradeType);
         sb.append(", prepayId=").append(prepayId);

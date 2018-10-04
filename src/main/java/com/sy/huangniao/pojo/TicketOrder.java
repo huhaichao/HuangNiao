@@ -128,20 +128,20 @@ public class TicketOrder implements Serializable {
         this.ticketName = ticketName == null ? null : ticketName.trim();
     }
 
-    public String getFrom() {
+    public String getFromSite() {
         return fromSite;
     }
 
-    public void setFrom(String from) {
-        this.fromSite = from == null ? null : from.trim();
+    public void setFromSite(String fromSite) {
+        this.fromSite = fromSite == null ? null : fromSite.trim();
     }
 
-    public String getTo() {
+    public String getToSite() {
         return toSite;
     }
 
-    public void setTo(String to) {
-        this.toSite = to == null ? null : to.trim();
+    public void setToSite(String toSite) {
+        this.toSite = toSite == null ? null : toSite.trim();
     }
 
     public Date getDepartureDate() {

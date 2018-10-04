@@ -244,10 +244,10 @@
     <if test="ticketName != null">
       and ticket_name = #{ticketName,jdbcType=VARCHAR},
     </if>
-    <if test="from != null">
+    <if test="fromSite != null">
       and from_site = #{fromSite,jdbcType=VARCHAR},
     </if>
-    <if test="to != null">
+    <if test="toSite != null">
       and to_site = #{toSite,jdbcType=VARCHAR},
     </if>
     <if test="departureDate != null">
@@ -293,10 +293,10 @@
       <if test="ticketName != null">
         ticket_name = #{ticketName,jdbcType=VARCHAR},
       </if>
-      <if test="from != null">
+      <if test="fromSite != null">
         from_site = #{fromSite,jdbcType=VARCHAR},
       </if>
-      <if test="to != null">
+      <if test="toSite != null">
         to_site = #{toSite,jdbcType=VARCHAR},
       </if>
       <if test="departureDate != null">
@@ -347,10 +347,10 @@
     <if test="ticketName != null">
       and ticket_name = #{ticketName,jdbcType=VARCHAR},
     </if>
-    <if test="from != null">
+    <if test="fromSite != null">
       and from_site = #{fromSite,jdbcType=VARCHAR},
     </if>
-    <if test="to != null">
+    <if test="toSite != null">
       and to_site = #{toSite,jdbcType=VARCHAR},
     </if>
     <if test="departureDate != null">

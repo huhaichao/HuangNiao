@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="withdraw_no" jdbcType="VARCHAR" property="withdrawNo" />
     <result column="amount" jdbcType="DOUBLE" property="amount" />
-    <result column="to" jdbcType="VARCHAR" property="to" />
+    <result column="to_account" jdbcType="VARCHAR" property="toAccount" />
     <result column="trade_type" jdbcType="VARCHAR" property="tradeType" />
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="trade_channels_no" jdbcType="VARCHAR" property="tradeChannelsNo" />
@@ -15,7 +15,7 @@
     <result column="remark" jdbcType="INTEGER" property="remark" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, withdraw_no, amount, to, trade_type, status, trade_channels_no, app_code, create_date, 
+    id, withdraw_no, amount, to_account, trade_type, status, trade_channels_no, app_code, create_date,
     modify_date, remark
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -29,11 +29,11 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.UserWithdraw" useGeneratedKeys="true">
-    insert into user_withdraw (withdraw_no, amount, to, 
+    insert into user_withdraw (withdraw_no, amount, to_account,
       trade_type, status, trade_channels_no, 
       app_code, create_date, modify_date, 
       remark)
-    values (#{withdrawNo,jdbcType=VARCHAR}, #{amount,jdbcType=DOUBLE}, #{to,jdbcType=VARCHAR}, 
+    values (#{withdrawNo,jdbcType=VARCHAR}, #{amount,jdbcType=DOUBLE}, #{toAccount,jdbcType=VARCHAR},
       #{tradeType,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{tradeChannelsNo,jdbcType=VARCHAR}, 
       #{appCode,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
       #{remark,jdbcType=INTEGER})
@@ -47,8 +47,8 @@
       <if test="amount != null">
         amount,
       </if>
-      <if test="to != null">
-        to,
+      <if test="toAccount != null">
+        to_account,
       </if>
       <if test="tradeType != null">
         trade_type,
@@ -79,8 +79,8 @@
       <if test="amount != null">
         #{amount,jdbcType=DOUBLE},
       </if>
-      <if test="to != null">
-        #{to,jdbcType=VARCHAR},
+      <if test="toAccount != null">
+        #{toAccount,jdbcType=VARCHAR},
       </if>
       <if test="tradeType != null">
         #{tradeType,jdbcType=VARCHAR},
@@ -114,8 +114,8 @@
       <if test="amount != null">
         amount = #{amount,jdbcType=DOUBLE},
       </if>
-      <if test="to != null">
-        to = #{to,jdbcType=VARCHAR},
+      <if test="to_account != null">
+        to_account = #{to_account,jdbcType=VARCHAR},
       </if>
       <if test="tradeType != null">
         trade_type = #{tradeType,jdbcType=VARCHAR},
@@ -145,7 +145,7 @@
     update user_withdraw
     set withdraw_no = #{withdrawNo,jdbcType=VARCHAR},
       amount = #{amount,jdbcType=DOUBLE},
-      to = #{to,jdbcType=VARCHAR},
+      to_account = #{toAccount,jdbcType=VARCHAR},
       trade_type = #{tradeType,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
       trade_channels_no = #{tradeChannelsNo,jdbcType=VARCHAR},
@@ -166,8 +166,8 @@
     <if test="amount != null">
       AND   amount = #{amount,jdbcType=DOUBLE},
     </if>
-    <if test="to != null">
-      AND  to = #{to,jdbcType=VARCHAR},
+    <if test="toAccount != null">
+      AND  to_account = #{toAccount,jdbcType=VARCHAR},
     </if>
     <if test="tradeType != null">
       AND   trade_type = #{tradeType,jdbcType=VARCHAR},

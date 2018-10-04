@@ -19,7 +19,7 @@ public class UserWithdraw implements Serializable {
     /**
      * 提现账号
      */
-    private String to;
+    private String toAccount;
 
     /**
      * 提现类型
@@ -82,12 +82,12 @@ public class UserWithdraw implements Serializable {
         this.amount = amount;
     }
 
-    public String getTo() {
-        return to;
+    public String getToAccount() {
+        return toAccount;
     }
 
-    public void setTo(String to) {
-        this.to = to == null ? null : to.trim();
+    public void setToAccount(String toAccount) {
+        this.toAccount = toAccount == null ? null : toAccount.trim();
     }
 
     public String getTradeType() {
@@ -155,7 +155,7 @@ public class UserWithdraw implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", withdrawNo=").append(withdrawNo);
         sb.append(", amount=").append(amount);
-        sb.append(", to=").append(to);
+        sb.append(", to=").append(toAccount);
         sb.append(", tradeType=").append(tradeType);
         sb.append(", status=").append(status);
         sb.append(", tradeChannelsNo=").append(tradeChannelsNo);
