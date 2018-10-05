@@ -112,6 +112,16 @@ public class MD5Utils {
         return retMsg.toString();
     }
 
+    public static String encryption(String string, String key){
+        StringBuffer retMsgB = new StringBuffer();
+        retMsgB.append(string).append(key);
+        System.out.println("验签字符串为： " + retMsgB.toString());
+        /** 加密 、转大写 */
+        String retMsg = getMD5String(retMsgB.toString()).toUpperCase();
+        System.out.println("加密验签字符串为： " + retMsg);
+        return retMsg;
+    }
+
     public static JSONObject encryption(JSONObject jsonObject, String key){
         Map<String,String> maps = (Map)JSON.parse(jsonObject.toJSONString());
         jsonObject.put("sign",encryption(maps,key));
@@ -140,6 +150,14 @@ public class MD5Utils {
              */
     public static boolean checkEncryption(Map<String,String> maps, String key, String sign){
         if(encryption(maps,key).equals(sign)){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public static boolean checkEncryption(String string, String key, String sign){
+        if(encryption(string,key).equals(sign)){
             return true;
         }else {
             return false;

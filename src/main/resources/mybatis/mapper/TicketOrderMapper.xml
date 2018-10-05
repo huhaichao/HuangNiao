@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sy.huangniao.mapper.TicketOrderMapper">
-  <resultMap id="BaseResultMapList" type="com.sy.huangniao.pojo.TicketOrder">
+  <resultMap id="BaseResultMap" type="com.sy.huangniao.pojo.TicketOrder">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="ticket_identity" jdbcType="VARCHAR" property="ticketIdentity" />
+    <result column="identity_type" jdbcType="VARCHAR" property="identityType" />
     <result column="ticket_name" jdbcType="VARCHAR" property="ticketName" />
+    <result column="linkman_type" jdbcType="VARCHAR" property="linkmanType" />
     <result column="from_site" jdbcType="VARCHAR" property="fromSite" />
     <result column="to_site" jdbcType="VARCHAR" property="toSite" />
     <result column="departure_date" jdbcType="TIMESTAMP" property="departureDate" />
@@ -42,9 +44,9 @@
     <result column="app_code" jdbcType="VARCHAR" property="appCode" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, order_no, user_id, ticket_identity, ticket_name, from_site, to_site, departure_date, train_num,
-    seat_type, create_date, order_status, modify_date, order_amount, rob_count, remark, 
-    app_code
+    id, order_no, user_id, ticket_identity, identity_type, ticket_name, linkman_type, 
+    from_site, to_site, departure_date, train_num, seat_type, create_date, order_status, 
+    modify_date, order_amount, rob_count, remark, app_code
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -58,17 +60,19 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.TicketOrder" useGeneratedKeys="true">
     insert into ticket_order (order_no, user_id, ticket_identity, 
-      ticket_name, from_site, to_site,
-      departure_date, train_num, seat_type, 
-      create_date, order_status, modify_date, 
-      order_amount, rob_count, remark, 
-      app_code)
+      identity_type, ticket_name, linkman_type, 
+      from_site, to_site, departure_date, 
+      train_num, seat_type, create_date, 
+      order_status, modify_date, order_amount, 
+      rob_count, remark, app_code
+      )
     values (#{orderNo,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{ticketIdentity,jdbcType=VARCHAR}, 
-      #{ticketName,jdbcType=VARCHAR}, #{fromSite,jdbcType=VARCHAR}, #{toSite,jdbcType=VARCHAR},
-      #{departureDate,jdbcType=TIMESTAMP}, #{trainNum,jdbcType=VARCHAR}, #{seatType,jdbcType=VARCHAR}, 
-      #{createDate,jdbcType=TIMESTAMP}, #{orderStatus,jdbcType=VARCHAR}, #{modifyDate,jdbcType=TIMESTAMP}, 
-      #{orderAmount,jdbcType=DOUBLE}, #{robCount,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{appCode,jdbcType=VARCHAR})
+      #{identityType,jdbcType=VARCHAR}, #{ticketName,jdbcType=VARCHAR}, #{linkmanType,jdbcType=VARCHAR}, 
+      #{fromSite,jdbcType=VARCHAR}, #{toSite,jdbcType=VARCHAR}, #{departureDate,jdbcType=TIMESTAMP}, 
+      #{trainNum,jdbcType=VARCHAR}, #{seatType,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{orderStatus,jdbcType=VARCHAR}, #{modifyDate,jdbcType=TIMESTAMP}, #{orderAmount,jdbcType=DOUBLE}, 
+      #{robCount,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{appCode,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.TicketOrder" useGeneratedKeys="true">
     insert into ticket_order
@@ -82,8 +86,14 @@
       <if test="ticketIdentity != null">
         ticket_identity,
       </if>
+      <if test="identityType != null">
+        identity_type,
+      </if>
       <if test="ticketName != null">
         ticket_name,
+      </if>
+      <if test="linkmanType != null">
+        linkman_type,
       </if>
       <if test="fromSite != null">
         from_site,
@@ -132,8 +142,14 @@
       <if test="ticketIdentity != null">
         #{ticketIdentity,jdbcType=VARCHAR},
       </if>
+      <if test="identityType != null">
+        #{identityType,jdbcType=VARCHAR},
+      </if>
       <if test="ticketName != null">
         #{ticketName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanType != null">
+        #{linkmanType,jdbcType=VARCHAR},
       </if>
       <if test="fromSite != null">
         #{fromSite,jdbcType=VARCHAR},
@@ -185,8 +201,14 @@
       <if test="ticketIdentity != null">
         ticket_identity = #{ticketIdentity,jdbcType=VARCHAR},
       </if>
+      <if test="identityType != null">
+        identity_type = #{identityType,jdbcType=VARCHAR},
+      </if>
       <if test="ticketName != null">
         ticket_name = #{ticketName,jdbcType=VARCHAR},
+      </if>
+      <if test="linkmanType != null">
+        linkman_type = #{linkmanType,jdbcType=VARCHAR},
       </if>
       <if test="fromSite != null">
         from_site = #{fromSite,jdbcType=VARCHAR},
@@ -232,7 +254,9 @@
     set order_no = #{orderNo,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=INTEGER},
       ticket_identity = #{ticketIdentity,jdbcType=VARCHAR},
+      identity_type = #{identityType,jdbcType=VARCHAR},
       ticket_name = #{ticketName,jdbcType=VARCHAR},
+      linkman_type = #{linkmanType,jdbcType=VARCHAR},
       from_site = #{fromSite,jdbcType=VARCHAR},
       to_site = #{toSite,jdbcType=VARCHAR},
       departure_date = #{departureDate,jdbcType=TIMESTAMP},

@@ -146,23 +146,23 @@ public class UserInfoController {
             AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
             JSONObject jsonObject = (JSONObject)JSON.parse(requestBody.getData());
             String sign = jsonObject.getString("sign");
-            String ticketDetails =jsonObject.getString("ticketDetails");
+           // String ticketDetails =jsonObject.getString("ticketDetails");
             if(StringUtils.isEmpty(sign)){
                 log.info("requestBody={}  login 没有签名..... ",requestBody);
                 return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
             }
             jsonObject.remove("sign");
-            jsonObject.remove("ticketDetails");
-            Map<String,String> maps =(Map) JSON.parse(jsonObject.toJSONString());
-            maps.put("ticketDetails",ticketDetails);
-            if(!MD5Utils.checkEncryption(maps,constant.getUSERLOGINSIGNKEY(),sign)){
+            //jsonObject.remove("ticketDetails");
+             //Map<String,String> maps =(Map) JSON.parse(jsonObject.toJSONString());
+            //maps.put("ticketDetails",ticketDetails);
+            if(!MD5Utils.checkEncryption(jsonObject.toString(),constant.getUSERLOGINSIGNKEY(),sign)){
                 log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
                 return new RespondBody(RespondMessageEnum.SIGNERROR);
             }
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
             jsonObject.put("appCode",requestBody.getAppCode());
-            jsonObject.put("ticketDetails", JSONArray.parseArray(ticketDetails));
+            //jsonObject.put("ticketDetails", JSONArray.parseArray(ticketDetails));
             JSONObject result =abstractUserinfoService.createOrder(jsonObject);
             return new RespondBody(RespondMessageEnum.SUCCESS,result);
         }catch (HNException e){

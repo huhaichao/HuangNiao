@@ -27,6 +27,16 @@ public class TicketOrder implements Serializable {
     private String ticketIdentity;
 
     /**
+     * 证件类型
+     */
+    private String identityType;
+
+    /**
+     * 乘车人类型
+     */
+    private String linkmanType;
+
+    /**
      * 车票姓名
      */
     private String ticketName;
@@ -252,9 +262,11 @@ public class TicketOrder implements Serializable {
         sb.append(", orderNo=").append(orderNo);
         sb.append(", userId=").append(userId);
         sb.append(", ticketIdentity=").append(ticketIdentity);
+        sb.append(", identityType=").append(identityType);
         sb.append(", ticketName=").append(ticketName);
-        sb.append(", from=").append(fromSite);
-        sb.append(", to=").append(toSite);
+        sb.append(", linkmanType=").append(linkmanType);
+        sb.append(", fromSite=").append(fromSite);
+        sb.append(", toSite=").append(toSite);
         sb.append(", departureDate=").append(departureDate);
         sb.append(", trainNum=").append(trainNum);
         sb.append(", seatType=").append(seatType);
@@ -276,5 +288,21 @@ public class TicketOrder implements Serializable {
 
     public void setTicketDetails(List<TicketDetails> ticketDetails) {
         this.ticketDetails = ticketDetails;
+    }
+
+    public String getIdentityType() {
+        return identityType;
+    }
+
+    public void setIdentityType(String identityType) {
+        this.identityType = identityType;
+    }
+
+    public String getLinkmanType() {
+        return linkmanType;
+    }
+
+    public void setLinkmanType(String linkmanType) {
+        this.linkmanType = linkmanType;
     }
 }

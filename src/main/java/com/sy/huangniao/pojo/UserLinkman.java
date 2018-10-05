@@ -1,7 +1,7 @@
 package com.sy.huangniao.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,6 +21,16 @@ public class UserLinkman implements Serializable {
     private String indentity;
 
     /**
+     * 身份证类型
+     */
+    private String indentityType;
+
+    /**
+     * 联系人类型
+     */
+    private String linkmanType;
+
+    /**
      * 名称
      */
     private String name;
@@ -28,7 +38,7 @@ public class UserLinkman implements Serializable {
     /**
      * 创建时间
      */
-    @JsonIgnore
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
     /**
@@ -40,6 +50,7 @@ public class UserLinkman implements Serializable {
     /**
      * 状态
      */
+    @JsonIgnore
     private String status;
 
     /**
@@ -114,6 +125,22 @@ public class UserLinkman implements Serializable {
 
     public void setIndentity(String indentity) {
         this.indentity = indentity == null ? null : indentity.trim();
+    }
+
+    public String getIndentityType() {
+        return indentityType;
+    }
+
+    public void setIndentityType(String indentityType) {
+        this.indentityType = indentityType == null ? null : indentityType.trim();
+    }
+
+    public String getLinkmanType() {
+        return linkmanType;
+    }
+
+    public void setLinkmanType(String linkmanType) {
+        this.linkmanType = linkmanType == null ? null : linkmanType.trim();
     }
 
     public String getName() {
@@ -221,6 +248,8 @@ public class UserLinkman implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", userId=").append(userId);
         sb.append(", indentity=").append(indentity);
+        sb.append(", indentityType=").append(indentityType);
+        sb.append(", linkmanType=").append(linkmanType);
         sb.append(", name=").append(name);
         sb.append(", createDate=").append(createDate);
         sb.append(", appCode=").append(appCode);
