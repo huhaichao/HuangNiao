@@ -132,5 +132,18 @@ public class MD5Utils {
             return false;
         }
     }
+    /**
+     * 验证签名
+     * @param maps
+     * @param key
+     * @return
+             */
+    public static boolean checkEncryption(Map<String,String> maps, String key, String sign){
+        if(encryption(maps,key).equals(sign)){
+            return true;
+        }else {
+            return false;
+        }
+    }
 
 }

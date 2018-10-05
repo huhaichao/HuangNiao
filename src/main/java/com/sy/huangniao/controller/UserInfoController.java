@@ -1,5 +1,7 @@
 package com.sy.huangniao.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sy.huangniao.common.Util.MD5Utils;
 import com.sy.huangniao.common.Util.StringUtils;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -141,20 +144,25 @@ public class UserInfoController {
         try {
             log.info("requestBody={} createOrder......",requestBody);
             AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
-            JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
+            JSONObject jsonObject = (JSONObject)JSON.parse(requestBody.getData());
             String sign = jsonObject.getString("sign");
+            String ticketDetails =jsonObject.getString("ticketDetails");
             if(StringUtils.isEmpty(sign)){
                 log.info("requestBody={}  login 没有签名..... ",requestBody);
                 return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
             }
             jsonObject.remove("sign");
-            if(!MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
+            jsonObject.remove("ticketDetails");
+            Map<String,String> maps =(Map) JSON.parse(jsonObject.toJSONString());
+            maps.put("ticketDetails",ticketDetails);
+            if(!MD5Utils.checkEncryption(maps,constant.getUSERLOGINSIGNKEY(),sign)){
                 log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
                 return new RespondBody(RespondMessageEnum.SIGNERROR);
             }
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
             jsonObject.put("appCode",requestBody.getAppCode());
+            jsonObject.put("ticketDetails", JSONArray.parseArray(ticketDetails));
             JSONObject result =abstractUserinfoService.createOrder(jsonObject);
             return new RespondBody(RespondMessageEnum.SUCCESS,result);
         }catch (HNException e){

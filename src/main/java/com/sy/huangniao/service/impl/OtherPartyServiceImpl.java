@@ -2,16 +2,12 @@ package com.sy.huangniao.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bcloud.msg.http.HttpSender;
-import com.sun.deploy.net.HttpUtils;
 import com.sy.huangniao.common.Util.HttpClientUtils;
 import com.sy.huangniao.common.constant.Constant;
 import com.sy.huangniao.common.enums.RespondMessageEnum;
 import com.sy.huangniao.common.exception.HNException;
 import com.sy.huangniao.service.OtherPartyService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
