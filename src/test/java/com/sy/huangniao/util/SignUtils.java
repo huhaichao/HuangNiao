@@ -14,7 +14,7 @@ public class SignUtils {
 
 
     public  static void main(String[] args){
-        JSONArray jsonArray = JSONArray.parseArray("[{\"seatType\":\"硬座,硬卧\",\"departureDate\":\"2018-01-02\",\"trainNum\":\"K180,K190\"},{\"seatType\":\"硬座,硬卧\",\"departureDate\":\"2018-01-05\",\"trainNum\":\"K180,K190\"}]");
+       /* JSONArray jsonArray = JSONArray.parseArray("[{\"seatType\":\"硬座,硬卧\",\"departureDate\":\"2018-01-02\",\"trainNum\":\"K180,K190\"},{\"seatType\":\"硬座,硬卧\",\"departureDate\":\"2018-01-05\",\"trainNum\":\"K180,K190\"}]");
         String json = "{\"ticketIdentity\": \"411522198911174538\",\"ticketName\": \"胡超\",\"nonceStr\": \"123456\",\"fromSite\":\"北京\",\"toSite\":\"河南\",\"ticketDetails\":"+jsonArray.toString()+",\"orderAmount\": \"80\",\"termIp\": \"113.46.163.196\"}";
         JSONObject jsonObject =  (JSONObject) JSON.parse(json);
         String ticketDetails =jsonObject.getString("ticketDetails");
@@ -23,6 +23,12 @@ public class SignUtils {
         maps.put("ticketDetails",ticketDetails);
         String sign = MD5Utils.encryption(maps,"319ceidcbweifbwi");
         json = "{\"ticketIdentity\": \"411522198911174538\",\"ticketName\": \"胡超\",\"nonceStr\": \"123456\",\"fromSite\":\"北京\",\"toSite\":\"河南\",\"ticketDetails\":"+jsonArray.toString()+",\"orderAmount\": \"80\",\"termIp\": \"113.46.163.196\",\"sign\":"+sign+"}";
+        System.out.println(json);*/
+
+        String json = "{\"pageNum\": \"0\",\"pageSize\": \"10\"}";
+        Map<String,String> maps =(Map)JSON.parse(json);
+        String sign = MD5Utils.encryption(maps,"319ceidcbweifbwi");
+        json = "{\"pageNum\": \"0\",\"pageSize\": \"10\",\"sign\":\""+sign+"\"}";
         System.out.println(json);
     }
 }

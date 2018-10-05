@@ -19,16 +19,7 @@
     <result column="rob_count" jdbcType="INTEGER" property="robCount" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="app_code" jdbcType="VARCHAR" property="appCode" />
-    <collection property="ticketDetails" ofType="com.sy.huangniao.pojo.TicketDetails">
-      <id column="id" jdbcType="INTEGER" property="id" />
-      <result column="user_id" jdbcType="INTEGER" property="userId" />
-      <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
-      <result column="seat_type" jdbcType="VARCHAR" property="seatType" />
-      <result column="departure_date" jdbcType="DATE" property="departureDate" />
-      <result column="train_num" jdbcType="VARCHAR" property="trainNum" />
-      <result column="status" jdbcType="VARCHAR" property="status" />
-      <result column="sort" jdbcType="VARCHAR" property="sort" />
-      <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <collection property="ticketDetails" ofType="com.sy.huangniao.pojo.TicketDetails" column="order_no" select="com.sy.huangniao.mapper.TicketDetailsMapper.selectListByOrderNo">
     </collection>
   </resultMap>
   <resultMap id="BaseResultMap" type="com.sy.huangniao.pojo.TicketOrder">
@@ -258,54 +249,52 @@
   </update>
 
   <select id="selectList" parameterType="com.sy.huangniao.pojo.TicketOrder"  resultMap="BaseResultMapList">
-    select tor.* ,tde.*
-    from ticket_order tor left  join ticket_details tde on  tor.order_no=tde.order_no and  tor.user_id=tde.user_id
+    select tor.*
+    from ticket_order tor
     where 1=1
     <if test="orderNo != null">
-      and order_no = #{orderNo,jdbcType=VARCHAR},
+      and tor.order_no = #{orderNo,jdbcType=VARCHAR}
     </if>
     <if test="userId != null">
-      and user_id = #{userId,jdbcType=INTEGER},
+      and tor.user_id = #{userId,jdbcType=INTEGER}
     </if>
     <if test="ticketIdentity != null">
-      and ticket_identity = #{ticketIdentity,jdbcType=VARCHAR},
+      and tor.ticket_identity = #{ticketIdentity,jdbcType=VARCHAR}
     </if>
     <if test="ticketName != null">
-      and ticket_name = #{ticketName,jdbcType=VARCHAR},
+      and tor.ticket_name = #{ticketName,jdbcType=VARCHAR}
     </if>
     <if test="fromSite != null">
-      and from_site = #{fromSite,jdbcType=VARCHAR},
+      and tor.from_site = #{fromSite,jdbcType=VARCHAR}
     </if>
     <if test="toSite != null">
-      and to_site = #{toSite,jdbcType=VARCHAR},
+      and tor.to_site = #{toSite,jdbcType=VARCHAR}
     </if>
     <if test="departureDate != null">
-      and departure_date = #{departureDate,jdbcType=TIMESTAMP},
+      and tor.departure_date = #{departureDate,jdbcType=TIMESTAMP}
     </if>
     <if test="trainNum != null">
-      and train_num = #{trainNum,jdbcType=VARCHAR},
+      and tor.train_num = #{trainNum,jdbcType=VARCHAR}
     </if>
     <if test="seatType != null">
-      and seat_type = #{seatType,jdbcType=VARCHAR},
+      and tor.seat_type = #{seatType,jdbcType=VARCHAR}
     </if>
     <if test="createDate != null">
-      and create_date = #{createDate,jdbcType=TIMESTAMP},
+      and tor.create_date = #{createDate,jdbcType=TIMESTAMP}
     </if>
     <if test="orderStatus != null">
-      and order_status = #{orderStatus,jdbcType=VARCHAR},
+      and order_status = #{orderStatus,jdbcType=VARCHAR}
     </if>
     <if test="modifyDate != null">
-      and modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      and tor.modify_date = #{modifyDate,jdbcType=TIMESTAMP}
     </if>
     <if test="orderAmount != null">
-      and order_amount = #{orderAmount,jdbcType=DOUBLE},
+      and tor.order_amount = #{orderAmount,jdbcType=DOUBLE}
     </if>
     <if test="robCount != null">
-      and rob_count = #{robCount,jdbcType=INTEGER},
+      and tor.rob_count = #{robCount,jdbcType=INTEGER}
     </if>
-    <if test="remark != null">
-      and remark = #{remark,jdbcType=VARCHAR},
-    </if>
+     order by tor.create_date,tor.order_amount DESC
   </select>
   <update id="updateByOrderIdSelective" parameterType="com.sy.huangniao.pojo.TicketOrder">
     update ticket_order

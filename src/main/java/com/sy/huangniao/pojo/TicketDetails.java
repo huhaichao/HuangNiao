@@ -38,11 +38,13 @@ public class TicketDetails implements Serializable {
     /**
      * 状态
      */
+    @JsonIgnore
     private String status;
 
     /**
      * 优先级
      */
+    @JsonIgnore
     private String sort;
 
     /**

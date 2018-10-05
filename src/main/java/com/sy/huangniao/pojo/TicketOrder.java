@@ -1,5 +1,7 @@
 package com.sy.huangniao.pojo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
@@ -60,6 +62,7 @@ public class TicketOrder implements Serializable {
     /**
      * 订单创建时间
      */
+    @JSONField(format = "yyyy-mm-dd hh:mm:dd")
     private Date createDate;
 
     /**
@@ -70,6 +73,7 @@ public class TicketOrder implements Serializable {
     /**
      * 订单修改时间
      */
+    @JSONField(format = "yyyy-mm-dd hh:mm:dd")
     private Date modifyDate;
 
     /**
@@ -80,16 +84,19 @@ public class TicketOrder implements Serializable {
     /**
      * 抢单人数
      */
+    @JsonIgnore
     private Integer robCount;
 
     /**
      * 备注
      */
+    @JsonIgnore
     private String remark;
 
     /**
      * app代码
      */
+    @JsonIgnore
     private String appCode;
 
     /**

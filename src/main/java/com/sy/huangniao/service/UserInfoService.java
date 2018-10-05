@@ -54,7 +54,7 @@ public interface UserInfoService {
      * @param jsonObject
      * @return
      */
-    public  String getOrderList(JSONObject jsonObject);
+    public  JSONObject getOrderList(JSONObject jsonObject);
 
 
     /**

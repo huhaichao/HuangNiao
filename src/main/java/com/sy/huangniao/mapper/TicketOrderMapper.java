@@ -1,6 +1,7 @@
 package com.sy.huangniao.mapper;
 
 import com.sy.huangniao.pojo.TicketOrder;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 

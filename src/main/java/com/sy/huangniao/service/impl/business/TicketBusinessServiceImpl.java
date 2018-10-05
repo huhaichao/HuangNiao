@@ -61,7 +61,7 @@ public class TicketBusinessServiceImpl extends AbstractUserinfoService implement
     }
 
     @Override
-    public String getOrderList(JSONObject jsonObject) {
+    public JSONObject getOrderList(JSONObject jsonObject) {
         RobOrder robOrder = jsonObject.toJavaObject(RobOrder.class);
         log.info("userid={} 查询订单....",robOrder.getUserId());
         int pageNum  = Integer.parseInt(jsonObject.getString("pageNum"));
@@ -72,9 +72,9 @@ public class TicketBusinessServiceImpl extends AbstractUserinfoService implement
         JSONObject reulstList = new JSONObject();
         reulstList.put("total",page.getTotal());
         reulstList.put("pageNum",pageNum);
-        reulstList.put("data",list);
+        reulstList.put("datas",list);
         log.info("userid={} list={} 查询抢单订单成功....",robOrder.getUserId(),list);
-        return  reulstList.toString();
+        return  reulstList;
     }
 
     @Override

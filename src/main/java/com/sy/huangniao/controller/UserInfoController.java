@@ -324,7 +324,7 @@ public class UserInfoController {
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
             jsonObject.put("appCode",requestBody.getAppCode());
-            String result =abstractUserinfoService.getOrderList(jsonObject);
+            JSONObject result =abstractUserinfoService.getOrderList(jsonObject);
             return new RespondBody(RespondMessageEnum.SUCCESS,result);
         }catch (HNException e){
             log.info("requestBody={} getOrderList exception code={} msg={}",requestBody,e.getCode(),e.getMsg());

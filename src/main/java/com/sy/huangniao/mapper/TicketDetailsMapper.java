@@ -19,4 +19,6 @@ public interface TicketDetailsMapper {
     int updateByPrimaryKeySelective(TicketDetails record);
 
     int updateByPrimaryKey(TicketDetails record);
+
+    List<TicketDetails> selectListByOrderNo(String order_no);
 }

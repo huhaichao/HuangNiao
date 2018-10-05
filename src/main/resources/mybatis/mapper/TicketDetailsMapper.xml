@@ -142,5 +142,11 @@
       create_date = #{createDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectListByOrderNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ticket_details
+    where order_no = #{order_no,jdbcType=VARCHAR}
+  </select>
   <cache />
 </mapper>

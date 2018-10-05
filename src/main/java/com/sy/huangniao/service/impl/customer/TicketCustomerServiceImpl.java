@@ -66,7 +66,7 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
     }
 
     @Override
-    public String getOrderList(JSONObject jsonObject) {
+    public JSONObject getOrderList(JSONObject jsonObject) {
         TicketOrder ticketOrder = jsonObject.toJavaObject(TicketOrder.class);
         log.info("userid={} 查询订单....",ticketOrder.getUserId());
         int pageNum  = Integer.parseInt(jsonObject.getString("pageNum"));
@@ -77,9 +77,9 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         JSONObject reulstList = new JSONObject();
         reulstList.put("total",page.getTotal());
         reulstList.put("pageNum",pageNum);
-        reulstList.put("data",list);
+        reulstList.put("datas",list);
         log.info("userid={} list={} 查询订单成功....",ticketOrder.getUserId(),list);
-        return  reulstList.toString();
+        return  reulstList;
     }
 
     @Override
