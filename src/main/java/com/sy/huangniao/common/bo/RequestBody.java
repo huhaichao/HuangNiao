@@ -25,4 +25,7 @@ public class RequestBody {
 
     //app代号
     private String appCode;
+
+    //终端ip
+    private String termIp;
 }

@@ -21,15 +21,15 @@
     <result column="rob_count" jdbcType="INTEGER" property="robCount" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="app_code" jdbcType="VARCHAR" property="appCode" />
-    <collection property="ticketDetails" ofType="com.sy.huangniao.pojo.TicketDetails" column="order_no" select="com.sy.huangniao.mapper.TicketDetailsMapper.selectListByOrderNo">
-    </collection>
   </resultMap>
-  <resultMap id="BaseResultMap" type="com.sy.huangniao.pojo.TicketOrder">
+  <resultMap id="BaseResultMapList" type="com.sy.huangniao.pojo.TicketOrder">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="ticket_identity" jdbcType="VARCHAR" property="ticketIdentity" />
+    <result column="identity_type" jdbcType="VARCHAR" property="identityType" />
     <result column="ticket_name" jdbcType="VARCHAR" property="ticketName" />
+    <result column="linkman_type" jdbcType="VARCHAR" property="linkmanType" />
     <result column="from_site" jdbcType="VARCHAR" property="fromSite" />
     <result column="to_site" jdbcType="VARCHAR" property="toSite" />
     <result column="departure_date" jdbcType="TIMESTAMP" property="departureDate" />
@@ -42,6 +42,8 @@
     <result column="rob_count" jdbcType="INTEGER" property="robCount" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="app_code" jdbcType="VARCHAR" property="appCode" />
+    <collection property="ticketDetails" ofType="com.sy.huangniao.pojo.TicketDetails" column="order_no" select="com.sy.huangniao.mapper.TicketDetailsMapper.selectListByOrderNo">
+    </collection>
   </resultMap>
   <sql id="Base_Column_List">
     id, order_no, user_id, ticket_identity, identity_type, ticket_name, linkman_type, 

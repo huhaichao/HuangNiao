@@ -39,6 +39,7 @@ public class LoginCheck implements HandlerInterceptor {
 	}
 
 	public boolean preHandle(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2) throws Exception {
+		log.info("ip="+arg0.getRemoteHost());
 		log.info("url="+arg0.getRequestURI());
 		log.info("param"+arg0.getParameterMap().entrySet().toString());
 		String loginKey = arg0.getHeader("loginKey");
@@ -78,6 +79,8 @@ public class LoginCheck implements HandlerInterceptor {
 		
 		if (loginKey.equals(userLoginkey)){
 			log.info(userId+"===loginKey="+loginKey+"===校验登录成功!");
+			String[] value = {arg0.getRemoteHost()};
+			arg0.getParameterMap().put("termIp",value);
 			return true;
 		}else {
 			log.info(userId+"===loginKey="+loginKey+"==="+userLoginkey+"无法匹配登录信息,登录校验不过");
