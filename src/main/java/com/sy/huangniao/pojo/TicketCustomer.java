@@ -1,5 +1,7 @@
 package com.sy.huangniao.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -54,11 +56,13 @@ public class TicketCustomer implements Serializable {
     /**
      * 客户创建时间
      */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
     /**
      * 客户修改时间
      */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date modifyDate;
 
     /**

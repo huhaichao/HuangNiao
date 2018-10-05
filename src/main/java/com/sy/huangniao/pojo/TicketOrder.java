@@ -62,7 +62,7 @@ public class TicketOrder implements Serializable {
     /**
      * 订单创建时间
      */
-    @JSONField(format = "yyyy-mm-dd hh:mm:dd")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
     /**
@@ -73,7 +73,7 @@ public class TicketOrder implements Serializable {
     /**
      * 订单修改时间
      */
-    @JSONField(format = "yyyy-mm-dd hh:mm:dd")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date modifyDate;
 
     /**

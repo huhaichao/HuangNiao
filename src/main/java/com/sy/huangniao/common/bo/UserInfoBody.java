@@ -1,6 +1,6 @@
 package com.sy.huangniao.common.bo;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -47,7 +47,7 @@ public class UserInfoBody {
     /**
      * 用户生日
      */
-    @JSONField(format = "yyyy-mm-dd")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date userBirthday;
 
     /** 身份证

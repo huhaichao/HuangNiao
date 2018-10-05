@@ -1,5 +1,7 @@
 package com.sy.huangniao.pojo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
@@ -28,6 +30,7 @@ public class TicketDetails implements Serializable {
     /**
      * 出发日期
      */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     private Date departureDate;
 
     /**
