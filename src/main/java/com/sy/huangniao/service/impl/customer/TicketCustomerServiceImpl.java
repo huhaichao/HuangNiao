@@ -72,12 +72,14 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         int pageNum  = Integer.parseInt(jsonObject.getString("pageNum"));
         int pageSize = Integer.parseInt(jsonObject.getString("pageSize"));
         Page page = PageHelper.startPage(pageNum, pageSize, true);
+        page.setOrderBy(" create_date DESC ");
         IDaoService iDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());
         List<TicketOrder> list = iDaoService.selectList(ticketOrder,SqlTypeEnum.DEAFULT);
         JSONObject reulstList = new JSONObject();
         reulstList.put("total",page.getTotal());
         reulstList.put("pageNum",pageNum);
         reulstList.put("datas",list);
+        reulstList.put("pages",page.getPages());
         log.info("userid={} list={} 查询订单成功....",ticketOrder.getUserId(),list);
         return  reulstList;
     }

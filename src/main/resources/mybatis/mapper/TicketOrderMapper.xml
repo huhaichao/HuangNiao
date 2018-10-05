@@ -294,7 +294,6 @@
     <if test="robCount != null">
       and tor.rob_count = #{robCount,jdbcType=INTEGER}
     </if>
-     order by tor.create_date,tor.order_amount DESC
   </select>
   <update id="updateByOrderIdSelective" parameterType="com.sy.huangniao.pojo.TicketOrder">
     update ticket_order

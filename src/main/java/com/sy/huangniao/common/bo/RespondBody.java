@@ -20,7 +20,6 @@ public class RespondBody {
    //返回数据
    private Object data;
 
-
     public RespondBody(String code, String msg, Object data) {
         this.code = code;
         this.msg = msg;
