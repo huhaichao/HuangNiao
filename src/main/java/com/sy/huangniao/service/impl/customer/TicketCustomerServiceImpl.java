@@ -299,15 +299,22 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
     @Override
     public boolean addContacts(JSONObject jsonObject) {
         log.info("添加联系人 jsonObject={}",jsonObject);
+        IDaoService<UserLinkman> iDaoService = hnContext.getDaoService(UserLinkman.class.getSimpleName());
+        UserLinkman userLinkman =jsonObject.toJavaObject(UserLinkman.class);
+        userLinkman =iDaoService.selectObject(userLinkman,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
+        if(userLinkman!=null && userLinkman.getStatus().equals(UserLinkmanEnum.NORMAL.name())){
+            log.info(" addContacts jsonObject={} ",jsonObject);
+            return  true;
+        }
         JSONObject json = otherPartyServiceImpl.realName(jsonObject);
         jsonObject.putAll(json);
-        UserLinkman userLinkman =jsonObject.toJavaObject(UserLinkman.class);
+        userLinkman = jsonObject.toJavaObject(UserLinkman.class);
         log.info("添加联系人开始userId={}  indentity ={} name={}  appCode={} .....",userLinkman.getUserId(),
                 userLinkman.getIndentity(),userLinkman.getName(),userLinkman.getAppCode());
         userLinkman.setCreateDate(new Date());
         userLinkman.setModifyDate(new Date());
         userLinkman.setStatus(UserLinkmanEnum.NORMAL.getStatus());
-        IDaoService iDaoService = hnContext.getDaoService(UserLinkman.class.getSimpleName());
+
         if(iDaoService.save(userLinkman,SqlTypeEnum.DEAFULT)!=1){
             log.info("添加联系人 失败 userID {}",userLinkman.getUserId());
             throw new HNException(RespondMessageEnum.ADDCONTACTS_FAIL);
