@@ -61,6 +61,17 @@ public class UserInfoBody {
 
 
     /**
+     * 余额
+     */
+    private Double amount;
+
+
+    /**
+     * 冻结金额
+     */
+    private Double coolAmount;
+
+    /**
      * 如果分润比率 -- 商户返回
      */
     private String benefitRate;

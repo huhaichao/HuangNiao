@@ -122,6 +122,12 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
         userInfoBody.setUserId(userInfo.getId()+"");
         handleUserInfoBody(userInfoBody);
         log.info("获取用户信息成功信息脱敏userInfo... {}",userInfoBody);
+        UserAccount userAccount = new UserAccount();
+        userAccount.setUserId(userId);
+        IDaoService<UserAccount> iUserAccountDaoService = hnContext.getDaoService(UserAccount.class.getSimpleName());
+        userAccount =iUserAccountDaoService.selectObject(userAccount,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
+        userInfoBody.setAmount(userAccount.getAmountBalance());
+        userInfoBody.setCoolAmount(userAccount.getCoolAmount());
         return  userInfoBody;
     }
 
