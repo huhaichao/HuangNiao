@@ -26,11 +26,11 @@ public class PayInfoController {
      * 统一回调接口
      * @return
      */
-    @RequestMapping(value = "/api/{appCode}/pay/callback",method = {RequestMethod.GET,RequestMethod.POST}
+    @RequestMapping(value = "/api/{channelsCode}/pay/callback",method = {RequestMethod.GET,RequestMethod.POST}
                      ,produces = {"application/json;charset=utf-8"})
-    public  String  callback(@PathVariable("appCode") String appCode,HttpServletRequest
+    public  String  callback(@PathVariable("channelsCode") String channelsCode,HttpServletRequest
              request){
-          AbstractUserAppService abstractUserAppService =  hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(appCode));
+          AbstractUserAppService abstractUserAppService =  hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(channelsCode));
           return  abstractUserAppService.payCallback(request);
           /*Map<String,String[]> maps = request.getParameterMap();
           JSONObject  jsonObject = new JSONObject();
