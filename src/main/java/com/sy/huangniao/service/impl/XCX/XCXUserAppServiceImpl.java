@@ -193,7 +193,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
     }
 
     @Override
-    //@Transactional(rollbackFor = {Exception.class}) 事务过大
+    @Transactional(rollbackFor = {Exception.class})
     public String payCallback(HttpServletRequest request) {
         log.info("小程序回调接口调用.....");
         try {
@@ -259,7 +259,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
                         ticketOrder.setModifyDate(new Date());
                         ticketOrder.setOrderStatus(OrderStatusEnum.WAITROB.getStatus());
                         IDaoService<TicketOrder> iTicketOrderDaoService= hnContext.getDaoService(TicketOrder.class.getSimpleName());
-                        if (iTicketOrderDaoService.updateObject(ticketOrder,SqlTypeEnum.UPDATEBYUSERID)!=1){
+                        if (iTicketOrderDaoService.updateObject(ticketOrder,SqlTypeEnum.UPDATEBYUSERIDANDORDERNO)!=1){
                             log.info("xcx 修改订单状态有误请检查原因 orderNo={} userId={}",orderNo,userId
                                     );
                             //加入预警信息

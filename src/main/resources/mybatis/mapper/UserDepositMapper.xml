@@ -278,43 +278,43 @@
     from user_deposit
     where 1=1
     <if test="depositNo != null">
-      AND deposit_no = #{depositNo,jdbcType=VARCHAR},
+      AND deposit_no = #{depositNo,jdbcType=VARCHAR}
     </if>
     <if test="tradeChannelsNo != null">
-      AND trade_channels_no = #{tradeChannelsNo,jdbcType=INTEGER},
+      AND trade_channels_no = #{tradeChannelsNo,jdbcType=INTEGER}
     </if>
     <if test="userId != null">
-      AND  user_id = #{userId,jdbcType=INTEGER},
+      AND  user_id = #{userId,jdbcType=INTEGER}
     </if>
     <if test="amount != null">
-      AND  amount = #{amount,jdbcType=DOUBLE},
+      AND  amount = #{amount,jdbcType=DOUBLE}
     </if>
     <if test="createDate != null">
-      AND  create_date = #{createDate,jdbcType=TIMESTAMP},
+      AND  create_date = #{createDate,jdbcType=TIMESTAMP}
     </if>
     <if test="status != null">
-      AND status = #{status,jdbcType=VARCHAR},
+      AND status = #{status,jdbcType=VARCHAR}
     </if>
     <if test="modifyDate != null">
-      AND  modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      AND  modify_date = #{modifyDate,jdbcType=TIMESTAMP}
     </if>
     <if test="appCode != null">
-      AND app_code = #{appCode,jdbcType=VARCHAR},
+      AND app_code = #{appCode,jdbcType=VARCHAR}
     </if>
     <if test="orderNo != null">
-      AND order_no = #{orderNo,jdbcType=VARCHAR},
+      AND order_no = #{orderNo,jdbcType=VARCHAR}
     </if>
     <if test="fromAccount != null">
-      AND  from_account = #{fromAccount,jdbcType=VARCHAR},
+      AND  from_account = #{fromAccount,jdbcType=VARCHAR}
     </if>
     <if test="ip != null">
-      AND  ip = #{ip,jdbcType=VARCHAR},
+      AND  ip = #{ip,jdbcType=VARCHAR}
     </if>
     <if test="tradeType != null">
-      AND  trade_type = #{tradeType,jdbcType=VARCHAR},
+      AND  trade_type = #{tradeType,jdbcType=VARCHAR}
     </if>
     <if test="prepayId != null">
-      AND prepay_id = #{prepayId,jdbcType=VARCHAR},
+      AND prepay_id = #{prepayId,jdbcType=VARCHAR}
     </if>
   </select>
 

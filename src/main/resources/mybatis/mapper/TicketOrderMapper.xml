@@ -379,46 +379,46 @@
     from ticket_order
     where 1=1
     <if test="orderNo != null">
-      and order_no = #{orderNo,jdbcType=VARCHAR},
+      and order_no = #{orderNo,jdbcType=VARCHAR}
     </if>
     <if test="userId != null">
-      and user_id = #{userId,jdbcType=INTEGER},
+      and user_id = #{userId,jdbcType=INTEGER}
     </if>
     <if test="ticketIdentity != null">
-      and ticket_identity = #{ticketIdentity,jdbcType=VARCHAR},
+      and ticket_identity = #{ticketIdentity,jdbcType=VARCHAR}
     </if>
     <if test="ticketName != null">
-      and ticket_name = #{ticketName,jdbcType=VARCHAR},
+      and ticket_name = #{ticketName,jdbcType=VARCHAR}
     </if>
     <if test="fromSite != null">
-      and from_site = #{fromSite,jdbcType=VARCHAR},
+      and from_site = #{fromSite,jdbcType=VARCHAR}
     </if>
     <if test="toSite != null">
-      and to_site = #{toSite,jdbcType=VARCHAR},
+      and to_site = #{toSite,jdbcType=VARCHAR}
     </if>
     <if test="departureDate != null">
-      and departure_date = #{departureDate,jdbcType=TIMESTAMP},
+      and departure_date = #{departureDate,jdbcType=TIMESTAMP}
     </if>
     <if test="trainNum != null">
-      and train_num = #{trainNum,jdbcType=VARCHAR},
+      and train_num = #{trainNum,jdbcType=VARCHAR}
     </if>
     <if test="seatType != null">
-      and seat_type = #{seatType,jdbcType=VARCHAR},
+      and seat_type = #{seatType,jdbcType=VARCHAR}
     </if>
     <if test="createDate != null">
-      and create_date = #{createDate,jdbcType=TIMESTAMP},
+      and create_date = #{createDate,jdbcType=TIMESTAMP}
     </if>
     <if test="orderStatus != null">
-      and order_status = #{orderStatus,jdbcType=VARCHAR},
+      and order_status = #{orderStatus,jdbcType=VARCHAR}
     </if>
     <if test="modifyDate != null">
-      and modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      and modify_date = #{modifyDate,jdbcType=TIMESTAMP}
     </if>
     <if test="orderAmount != null">
-      and order_amount = #{orderAmount,jdbcType=DOUBLE},
+      and order_amount = #{orderAmount,jdbcType=DOUBLE}
     </if>
     <if test="robCount != null">
-      and rob_count = #{robCount,jdbcType=INTEGER},
+      and rob_count = #{robCount,jdbcType=INTEGER}
     </if>
   </select>
   <update id="updateByUserIdAndOrderNo" parameterType="com.sy.huangniao.pojo.TicketOrder">
@@ -430,10 +430,10 @@
       <if test="ticketName != null">
         ticket_name = #{ticketName,jdbcType=VARCHAR},
       </if>
-      <if test="from != null">
+      <if test="fromSite != null">
         from_site = #{fromSite,jdbcType=VARCHAR},
       </if>
-      <if test="to != null">
+      <if test="toSite != null">
         to_site = #{toSite,jdbcType=VARCHAR},
       </if>
       <if test="departureDate != null">

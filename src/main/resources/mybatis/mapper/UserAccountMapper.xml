@@ -126,25 +126,25 @@
     from user_account
     where 1=1
     <if test="accountNo != null">
-      AND account_no = #{accountNo,jdbcType=VARCHAR},
+      AND account_no = #{accountNo,jdbcType=VARCHAR}
     </if>
     <if test="userId != null">
-      AND user_id = #{userId,jdbcType=INTEGER},
+      AND user_id = #{userId,jdbcType=INTEGER}
     </if>
     <if test="amountBalance != null">
-      AND  amount_balance = #{amountBalance,jdbcType=DOUBLE},
+      AND  amount_balance = #{amountBalance,jdbcType=DOUBLE}
     </if>
     <if test="coolAmount != null">
-      AND cool_amount = #{coolAmount,jdbcType=DOUBLE},
+      AND cool_amount = #{coolAmount,jdbcType=DOUBLE}
     </if>
     <if test="createDate != null">
-      AND create_date = #{createDate,jdbcType=TIMESTAMP},
+      AND create_date = #{createDate,jdbcType=TIMESTAMP}
     </if>
     <if test="modifyDate != null">
-      AND modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      AND modify_date = #{modifyDate,jdbcType=TIMESTAMP}
     </if>
     <if test="status != null">
-      AND status = #{status,jdbcType=VARCHAR},
+      AND status = #{status,jdbcType=VARCHAR}
     </if>
   </select>
   <select id="selectObjectSelective" parameterType="com.sy.huangniao.pojo.UserAccount" resultMap="BaseResultMap">
@@ -153,33 +153,34 @@
     from user_account
     where 1=1
     <if test="accountNo != null">
-      AND account_no = #{accountNo,jdbcType=VARCHAR},
+      AND account_no = #{accountNo,jdbcType=VARCHAR}
     </if>
     <if test="userId != null">
-      AND user_id = #{userId,jdbcType=INTEGER},
+      AND user_id = #{userId,jdbcType=INTEGER}
     </if>
     <if test="amountBalance != null">
-      AND  amount_balance = #{amountBalance,jdbcType=DOUBLE},
+      AND  amount_balance = #{amountBalance,jdbcType=DOUBLE}
     </if>
     <if test="coolAmount != null">
-      AND cool_amount = #{coolAmount,jdbcType=DOUBLE},
+      AND cool_amount = #{coolAmount,jdbcType=DOUBLE}
     </if>
     <if test="createDate != null">
-      AND create_date = #{createDate,jdbcType=TIMESTAMP},
+      AND create_date = #{createDate,jdbcType=TIMESTAMP}
     </if>
     <if test="status != null">
-      AND status = #{status,jdbcType=VARCHAR},
+      AND status = #{status,jdbcType=VARCHAR}
     </if>
   </select>
   <update id="updateAccountAmount" parameterType="com.sy.huangniao.pojo.UserAccount">
     update user_account
-    set
-    <if test="amountBalance != null">
-      amount_balance = amount_balance+#{amountBalance,jdbcType=DOUBLE},
-    </if>
-    <if test="coolAmount != null">
-      cool_amount = amount_balance+#{coolAmount,jdbcType=DOUBLE},
-    </if>
+    <set>
+      <if test="amountBalance != null">
+        amount_balance = amount_balance+#{amountBalance,jdbcType=DOUBLE},
+      </if>
+      <if test="coolAmount != null">
+        cool_amount = cool_amount+#{coolAmount,jdbcType=DOUBLE},
+      </if>
+    </set>
     where id = #{id,jdbcType=INTEGER} and user_id = #{userId,jdbcType=INTEGER} and account_no = #{accountNo,jdbcType=VARCHAR}
   </update>
   <cache />
