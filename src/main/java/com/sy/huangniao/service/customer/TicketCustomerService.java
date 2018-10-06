@@ -30,8 +30,8 @@ public interface TicketCustomerService{
 
     /**
      * 待定义接口
-     * 退票
+     * 退单接口
      * @return
      */
-     public boolean  returnTicket();
+     public boolean  returnOrder(JSONObject jsonObject);
 }

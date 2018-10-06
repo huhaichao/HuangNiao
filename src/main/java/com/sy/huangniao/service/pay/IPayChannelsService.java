@@ -66,14 +66,6 @@ public interface IPayChannelsService {
 
 
     /**
-     * 回调通知接口
-     * @param jsonObject
-     * @return
-     */
-    public JSONObject  callback(JSONObject jsonObject);
-
-
-    /**
      * 企业向用户付款 -- 可以用于提现
      * @param jsonObject
      * @return

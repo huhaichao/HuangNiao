@@ -85,16 +85,20 @@ public class Constant {
         return  this.WX_XCX_URL_NOTIFY;
     }
     @Value("${wx.autoReport}")
-    private static  boolean WX_AUTOREPORT  ;
+    private   boolean WX_AUTOREPORT  ;
     public boolean getWX_AUTOREPORT() {
         return this.WX_AUTOREPORT;
     }
     @Value("${wx.useSendBox}")
-    private static  boolean WX_USESENDBOX  ;
+    private   boolean WX_USESENDBOX  ;
     public boolean getWX_USESENDBOX() {
         return this.WX_USESENDBOX;
     }
-
+    @Value("${wx.mch.cert.path}")
+    private String  certPath;
+    public String getCertPath() {
+        return certPath;
+    }
 
     //短信通道
     @Value("${http.sms.url}")
@@ -160,4 +164,6 @@ public class Constant {
     public String getREALNAME_APPCODE() {
         return REALNAME_APPCODE;
     }
+
+
 }

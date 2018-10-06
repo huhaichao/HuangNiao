@@ -138,11 +138,6 @@ public class XCXPaychannelsServiceImpl implements IWXPaychannelsService {
     }
 
     @Override
-    public JSONObject callback(JSONObject jsonObject) {
-        return null;
-    }
-
-    @Override
     public JSONObject transfers(JSONObject jsonObject) {
         return null;
     }

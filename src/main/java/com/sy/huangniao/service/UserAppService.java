@@ -75,6 +75,6 @@ public interface UserAppService {
      * @param request
      * @return
      */
-    public  String callback(HttpServletRequest request);
+    public  String payCallback(HttpServletRequest request);
 
 }

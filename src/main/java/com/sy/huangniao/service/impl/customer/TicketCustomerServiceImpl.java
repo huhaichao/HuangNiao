@@ -210,11 +210,13 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         TicketOrder ticketOrder =new TicketOrder();
         ticketOrder.setId(orderId);
         ticketOrder.setOrderStatus(OrderStatusEnum.WAITROB.getStatus());
-        ticketOrder = (TicketOrder)iDaoService.selectObject(ticketOrder,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
-        if(ticketOrder ==null){
+        TicketOrder ticketOrderSelect = (TicketOrder)iDaoService.selectObject(ticketOrder,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
+        if(ticketOrderSelect ==null){
             log.info(" orderId={} orderNo={} 该订单暂不能取消",ticketOrder.getId(),ticketOrder.getOrderNo());
             throw new HNException(RespondMessageEnum.CANCLEORDERFAIL);
         }
+        //修改订单状态
+
         //解冻金额
         IDaoService iUserAccountDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());
         UserAccount userAccount = new UserAccount();
@@ -332,7 +334,8 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
     }
 
     @Override
-    public boolean returnTicket() {
+    public boolean returnOrder(JSONObject jsonObject) {
         return false;
     }
+
 }

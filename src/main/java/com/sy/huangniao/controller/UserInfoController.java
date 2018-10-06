@@ -533,9 +533,9 @@ public class UserInfoController {
 
     /**
      * 待定义接口
-     * 退票  --- 暂不提供
+     * 退单  --- 暂不提供
      * @return
      */
-    public void  returnTicket(){}
+    public void  returnTicket(JSONObject jsonObject){}
 
 }

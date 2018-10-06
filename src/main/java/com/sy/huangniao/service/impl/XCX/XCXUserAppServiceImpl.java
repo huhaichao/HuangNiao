@@ -194,7 +194,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
 
     @Override
     //@Transactional(rollbackFor = {Exception.class}) 事务过大
-    public String callback(HttpServletRequest request) {
+    public String payCallback(HttpServletRequest request) {
         log.info("小程序回调接口调用.....");
         try {
             String result= HttpClientUtils.respondString(request.getInputStream());

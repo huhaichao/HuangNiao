@@ -7,6 +7,9 @@ import com.sy.huangniao.common.constant.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 /**
@@ -35,7 +38,13 @@ public class WxPayConfig extends WXPayConfig {
 
     @Override
     public InputStream getCertStream() {
-        return null;
+        FileInputStream instream = null;
+        try {
+            instream = new FileInputStream(new File(constant.getCertPath()));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return  instream;
     }
 
     @Override

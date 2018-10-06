@@ -8,6 +8,8 @@ public enum OrderStatusEnum {
     WAITPAY("wait_pay","等待支付"),
     WAITROB("wait_rob","等待抢单"),
     CANCEL("cancel","订单取消"),
+    RETURNING_AMOUNT("returning_amount","退款中"),
+    RETURNED_AMOUNT("returned_amount","已退款"),
     ROBING("robing","抢票中"),
     ORDER_AUDIT("order_audit","出票审核中"),
     TICKET_SUCCESS("ticket_success","已出票"),
