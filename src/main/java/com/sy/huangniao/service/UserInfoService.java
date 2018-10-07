@@ -67,12 +67,11 @@ public interface UserInfoService {
 
     /**
      * 取消订单
-     * @param userId
-     * @param orderId
+     * jsonObject
      * @param
      * @return
      */
-    public  boolean  cancleOrder (int userId ,int orderId);
+    public  boolean  cancleOrder (JSONObject jsonObject);
 
     /**
      * 实名认证接口

@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -140,7 +141,7 @@ public class UserInfoController {
      * 下单
      */
     @PostMapping(value="/api/v1/user/createOrder",produces = {"application/json;charset=utf-8"})
-    public RespondBody createOrder(RequestBody requestBody){
+    public RespondBody createOrder(RequestBody requestBody,HttpServletRequest arg0){
         try {
             log.info("requestBody={} createOrder......",requestBody);
             AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
@@ -163,7 +164,7 @@ public class UserInfoController {
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
             jsonObject.put("appCode",requestBody.getAppCode());
-            jsonObject.put("termIp",requestBody.getTermIp());
+            jsonObject.put("termIp",arg0.getRemoteHost());
             //jsonObject.put("ticketDetails", JSONArray.parseArray(ticketDetails));
             JSONObject result =abstractUserinfoService.createOrder(jsonObject);
             return new RespondBody(RespondMessageEnum.SUCCESS,result);
@@ -362,7 +363,7 @@ public class UserInfoController {
         jsonObject.put("appCode",requestBody.getAppCode());
        // jsonObject.put("userId",requestBody.getUserId());
        // jsonObject.put("userRole",requestBody.getUserRole());
-        if(abstractUserinfoService.cancleOrder(Integer.parseInt(requestBody.getUserId()),jsonObject.getIntValue("orderId")))
+        if(abstractUserinfoService.cancleOrder(jsonObject))
             return new RespondBody(RespondMessageEnum.SUCCESS);
         else
             return new RespondBody(RespondMessageEnum.CANCLEORDERFAIL);

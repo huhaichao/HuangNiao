@@ -204,21 +204,56 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
 
     @Override
     @Transactional(rollbackFor = {Exception.class})
-    public boolean cancleOrder(int userId, int orderId) {
+    public boolean cancleOrder(JSONObject  jsonObject) {
         //取消订单状态
         IDaoService iDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());
         TicketOrder ticketOrder =new TicketOrder();
-        ticketOrder.setId(orderId);
-        ticketOrder.setOrderStatus(OrderStatusEnum.WAITROB.getStatus());
+        ticketOrder.setId(jsonObject.getInteger("orderId"));
+        ticketOrder.setUserId(jsonObject.getInteger("userId"));
+        //ticketOrder.setOrderStatus(OrderStatusEnum.WAITROB.getStatus());
         TicketOrder ticketOrderSelect = (TicketOrder)iDaoService.selectObject(ticketOrder,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
         if(ticketOrderSelect ==null){
-            log.info(" orderId={} orderNo={} 该订单暂不能取消",ticketOrder.getId(),ticketOrder.getOrderNo());
-            throw new HNException(RespondMessageEnum.CANCLEORDERFAIL);
+            log.info(" orderId={} orderNo={} 该订单暂不存在",ticketOrder.getId(),ticketOrder.getOrderNo());
+            throw new HNException(RespondMessageEnum.CANCLEORDERNOEXSIT);
+        }
+        TicketOrder ticketOrder2 =new TicketOrder();
+        ticketOrder2.setId(ticketOrder.getId());
+        String orderStatus = ticketOrderSelect.getOrderStatus() ;
+        if(OrderStatusEnum.WAITPAY.getStatus().equals(orderStatus)){
+            //未支付的---直接取消订单
+            log.info(" orderId={} orderNo={} 该订单未支付直接取消",ticketOrder.getId(),ticketOrder.getOrderNo());
+            ticketOrder2.setOrderStatus(OrderStatusEnum.CANCEL.getStatus());
+        }else  if (OrderStatusEnum.WAITROB.getStatus().equals(orderStatus) || OrderStatusEnum.ROBING.getStatus().equals(orderStatus)){
+            //已支付的退款
+            ticketOrder2.setOrderStatus(OrderStatusEnum.RETURNING_AMOUNT.getStatus());
+            ReturnOrder returnOrder = new ReturnOrder();
+            returnOrder.setUserId(ticketOrderSelect.getUserId());
+            returnOrder.setOrderNo(ticketOrderSelect.getOrderNo());
+            returnOrder.setReturnAmount(ticketOrderSelect.getOrderAmount());
+            returnOrder.setOrderAmount(ticketOrderSelect.getOrderAmount());
+            returnOrder.setCreateDate(new Date());
+            returnOrder.setModifyDate(new Date());
+            returnOrder.setReturnStatus(OrderStatusEnum.RETURNED_AUDIT.getStatus());
+            AbstractUserAppService abstractUserAppService =hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(ticketOrderSelect.getAppCode()));
+            String returnNO =abstractUserAppService.createReturnNO();
+            returnOrder.setReturnNo(returnNO);
+            IDaoService iReturnOrderDaoService = hnContext.getDaoService(ReturnOrder.class.getSimpleName());
+            if(iReturnOrderDaoService.save(returnOrder,SqlTypeEnum.DEAFULT)!=1){
+                log.info(" orderId={} orderNo={} 创建退款订单失败",ticketOrder.getId(),ticketOrder.getOrderNo());
+                throw new HNException(RespondMessageEnum.CANCLEORDERFAIL);
+            }
+        }else {
+            log.info(" orderId={} orderNo={} 状态不是等待支付，等待抢票、抢票中的不允许取消",ticketOrder.getId(),ticketOrder.getOrderNo());
+            throw new HNException(RespondMessageEnum.CANCLEORDERNOSUPPORT);
         }
         //修改订单状态
+        if(iDaoService.updateObject(ticketOrder2,SqlTypeEnum.DEAFULT)!=1){
+            log.info(" orderId={} orderNo={} 修改订单状态....",ticketOrder.getId(),ticketOrder.getOrderNo());
+            throw new HNException(RespondMessageEnum.CANCLEORDERFAIL);
+        }
 
         //解冻金额
-        IDaoService iUserAccountDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());
+       /* IDaoService iUserAccountDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());
         UserAccount userAccount = new UserAccount();
         userAccount.setUserId(userId);
         userAccount = (UserAccount)iUserAccountDaoService.selectObject(userAccount,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
@@ -234,7 +269,9 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
                     userAccount.getAccountNo(),userAccount.getUserId(),userAccount.getCoolAmount());
             throw new HNException(RespondMessageEnum.UNFREEAMOUNTFAIL);
         }
-        return true;
+        return true;*/
+
+       return true;
     }
 
 

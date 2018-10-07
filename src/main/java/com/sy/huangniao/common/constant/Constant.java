@@ -52,6 +52,12 @@ public class Constant {
     public  String getTRADENOXCX(){
         return  this.TRADENOXCX;
     }
+    //退款单号前缀
+    @Value("${user.returnno.xcx}")
+    private   String RETURNNOXCX  ;
+    public String getRETURNNOXCX() {
+        return RETURNNOXCX;
+    }
     //失效时间37*24*3600
     @Value("${user.loginKeyexprirTime}")
     private   long   loginKeyexprirTime;
@@ -164,6 +170,7 @@ public class Constant {
     public String getREALNAME_APPCODE() {
         return REALNAME_APPCODE;
     }
+
 
 
 }

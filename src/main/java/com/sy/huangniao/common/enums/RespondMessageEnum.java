@@ -21,7 +21,7 @@ public enum RespondMessageEnum {
     UPDATEWXINFOFAIL("0009","修改用户微信信息表失败"),
     CONFIREMEORDERFAIL("0010", "订单确认失败"),
     UNFREEAMOUNTFAIL("0011","解冻金额失败" ),
-    CANCLEORDERFAIL("0012","该订单暂不能取消，可能原因是已有商户在提供抢票服务！"),
+    CANCLEORDERFAIL("0012","订单取消失败"),
     LACK_PARAMS("0013","缺少参数"),
     PAYSIGNFAIL("0014", "签名失败"),
     UPDATEDEPOSITSTATUSFAIL("0015", "修改钱包充值金额有误"),
@@ -34,8 +34,10 @@ public enum RespondMessageEnum {
     SMS_CODE_FAIL("0022","验证码操作失败，请重试"),
     REALNAME_FAIL("0023","身份证或者姓名有误，请检查"),
     ADDCONTACTS_FAIL("0024","添加联系人失败"),
-    ADDCONTACTS_REPEAT("0025","重复添加联系人"),
+    ADDCONTACTS_REPEAT("0025","该联系人已存在"),
     CREATORDERDETAILSFAIL("0026", "创建订单明细失败"),
+    CANCLEORDERNOEXSIT("0027","该订单不存在"),
+    CANCLEORDERNOSUPPORT("0028","该订单不支持取消"),
     /*
      调用微信外部接口以1开头
     * */
@@ -60,7 +62,7 @@ public enum RespondMessageEnum {
 
 
     SUCCESS("0000","成功"),
-    EXCEPTION("9999","服务器异常"), ;
+    EXCEPTION("9999","服务器异常"),;
 
     private  String  code;
 

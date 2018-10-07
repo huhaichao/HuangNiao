@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.huangniao.mapper.ReturnOrderMapper">
+  <resultMap id="BaseResultMap" type="com.sy.huangniao.pojo.ReturnOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="return_no" jdbcType="VARCHAR" property="returnNo" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="trade_channels_no" jdbcType="VARCHAR" property="tradeChannelsNo" />
+    <result column="trade_channels_return_no" jdbcType="VARCHAR" property="tradeChannelsReturnNo" />
+    <result column="return_amount" jdbcType="DOUBLE" property="returnAmount" />
+    <result column="order_amount" jdbcType="DOUBLE" property="orderAmount" />
+    <result column="return_status" jdbcType="VARCHAR" property="returnStatus" />
+    <result column="return_type" jdbcType="VARCHAR" property="returnType" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="retun_time" jdbcType="TIMESTAMP" property="retunTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="appCode" jdbcType="VARCHAR" property="appcode" />
+    <result column="refund_account" jdbcType="VARCHAR" property="refundAccount" />
+    <result column="refund_request_source" jdbcType="VARCHAR" property="refundRequestSource" />
+    <result column="refund_recv_accout" jdbcType="VARCHAR" property="refundRecvAccout" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, return_no, order_no, trade_channels_no, trade_channels_return_no, return_amount, 
+    order_amount, return_status, return_type, create_date, modify_date, retun_time, remark, 
+    appCode, refund_account, refund_request_source, refund_recv_accout
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from return_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from return_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.ReturnOrder" useGeneratedKeys="true">
+    insert into return_order (user_id, return_no, order_no, 
+      trade_channels_no, trade_channels_return_no, 
+      return_amount, order_amount, return_status, 
+      return_type, create_date, modify_date, 
+      retun_time, remark, appCode, 
+      refund_account, refund_request_source, refund_recv_accout
+      )
+    values (#{userId,jdbcType=INTEGER}, #{returnNo,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, 
+      #{tradeChannelsNo,jdbcType=VARCHAR}, #{tradeChannelsReturnNo,jdbcType=VARCHAR}, 
+      #{returnAmount,jdbcType=DOUBLE}, #{orderAmount,jdbcType=DOUBLE}, #{returnStatus,jdbcType=VARCHAR}, 
+      #{returnType,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{retunTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{appcode,jdbcType=VARCHAR}, 
+      #{refundAccount,jdbcType=VARCHAR}, #{refundRequestSource,jdbcType=VARCHAR}, #{refundRecvAccout,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.ReturnOrder" useGeneratedKeys="true">
+    insert into return_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="returnNo != null">
+        return_no,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="tradeChannelsNo != null">
+        trade_channels_no,
+      </if>
+      <if test="tradeChannelsReturnNo != null">
+        trade_channels_return_no,
+      </if>
+      <if test="returnAmount != null">
+        return_amount,
+      </if>
+      <if test="orderAmount != null">
+        order_amount,
+      </if>
+      <if test="returnStatus != null">
+        return_status,
+      </if>
+      <if test="returnType != null">
+        return_type,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="modifyDate != null">
+        modify_date,
+      </if>
+      <if test="retunTime != null">
+        retun_time,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="appcode != null">
+        appCode,
+      </if>
+      <if test="refundAccount != null">
+        refund_account,
+      </if>
+      <if test="refundRequestSource != null">
+        refund_request_source,
+      </if>
+      <if test="refundRecvAccout != null">
+        refund_recv_accout,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="returnNo != null">
+        #{returnNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeChannelsNo != null">
+        #{tradeChannelsNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeChannelsReturnNo != null">
+        #{tradeChannelsReturnNo,jdbcType=VARCHAR},
+      </if>
+      <if test="returnAmount != null">
+        #{returnAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="orderAmount != null">
+        #{orderAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="returnStatus != null">
+        #{returnStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="returnType != null">
+        #{returnType,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="retunTime != null">
+        #{retunTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="appcode != null">
+        #{appcode,jdbcType=VARCHAR},
+      </if>
+      <if test="refundAccount != null">
+        #{refundAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="refundRequestSource != null">
+        #{refundRequestSource,jdbcType=VARCHAR},
+      </if>
+      <if test="refundRecvAccout != null">
+        #{refundRecvAccout,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.huangniao.pojo.ReturnOrder">
+    update return_order
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="returnNo != null">
+        return_no = #{returnNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeChannelsNo != null">
+        trade_channels_no = #{tradeChannelsNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeChannelsReturnNo != null">
+        trade_channels_return_no = #{tradeChannelsReturnNo,jdbcType=VARCHAR},
+      </if>
+      <if test="returnAmount != null">
+        return_amount = #{returnAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="orderAmount != null">
+        order_amount = #{orderAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="returnStatus != null">
+        return_status = #{returnStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="returnType != null">
+        return_type = #{returnType,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="retunTime != null">
+        retun_time = #{retunTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="appcode != null">
+        appCode = #{appcode,jdbcType=VARCHAR},
+      </if>
+      <if test="refundAccount != null">
+        refund_account = #{refundAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="refundRequestSource != null">
+        refund_request_source = #{refundRequestSource,jdbcType=VARCHAR},
+      </if>
+      <if test="refundRecvAccout != null">
+        refund_recv_accout = #{refundRecvAccout,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.huangniao.pojo.ReturnOrder">
+    update return_order
+    set user_id = #{userId,jdbcType=INTEGER},
+      return_no = #{returnNo,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      trade_channels_no = #{tradeChannelsNo,jdbcType=VARCHAR},
+      trade_channels_return_no = #{tradeChannelsReturnNo,jdbcType=VARCHAR},
+      return_amount = #{returnAmount,jdbcType=DOUBLE},
+      order_amount = #{orderAmount,jdbcType=DOUBLE},
+      return_status = #{returnStatus,jdbcType=VARCHAR},
+      return_type = #{returnType,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      retun_time = #{retunTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      appCode = #{appcode,jdbcType=VARCHAR},
+      refund_account = #{refundAccount,jdbcType=VARCHAR},
+      refund_request_source = #{refundRequestSource,jdbcType=VARCHAR},
+      refund_recv_accout = #{refundRecvAccout,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <cache />
+</mapper>

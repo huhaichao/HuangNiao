@@ -193,6 +193,11 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
     }
 
     @Override
+    public String createReturnNO() {
+        return constant.getRETURNNOXCX()+IdGenerator.getInstance().generate();
+    }
+
+    @Override
     @Transactional(rollbackFor = {Exception.class})
     public String payCallback(HttpServletRequest request) {
         log.info("小程序回调接口调用.....");

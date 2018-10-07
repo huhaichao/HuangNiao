@@ -10,6 +10,7 @@ public enum OrderStatusEnum {
     CANCEL("cancel","订单取消"),
     RETURNING_AMOUNT("returning_amount","退款中"),
     RETURNED_AMOUNT("returned_amount","已退款"),
+    RETURNED_AUDIT("returned_audit","退款审核中"),
     ROBING("robing","抢票中"),
     ORDER_AUDIT("order_audit","出票审核中"),
     TICKET_SUCCESS("ticket_success","已出票"),

@@ -46,6 +46,12 @@ public interface UserAppService {
     public String  createOrderNO();
 
     /**
+     * 创建订单号
+     * @return
+     */
+    public String  createReturnNO();
+
+    /**
      *
      * 充值
      * @param jsonObject

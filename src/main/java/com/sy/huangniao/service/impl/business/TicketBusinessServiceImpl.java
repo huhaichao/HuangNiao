@@ -37,7 +37,7 @@ public class TicketBusinessServiceImpl extends AbstractUserinfoService implement
 
 
     @Override
-    public boolean cancleOrder(int userId, int orderId) {
+    public boolean cancleOrder(JSONObject jsonObject) {
         return false;
     }
 
