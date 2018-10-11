@@ -375,4 +375,16 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         return false;
     }
 
+    @Override
+    public void returnOrderHandle(JSONObject jsonObject) {
+     ReturnOrder returnOrder = new ReturnOrder();
+     returnOrder.setReturnStatus(OrderStatusEnum.RETURNING_AMOUNT.getStatus());
+     //每次处理1000条信息
+     Page page = PageHelper.startPage(0,1000);
+     IDaoService<ReturnOrder>  iDaoService=  hnContext.getDaoService(ReturnOrder.class.getSimpleName());
+     List<ReturnOrder> list =iDaoService.selectList(returnOrder,SqlTypeEnum.DEAFULT);
+
+
+    }
+
 }

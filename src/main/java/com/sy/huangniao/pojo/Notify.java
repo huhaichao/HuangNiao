@@ -22,6 +22,11 @@ public class Notify implements Serializable {
     private String title;
 
     /**
+     * 消息类型
+     */
+    private String msgType;
+
+    /**
      * 通知状态
      */
     private String notifyStatus;
@@ -77,12 +82,20 @@ public class Notify implements Serializable {
         this.title = title == null ? null : title.trim();
     }
 
+    public String getMsgType() {
+        return msgType;
+    }
+
+    public void setMsgType(String msgType) {
+        this.msgType = msgType == null ? null : msgType.trim();
+    }
+
     public String getNotifyStatus() {
         return notifyStatus;
     }
 
     public void setNotifyStatus(String notifyStatus) {
-        this.notifyStatus = notifyStatus;
+        this.notifyStatus = notifyStatus == null ? null : notifyStatus.trim();
     }
 
     public Date getCreateDate() {
@@ -127,6 +140,7 @@ public class Notify implements Serializable {
         sb.append(", fromNo=").append(fromNo);
         sb.append(", toNo=").append(toNo);
         sb.append(", title=").append(title);
+        sb.append(", msgType=").append(msgType);
         sb.append(", notifyStatus=").append(notifyStatus);
         sb.append(", createDate=").append(createDate);
         sb.append(", notifyDate=").append(notifyDate);

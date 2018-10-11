@@ -1,6 +1,7 @@
 package com.sy.huangniao.service.customer;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sy.huangniao.pojo.ReturnOrder;
 import com.sy.huangniao.pojo.UserLinkman;
 
 import java.util.List;
@@ -34,4 +35,12 @@ public interface TicketCustomerService{
      * @return
      */
      public boolean  returnOrder(JSONObject jsonObject);
+
+
+    /**
+     *  退款订单处理接口
+     * @param jsonObject
+     * @return
+     */
+     public void  returnOrderHandle(JSONObject jsonObject);
 }
