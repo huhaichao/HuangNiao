@@ -88,7 +88,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
       //根据openid查询userid--如果没有则创建
            UserWxinfo userWxinfoSelect = new UserWxinfo();
            userWxinfoSelect.setOpenid(userWxinfo.getOpenid());
-           List<UserWxinfo> list =iDaoService.selectList(userWxinfo,SqlTypeEnum.DEAFULT);
+           List<UserWxinfo> list =iDaoService.selectList(userWxinfoSelect,SqlTypeEnum.DEAFULT);
            if(list==null || list.size()==0){
               AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(json.getString("userRole"));
               UserInfo userInfo =abstractUserinfoService.createUserInfo(json);
@@ -209,9 +209,10 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
         params.put("total_fee","");
         params.put("refund_fee","");
         params.put("notify_url","");
+        JSONObject  returnJson = iwxPaychannelsService.refund(params);
 
 
-        iwxPaychannelsService.refund();
+
         return null;
     }
 
