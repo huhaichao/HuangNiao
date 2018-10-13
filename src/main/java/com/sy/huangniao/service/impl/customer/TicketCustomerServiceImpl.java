@@ -18,7 +18,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 
@@ -377,12 +376,28 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
 
     @Override
     public void returnOrderHandle(JSONObject jsonObject) {
-     ReturnOrder returnOrder = new ReturnOrder();
-     returnOrder.setReturnStatus(OrderStatusEnum.RETURNING_AMOUNT.getStatus());
-     //每次处理1000条信息
-     Page page = PageHelper.startPage(0,1000);
-     IDaoService<ReturnOrder>  iDaoService=  hnContext.getDaoService(ReturnOrder.class.getSimpleName());
-     List<ReturnOrder> list =iDaoService.selectList(returnOrder,SqlTypeEnum.DEAFULT);
+         ReturnOrder returnOrder = new ReturnOrder();
+         returnOrder.setReturnStatus(OrderStatusEnum.RETURNING_AMOUNT.getStatus());
+         //每次处理1000条信息
+         Page page = PageHelper.startPage(0,1000);
+         IDaoService<ReturnOrder>  iDaoService=  hnContext.getDaoService(ReturnOrder.class.getSimpleName());
+         List<ReturnOrder> list =iDaoService.selectList(returnOrder,SqlTypeEnum.DEAFULT);
+         /**
+         *  处理退款信息
+         */
+         for(ReturnOrder ro : list){
+
+           String  appCode =   ro.getAppcode();
+           //退款类型
+           //String  returnType = ro.getReturnType();
+           AbstractUserAppService abstractUserAppService =   hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(appCode));
+           JSONObject json = (JSONObject) JSONObject.toJSON(ro);
+
+           JSONObject result =abstractUserAppService.returned(json);
+
+
+
+         }
 
 
     }

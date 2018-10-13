@@ -198,6 +198,24 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
     }
 
     @Override
+    public JSONObject returned(JSONObject jsonObject) {
+
+        IWXPaychannelsService iwxPaychannelsService= hnContext.getIWXPaychannelsService(AppCodeEnum.valueOf(jsonObject.getString("appCode")));
+
+        //组装参数
+        JSONObject params = new JSONObject();
+        params.put("out_trade_no","");
+        params.put("out_refund_no","");
+        params.put("total_fee","");
+        params.put("refund_fee","");
+        params.put("notify_url","");
+
+
+        iwxPaychannelsService.refund();
+        return null;
+    }
+
+    @Override
     @Transactional(rollbackFor = {Exception.class})
     public String payCallback(HttpServletRequest request) {
         log.info("小程序回调接口调用.....");

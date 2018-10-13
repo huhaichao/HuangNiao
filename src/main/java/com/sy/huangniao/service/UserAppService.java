@@ -77,6 +77,11 @@ public interface UserAppService {
 
 
     /**
+     * 退款接口
+     */
+    public  JSONObject  returned(JSONObject jsonObject);
+
+    /**
      *  支付结果回调接口
      * @param request
      * @return
