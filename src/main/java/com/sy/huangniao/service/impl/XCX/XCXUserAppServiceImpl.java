@@ -129,7 +129,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
         map.put("package","prepay_id="+prepay_id);
         map.put("signType","HMAC-SHA256");
         try {
-            String sign = WXPayUtil.generateSignature(map,wxPayConfig.getKey());
+            String sign = WXPayUtil.generateSignature(map,wxPayConfig.getKey(), WXPayConstants.SignType.HMACSHA256);
             map.remove("appId");
             map.put("paySign",sign);
             JSONObject json = new JSONObject();

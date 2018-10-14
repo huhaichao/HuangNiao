@@ -174,27 +174,21 @@
          </dependency>-->
 
      </dependencies>
+    <!-- 开发环境编译代码的方式命令：clean package -Dmaven.test.skip=true -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <profiles>
-        <!-- 开发环境编译代码的方式命令：clean package -Pdev -Dmaven.test.skip=true -->
-        <profile>
-            <id>dev</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <configuration>
-                            <source>1.8</source>
-                            <target>1.8</target>
-                            <encoding>UTF-8</encoding>
-                            <compilerArguments>
-                                <verbose />
-                            </compilerArguments>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
         <!-- 单独部署工程jar编译方式命令：clean package -Pjar -Dmaven.test.skip=true -->
         <profile>
             <id>jar</id>
