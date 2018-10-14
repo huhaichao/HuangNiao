@@ -58,6 +58,14 @@ public interface UserInfoService {
 
 
     /**
+     * 查询订单详情
+     * @param jsonObject
+     * @return
+     */
+    JSONObject getOrderDetails(JSONObject jsonObject);
+
+
+    /**
      * 订单确认接口  --- 用户确认支付  --- 服务商确认抢到票
      * @param jsonObject
      * @param
@@ -92,6 +100,7 @@ public interface UserInfoService {
      * @return
      */
     public  JSONObject  sendPhoneCode(JSONObject jsonObject);
+
 
     /**
      *

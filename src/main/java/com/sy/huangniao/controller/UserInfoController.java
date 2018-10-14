@@ -1,10 +1,8 @@
 package com.sy.huangniao.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sy.huangniao.common.Util.MD5Utils;
-import com.sy.huangniao.common.Util.StringUtils;
 import com.sy.huangniao.common.bo.RequestBody;
 import com.sy.huangniao.common.bo.RespondBody;
 import com.sy.huangniao.common.bo.UserInfoBody;
@@ -328,6 +326,36 @@ public class UserInfoController {
             jsonObject.put("userRole",requestBody.getUserRole());
             jsonObject.put("appCode",requestBody.getAppCode());
             JSONObject result =abstractUserinfoService.getOrderList(jsonObject);
+            return new RespondBody(RespondMessageEnum.SUCCESS,result);
+        }catch (HNException e){
+            log.info("requestBody={} getOrderList exception code={} msg={}",requestBody,e.getCode(),e.getMsg());
+            return new RespondBody(e.getRespondMessageEnum());
+        }catch (Exception e){
+            log.info("requestBody={} getOrderList exception={}",requestBody,e.getMessage());
+            return new RespondBody(RespondMessageEnum.EXCEPTION);
+        }
+    }
+
+    @PostMapping(value="/api/v1/user/getOrderDetails",produces = {"application/json;charset=utf-8"})
+    public RespondBody getOrderDetails(RequestBody requestBody){
+        try {
+            log.info("requestBody={} getOrderList......",requestBody);
+            AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
+            JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
+            /*String sign = jsonObject.getString("sign");
+            if(StringUtils.isEmpty(sign)){
+                log.info("requestBody={}  login 没有签名..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
+            }
+            jsonObject.remove("sign");
+            if(!MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
+                log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.SIGNERROR);
+            }*/
+            jsonObject.put("userId",requestBody.getUserId());
+            jsonObject.put("userRole",requestBody.getUserRole());
+            jsonObject.put("appCode",requestBody.getAppCode());
+            JSONObject result =abstractUserinfoService.getOrderDetails(jsonObject);
             return new RespondBody(RespondMessageEnum.SUCCESS,result);
         }catch (HNException e){
             log.info("requestBody={} getOrderList exception code={} msg={}",requestBody,e.getCode(),e.getMsg());

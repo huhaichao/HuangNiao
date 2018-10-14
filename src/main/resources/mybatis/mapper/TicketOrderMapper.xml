@@ -373,7 +373,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="selectObjectBySelective" parameterType="com.sy.huangniao.pojo.TicketOrder"  resultMap="BaseResultMap">
+  <select id="selectObjectBySelective" parameterType="com.sy.huangniao.pojo.TicketOrder"  resultMap="BaseResultMapList">
     select
     <include refid="Base_Column_List" />
     from ticket_order

@@ -84,6 +84,17 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
     }
 
     @Override
+    public JSONObject getOrderDetails(JSONObject jsonObject) {
+        TicketOrder ticketOrder = jsonObject.toJavaObject(TicketOrder.class);
+        log.info("userid={} 查询订单详情....",ticketOrder.getUserId());
+        IDaoService<TicketOrder> iDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());
+        TicketOrder ticket= iDaoService.selectObject(ticketOrder,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
+        JSONObject json =(JSONObject) JSONObject.toJSON(ticket);
+        log.info("userid={} 查询订单详情.... result={}",ticketOrder.getUserId(),json);
+        return  json;
+    }
+
+    @Override
     @Transactional(rollbackFor = {Exception.class})
     public boolean confirmeOrder(JSONObject jsonObject) {
         TicketOrder ticketOrder = jsonObject.toJavaObject(TicketOrder.class);

@@ -13,6 +13,7 @@ public class UserLinkman implements Serializable {
     /**
      * 用户id
      */
+    @JsonIgnore
     private Integer userId;
 
     /**
