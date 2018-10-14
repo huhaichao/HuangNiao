@@ -78,7 +78,7 @@
       <if test="orderNo != null">
         order_no,
       </if>
-      <if test="from_Account != null">
+      <if test="fromAccount != null">
         from_account,
       </if>
       <if test="ip != null">
@@ -129,7 +129,7 @@
         #{orderNo,jdbcType=VARCHAR},
       </if>
       <if test="fromAccount != null">
-        #{from_account,jdbcType=VARCHAR},
+        #{fromAccount,jdbcType=VARCHAR},
       </if>
       <if test="ip != null">
         #{ip,jdbcType=VARCHAR},

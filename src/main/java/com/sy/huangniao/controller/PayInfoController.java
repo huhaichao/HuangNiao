@@ -23,15 +23,36 @@ public class PayInfoController {
 
 
     /**
-     * 统一回调接口
+     * 支付回调接口
      * @return
      */
     @RequestMapping(value = "/api/{channelsCode}/pay/callback",method = {RequestMethod.GET,RequestMethod.POST}
                      ,produces = {"application/json;charset=utf-8"})
-    public  String  callback(@PathVariable("channelsCode") String channelsCode,HttpServletRequest
+    public  String  payCallback(@PathVariable("channelsCode") String channelsCode,HttpServletRequest
              request){
           AbstractUserAppService abstractUserAppService =  hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(channelsCode));
           return  abstractUserAppService.payCallback(request);
+          /*Map<String,String[]> maps = request.getParameterMap();
+          JSONObject  jsonObject = new JSONObject();
+          for (Map.Entry<String,String[]> entry : maps.entrySet()){
+              String key = entry.getKey();
+              String[] string = entry.getValue();
+              jsonObject.put(key,string[0]);
+          }
+          AbstractUserAppService abstractUserAppService = hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(appCode.toUpperCase()));
+          return  abstractUserAppService.callback(jsonObject);*/
+    }
+
+    /**
+     * 退款回调接口
+     * @return
+     */
+    @RequestMapping(value = "/api/{channelsCode}/return/callback",method = {RequestMethod.GET,RequestMethod.POST}
+            ,produces = {"application/json;charset=utf-8"})
+    public  String  returnCallback(@PathVariable("channelsCode") String channelsCode,HttpServletRequest
+            request){
+        AbstractUserAppService abstractUserAppService =  hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(channelsCode));
+        return  abstractUserAppService.returnCallback(request);
           /*Map<String,String[]> maps = request.getParameterMap();
           JSONObject  jsonObject = new JSONObject();
           for (Map.Entry<String,String[]> entry : maps.entrySet()){

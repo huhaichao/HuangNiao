@@ -17,6 +17,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 /**
@@ -160,5 +161,6 @@ public abstract class AbstractUserAppService implements UserAppService {
     public  JSONObject  withdraw(JSONObject jsonObject){
         return  null;
     }
+
 
 }

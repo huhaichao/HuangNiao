@@ -88,4 +88,12 @@ public interface UserAppService {
      */
     public  String payCallback(HttpServletRequest request);
 
+    /**
+     *  退款通知接口
+     * @param request
+     * @return
+     */
+    public String returnCallback(HttpServletRequest request);
+
+
 }

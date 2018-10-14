@@ -71,7 +71,7 @@ public class UserInfoController {
            json.put("userRole",requestBody.getUserRole());
            json.put("appCode",requestBody.getAppCode());
            JSONObject jsonObject = abstractUserAppService.login(json);
-           MD5Utils.encryption(jsonObject,constant.getUSERLOGINSIGNKEY());
+           //MD5Utils.encryption(jsonObject,constant.getUSERLOGINSIGNKEY());
            return new RespondBody(RespondMessageEnum.SUCCESS,jsonObject);
        }catch (HNException e){
            log.info("requestBody={} login exception code={} msg={}",requestBody,e.getCode(),e.getMsg());
@@ -92,7 +92,7 @@ public class UserInfoController {
             AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
             UserInfoBody userInfoBody = abstractUserinfoService.getUserInfo(Integer.parseInt(requestBody.getUserId()));
             JSONObject jsonObject = (JSONObject) JSONObject.toJSON(userInfoBody);
-            MD5Utils.encryption(jsonObject,constant.getUSERLOGINSIGNKEY());
+            //MD5Utils.encryption(jsonObject,constant.getUSERLOGINSIGNKEY());
             return new RespondBody(RespondMessageEnum.SUCCESS,jsonObject);
         }catch (HNException e){
             log.info("requestBody={} getUserInfo exception code={} msg={}",requestBody,e.getCode(),e.getMsg());

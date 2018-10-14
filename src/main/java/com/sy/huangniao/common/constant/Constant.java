@@ -80,6 +80,11 @@ public class Constant {
     public String  getWX_XCX_APP_SECRETD(){
         return  this.WX_XCX_APP_SECRET;
     }
+    @Value("${wx.xcx.mch_pay.key}")
+    private String WX_XCX_MCH_KEY;
+    public String  getWX_XCX_MCH_KEY(){
+        return  this.WX_XCX_MCH_KEY;
+    }
     @Value("${wx.xcx.url.jscode2session}")
     private String WX_XCX_URL_JSCODE2SESSION;
     public String  getWX_XCX_URL_JSCODE2SESSION(){
@@ -89,6 +94,16 @@ public class Constant {
     private String WX_XCX_URL_NOTIFY;
     public String  getWX_XCX_URL_NOTIFY(){
         return  this.WX_XCX_URL_NOTIFY;
+    }
+    @Value("${wx.xcx.returnurl.notify}")
+    private String WX_XCX_RETURNURL_NOTIFY;
+    public String getWX_XCX_RETURNURL_NOTIFY() {
+        return WX_XCX_RETURNURL_NOTIFY;
+    }
+    @Value("${wx.xcx.body}")
+    private String WX_XCX_BODY;
+    public Object getWX_XCX_BODY() {
+        return WX_XCX_BODY;
     }
     @Value("${wx.autoReport}")
     private   boolean WX_AUTOREPORT  ;
@@ -170,7 +185,6 @@ public class Constant {
     public String getREALNAME_APPCODE() {
         return REALNAME_APPCODE;
     }
-
 
 
 }

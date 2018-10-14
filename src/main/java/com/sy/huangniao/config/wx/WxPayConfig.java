@@ -33,7 +33,7 @@ public class WxPayConfig extends WXPayConfig {
 
     @Override
     public String getKey() {
-        return constant.getWX_XCX_APP_SECRETD();
+        return constant.getWX_XCX_MCH_KEY();
     }
 
     @Override
