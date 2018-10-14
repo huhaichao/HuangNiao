@@ -151,13 +151,13 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
         userWxinfo = (UserWxinfo)iDaoService.selectObject(userWxinfo, SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
         IWXPaychannelsService iwxPaychannelsService= hnContext.getIWXPaychannelsService(AppCodeEnum.valueOf(jsonObject.getString("appCode")));
         JSONObject params = new JSONObject();
-        String tradeNo = createOrderNO();
+        String outTradeNo = createOrderNO();//微信支付商户订单号
         params.put("body",constant.getWX_XCX_BODY());
         params.put("total_fee", BigDecimal.valueOf(jsonObject.getDouble("orderAmount")).multiply(BigDecimal.valueOf(100)).longValue()+"");
         params.put("spbill_create_ip",jsonObject.getString("termIp"));
         params.put("trade_type",iwxPaychannelsService.getTradeType());
         params.put("openid",userWxinfo.getOpenid());
-        params.put("out_trade_no",tradeNo);
+        params.put("out_trade_no",outTradeNo);
         /**
          * 调用微信预下单接口
          */
@@ -173,7 +173,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
             log.info("小程序充值失败userId={} result={} appCode={} ",userId,json,getAppCode().getCode());
             throw new HNException(RespondMessageEnum.WX_CODE_CALL_FAIL);
         }
-        json.put("outTradeNo",tradeNo);
+        json.put("outTradeNo",outTradeNo);
         return  json;
     }
 
@@ -227,6 +227,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
         log.info("小程序回调接口调用.....");
         try {
             String result= HttpClientUtils.respondString(request.getInputStream());
+            log.info("小程序回调返回数据={}",result);
             Map<String,String> map =WXPayUtil.xmlToMap(result);
             String sign = map.get("sign");
             String signResult =WXPayUtil.generateSignature(map,wxPayConfig.getKey(), WXPayConstants.SignType.valueOf(map.get("sign_type")));
@@ -235,9 +236,9 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
                 log.info("xcx 回调接口签名错误  sign={} != signResult={}",sign,signResult);
                 throw  new HNException(RespondMessageEnum.WX_CODE_CALLBACK_NO_DEPOSIT);
             }
-
-            WXRespondBody wxRespondBody = new WXRespondBody();
-            BeanUtils.copyProperties(map,wxRespondBody);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.putAll(map);
+            WXRespondBody wxRespondBody =  JSONObject.toJavaObject(jsonObject,WXRespondBody.class);
             if ("SUCCESS".equals(wxRespondBody.getReturn_code())){
                 if("SUCCESS".equals(wxRespondBody.getResult_code())){
                     UserDeposit    userDeposit = new UserDeposit();

@@ -56,7 +56,7 @@ public enum RespondMessageEnum {
     WX_CODE_REQUIRE_POST_METHOD("1012","请检查请求参数是否通过post方法提交"),
     WX_CODE_POST_DATA_EMPTY("1013","请检查post数据是否为空"),
     WX_CODE_NOT_UTF8("1014","请使用UTF-8编码格式"),
-    WX_CODE_CALLBACK_FAIL("1015", "小程序回调异常s"),
+    WX_CODE_CALLBACK_FAIL("1015", "小程序回调异常"),
     WX_CODE_CALLBACK_NO_DEPOSIT("1016","查询不到愿订单信息"),
     WX_CODE_CASH_FEE_NOT_EQUAL("1017","实际付款金额与充值金额不等" ),
 
