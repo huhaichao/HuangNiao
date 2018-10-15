@@ -239,7 +239,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
             log.info("小程序回调返回数据={}",result);
             Map<String,String> map =WXPayUtil.xmlToMap(result);
             String sign = map.get("sign");
-            String signResult =WXPayUtil.generateSignature(map,wxPayConfig.getKey(), WXPayConstants.SignType.valueOf(map.get("sign_type")));
+            String signResult =WXPayUtil.generateSignature(map,wxPayConfig.getKey(), WXPayConstants.SignType.HMACSHA256);
 
             if(!signResult.equals(sign)){
                 log.info("xcx 回调接口签名错误  sign={} != signResult={}",sign,signResult);
