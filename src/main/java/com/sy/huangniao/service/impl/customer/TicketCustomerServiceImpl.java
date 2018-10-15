@@ -218,7 +218,7 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         //取消订单状态
         IDaoService iDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());
         TicketOrder ticketOrder =new TicketOrder();
-        ticketOrder.setId(jsonObject.getInteger("orderId"));
+        ticketOrder.setId(jsonObject.getInteger("id"));
         ticketOrder.setUserId(jsonObject.getInteger("userId"));
         //ticketOrder.setOrderStatus(OrderStatusEnum.WAITROB.getStatus());
         TicketOrder ticketOrderSelect = (TicketOrder)iDaoService.selectObject(ticketOrder,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
