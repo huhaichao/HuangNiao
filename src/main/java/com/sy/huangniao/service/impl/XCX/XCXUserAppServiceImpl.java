@@ -101,6 +101,15 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
                    log.info("userid={} openid={} userRole={} appcode ={} 保存用户微信信息失败", userid, userWxinfo.getOpenid(), userInfo.getAppCode());
                    throw new HNException(RespondMessageEnum.SAVEUSERINFOERROR);
                }
+           }else {
+               UserWxinfo userWxinfo2 = list.get(0);
+               userid = userWxinfo2.getUserId()+"";
+               userWxinfo.setUserId(Integer.parseInt(userid));
+               userWxinfo.setModifyDate(new Date());
+               if(iDaoService.updateObject(userWxinfo, SqlTypeEnum.UPDATEBYUSERID)!=1){
+                   log.info("userid={} openid={} 修改数据失败",userid,userWxinfo.getOpenid());
+                   throw  new HNException(RespondMessageEnum.UPDATEWXINFOFAIL);
+               }
            }
       }
 
