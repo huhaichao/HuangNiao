@@ -96,4 +96,10 @@ public interface UserAppService {
     public String returnCallback(HttpServletRequest request);
 
 
+    /**
+     * 支付订单
+     * @param jsonObject
+     * @return
+     */
+    public  JSONObject payOrder(JSONObject jsonObject);
 }

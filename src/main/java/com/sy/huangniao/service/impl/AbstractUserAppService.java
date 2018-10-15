@@ -1,12 +1,14 @@
 package com.sy.huangniao.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sy.huangniao.common.Util.DateUtils;
 import com.sy.huangniao.common.Util.MD5Utils;
 import com.sy.huangniao.common.bo.UserInfoBody;
 import com.sy.huangniao.common.constant.Constant;
 import com.sy.huangniao.common.enums.*;
 import com.sy.huangniao.common.exception.HNException;
 import com.sy.huangniao.controller.context.HNContext;
+import com.sy.huangniao.pojo.TicketOrder;
 import com.sy.huangniao.pojo.UserDeposit;
 import com.sy.huangniao.pojo.UserInfo;
 import com.sy.huangniao.service.IDaoService;
@@ -162,5 +164,45 @@ public abstract class AbstractUserAppService implements UserAppService {
         return  null;
     }
 
+
+
+    @Override
+    public JSONObject payOrder(JSONObject jsonObject){
+        log.info("支付订单-params={}",jsonObject);
+        TicketOrder ticketOrder= JSONObject.toJavaObject(jsonObject, TicketOrder.class);
+        IDaoService<TicketOrder> iDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());
+        ticketOrder =iDaoService.selectObject(ticketOrder,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
+        if (ticketOrder==null){
+            log.info("支付订单-原订单不存在,userid={},orderNo={}",ticketOrder.getUserId(),ticketOrder.getOrderNo());
+            throw  new HNException(RespondMessageEnum.CANCLEORDERNOEXSIT);
+        }
+
+        if (!ticketOrder.getOrderStatus().equals(OrderStatusEnum.WAITPAY)){
+            log.info("支付订单-订单状态异常,userid={},orderNo={}",ticketOrder.getUserId(),ticketOrder.getOrderNo());
+            throw  new HNException(RespondMessageEnum.ORDERPAYREPEAT);
+        }
+        //查询是否预下单
+        UserDeposit userDeposit = new UserDeposit();
+        userDeposit.setUserId(ticketOrder.getUserId());
+        userDeposit.setOrderNo(ticketOrder.getOrderNo());
+        userDeposit.setAppCode(ticketOrder.getAppCode());
+        userDeposit.setStatus(WalletStatusEnum.DEPOSITING.getStatus());
+        IDaoService<UserDeposit> iUserDepositDaoService = hnContext.getDaoService(UserDeposit.class.getSimpleName());
+        UserDeposit userDeposit2 =iUserDepositDaoService.selectObject(userDeposit,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
+        if(userDeposit2==null){
+            log.info("支付订单-重新发起预支付,userid={},orderNo={}",ticketOrder.getUserId(),ticketOrder.getOrderNo());
+            return  deposit(jsonObject);
+        }else if (userDeposit2.getCreateDate().after(DateUtils.getDateInMinuteAgo(new Date(),-90))
+                && userDeposit2.getPrepayId()!=null) {
+            //如果订单在1办小时之内，继续支付
+            log.info("支付订单-订单中1.5小时之内,重新发起支付,userid={},orderNo={}",ticketOrder.getUserId(),ticketOrder.getOrderNo());
+            JSONObject result = new JSONObject();
+            result.put("prepay_id",userDeposit2.getPrepayId());
+            return handleUnifiedorder(result);
+        }else {
+            log.info("支付订单-订单已失效-重新发起预支付,userid={},orderNo={}",ticketOrder.getUserId(),ticketOrder.getOrderNo());
+            return  deposit(jsonObject);
+        }
+    }
 
 }

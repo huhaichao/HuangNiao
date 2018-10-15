@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by huchao on 2018/9/14.
@@ -176,7 +174,7 @@ public class UserInfoController {
     }
 
     @PostMapping(value="/api/v1/user/payOrder",produces = {"application/json;charset=utf-8"})
-    public RespondBody payOrder(RequestBody requestBody){
+    public RespondBody payOrder(RequestBody requestBody,HttpServletRequest arg0){
         try {
             log.info("requestBody={} payOrder......",requestBody);
             JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
@@ -193,9 +191,10 @@ public class UserInfoController {
             jsonObject.put("userId",requestBody.getUserId());
             jsonObject.put("userRole",requestBody.getUserRole());
             jsonObject.put("appCode",requestBody.getAppCode());
+            jsonObject.put("termIp",arg0.getRemoteHost());
             //调用充值接口
             AbstractUserAppService abstractUserAppService = hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(requestBody.getAppCode()));
-            JSONObject result = abstractUserAppService.deposit(jsonObject);
+            JSONObject result = abstractUserAppService.payOrder(jsonObject);
             return new RespondBody(RespondMessageEnum.SUCCESS,result);
         }catch (HNException e){
             log.info("requestBody={} payOrder  code={} msg={}",requestBody,e.getCode(),e.getMsg());

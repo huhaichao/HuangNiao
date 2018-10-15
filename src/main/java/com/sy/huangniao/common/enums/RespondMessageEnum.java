@@ -38,6 +38,8 @@ public enum RespondMessageEnum {
     CREATORDERDETAILSFAIL("0026", "创建订单明细失败"),
     CANCLEORDERNOEXSIT("0027","该订单不存在"),
     CANCLEORDERNOSUPPORT("0028","该订单不支持取消"),
+    ORDERPAYREPEAT("0029","该订单已支付，请检查不要重复支付！"),
+
     /*
      调用微信外部接口以1开头
     * */
@@ -62,7 +64,7 @@ public enum RespondMessageEnum {
 
 
     SUCCESS("0000","成功"),
-    EXCEPTION("9999","服务器异常"),;
+    EXCEPTION("9999","服务器异常"), ;
 
     private  String  code;
 
