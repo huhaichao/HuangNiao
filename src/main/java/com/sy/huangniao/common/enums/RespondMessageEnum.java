@@ -39,6 +39,7 @@ public enum RespondMessageEnum {
     CANCLEORDERNOEXSIT("0027","该订单不存在"),
     CANCLEORDERNOSUPPORT("0028","该订单不支持取消"),
     ORDERPAYREPEAT("0029","该订单已支付，请检查不要重复支付！"),
+    DEPOSITPAYREPEAT("0030","该订单充值状态异常，请联系客服人员或者重新下单！"),
 
     /*
      调用微信外部接口以1开头

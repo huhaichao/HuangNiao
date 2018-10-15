@@ -177,7 +177,7 @@ public abstract class AbstractUserAppService implements UserAppService {
             throw  new HNException(RespondMessageEnum.CANCLEORDERNOEXSIT);
         }
 
-        if (!ticketOrder2.getOrderStatus().equals(OrderStatusEnum.WAITPAY)){
+        if (!ticketOrder2.getOrderStatus().equals(OrderStatusEnum.WAITPAY.getStatus())){
             log.info("支付订单-订单状态异常,userid={},id={},orderNo={}",ticketOrder.getUserId(),ticketOrder.getId(),ticketOrder.getOrderNo());
             throw  new HNException(RespondMessageEnum.ORDERPAYREPEAT);
         }
@@ -189,10 +189,22 @@ public abstract class AbstractUserAppService implements UserAppService {
         userDeposit.setStatus(WalletStatusEnum.DEPOSITING.getStatus());
         IDaoService<UserDeposit> iUserDepositDaoService = hnContext.getDaoService(UserDeposit.class.getSimpleName());
         UserDeposit userDeposit2 =iUserDepositDaoService.selectObject(userDeposit,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
+        jsonObject.put("orderNo",ticketOrder2.getOrderNo());
+        jsonObject.put("orderAmount",ticketOrder2.getOrderAmount());
+
         if(userDeposit2==null){
             log.info("支付订单-重新发起预支付,userid={},id={},orderNo={}",ticketOrder.getUserId(),ticketOrder.getId(),ticketOrder.getOrderNo());
-            return  deposit(jsonObject);
-        }else if (userDeposit2.getCreateDate().after(DateUtils.getDateInMinuteAgo(new Date(),-90))
+            throw  new HNException(RespondMessageEnum.DEPOSITPAYREPEAT);
+           // return  deposit(jsonObject);
+        }
+
+        /*if(!userDeposit2.getStatus().equals(WalletStatusEnum.DEPOSITING.getStatus())){
+            log.info("支付订单-充值状态异常,userid={},id={},orderNo={},depositNo={}",ticketOrder.getUserId(),ticketOrder.getId(),
+                    ticketOrder.getOrderNo(),userDeposit2.getDepositNo());
+            throw  new HNException(RespondMessageEnum.DEPOSITPAYREPEAT);
+        }*/
+
+        if (userDeposit2.getCreateDate().after(DateUtils.getDateInMinuteAgo(new Date(),-90))
                 && userDeposit2.getPrepayId()!=null) {
             //如果订单在1办小时之内，继续支付
             log.info("支付订单-订单中1.5小时之内,重新发起支付,userid={},id={},orderNo={}",ticketOrder.getUserId(),ticketOrder.getId(),ticketOrder.getOrderNo());
@@ -201,6 +213,15 @@ public abstract class AbstractUserAppService implements UserAppService {
             return handleUnifiedorder(result);
         }else {
             log.info("支付订单-订单已失效-重新发起预支付,userid={},id={},orderNo={}",ticketOrder.getUserId(),ticketOrder.getId(),ticketOrder.getOrderNo());
+            UserDeposit userDeposit3 = new UserDeposit();
+            userDeposit3.setId(userDeposit2.getId());
+            userDeposit3.setStatus(WalletStatusEnum.CLOSED.getStatus());
+            if(iUserDepositDaoService.updateObject(userDeposit3,SqlTypeEnum.DEAFULT)!=1){
+                log.info("支付订单-关闭原来的订单失败,userid={},id={},orderNo={},depositNo={}",ticketOrder.getUserId(),ticketOrder.getId(),
+                        ticketOrder.getOrderNo(),userDeposit2.getDepositNo());
+                throw  new HNException(RespondMessageEnum.DEPOSITPAYREPEAT);
+            }
+            log.info("支付订单-订单已失效-关闭原来的订单.....");
             return  deposit(jsonObject);
         }
     }

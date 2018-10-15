@@ -8,6 +8,7 @@ public enum WalletStatusEnum {
     SUCCESS("success","成功"),
     DEPOSITING("depositing","充值中"),
     WITHDRAWING("withdrawing","提现中"),
+    CLOSED("closed","关闭"),
     CANCEL("cancel","取消"),
     ;
 
