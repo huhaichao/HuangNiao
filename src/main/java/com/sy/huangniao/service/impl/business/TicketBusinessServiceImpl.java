@@ -42,6 +42,11 @@ public class TicketBusinessServiceImpl extends AbstractUserinfoService implement
     }
 
     @Override
+    public boolean returnAmount(JSONObject jsonObject) {
+        return false;
+    }
+
+    @Override
     public JSONObject createOrder(JSONObject jsonObject) {
         RobOrder robOrder = jsonObject.toJavaObject(RobOrder.class);
         log.info("userid={} 抢单中....",robOrder.getUserId());
