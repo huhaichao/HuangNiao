@@ -111,6 +111,15 @@ public class XCXPaychannelsServiceImpl implements IWXPaychannelsService {
             WXPay wxPay = new WXPay(wxPayConfig,constant.getWX_XCX_URL_NOTIFY(),constant.getWX_AUTOREPORT(),constant.getWX_USESENDBOX());
             Map<String, String> result = wxPay.refund(reqdata);
             JSONObject resultJson = new JSONObject();
+            if("SUCCESS".equals(resultJson.getString("return_code"))){
+                if("SYSTEMERROR".equals(resultJson.getString("err_code"))
+                   || "BIZERR_NEED_RETRY".equals(resultJson.getString("err_code"))){
+                    log.info("微信系统异常refund重试一次");
+                    Map<String, String> result2=  wxPay.refund(reqdata);
+                    resultJson.clear();
+                    resultJson.putAll(result2);
+                }
+            }
             resultJson.putAll(result);
             log.info("微信退款接口返回结果result={}",resultJson);
             return  resultJson;

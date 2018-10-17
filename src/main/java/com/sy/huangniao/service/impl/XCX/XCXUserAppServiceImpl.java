@@ -208,9 +208,10 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
 
     @Override
     public JSONObject returned(JSONObject jsonObject) {
+        //商户订单号
+        log.info("小程序退款开始userID={},orderNo={} ......",jsonObject.getString("userId"),jsonObject.getString("orderNo"));
 
         IWXPaychannelsService iwxPaychannelsService= hnContext.getIWXPaychannelsService(AppCodeEnum.valueOf(jsonObject.getString("appCode")));
-
         //组装参数
         JSONObject params = new JSONObject();
         //商户订单号
@@ -225,9 +226,18 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
         params.put("notify_url",constant.getWX_XCX_RETURNURL_NOTIFY());
         JSONObject  returnJson = iwxPaychannelsService.refund(params);
 
-
-
-        return null;
+        if("SUCCESS".equals(returnJson.getString("return_code"))){
+            if (!"SUCCESS".equals(returnJson.getString("return_code"))){
+                {
+                    log.info("小程序退款失败userId={} orderNo={} result={} appCode ={}",jsonObject.getString("userId"),jsonObject.getString("orderNo"),returnJson,getAppCode().getCode());
+                    throw new HNException(RespondMessageEnum.valueOf(Constant.ERRORCODEXCX+returnJson.getString("return_code")));
+                }
+            }
+        }else {
+            log.info("小程序退款失败userId={} orderNo={} result={} appCode={} ",jsonObject.getString("userId"),jsonObject.getString("orderNo"),returnJson,getAppCode().getCode());
+            throw new HNException(RespondMessageEnum.WX_CODE_CALL_FAIL);
+        }
+        return  returnJson;
     }
 
     @Override

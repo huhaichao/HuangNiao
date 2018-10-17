@@ -9,6 +9,7 @@ public enum OrderStatusEnum {
     WAITROB("wait_rob","等待抢单"),
     CANCEL("cancel","订单取消"),
     RETURNING_AMOUNT("returning_amount","退款中"),
+    RETURNING_CHANNELS("returning_channels","第三放支付通道退款中"),
     RETURNED_AMOUNT("returned_amount","已退款"),
     RETURNED_AUDIT("returned_audit","退款审核中"),
     RETURNED_RETURN("returned_return","退款审核驳回,在备注中写明驳回原因"),

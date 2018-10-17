@@ -103,6 +103,14 @@ public interface UserInfoService {
 
 
     /**
+     * 用户退款操作
+     * @param jsonObject
+     * @return
+     */
+    public boolean returnAmount(JSONObject jsonObject);
+
+
+    /**
      *
      * 充值
      * @param jsonObject

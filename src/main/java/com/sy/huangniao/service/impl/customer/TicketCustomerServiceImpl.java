@@ -3,6 +3,7 @@ package com.sy.huangniao.service.impl.customer;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sy.huangniao.common.bo.RespondBody;
 import com.sy.huangniao.common.bo.UserInfoBody;
 import com.sy.huangniao.common.Util.StringUtils;
 
@@ -385,32 +386,95 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         return false;
     }
 
+
     @Override
     public void returnOrderHandle(JSONObject jsonObject) {
-         ReturnOrder returnOrder = new ReturnOrder();
-         returnOrder.setReturnStatus(OrderStatusEnum.RETURNING_AMOUNT.getStatus());
-         //每次处理1000条信息
-         Page page = PageHelper.startPage(0,1000);
-         IDaoService<ReturnOrder>  iDaoService=  hnContext.getDaoService(ReturnOrder.class.getSimpleName());
-         List<ReturnOrder> list =iDaoService.selectList(returnOrder,SqlTypeEnum.DEAFULT);
-         /**
+        ReturnOrder returnOrder = new ReturnOrder();
+        returnOrder.setReturnStatus(OrderStatusEnum.RETURNING_AMOUNT.getStatus());
+        //每次处理1000条信息
+        Page page = PageHelper.startPage(0, 1000);
+        IDaoService<ReturnOrder> iDaoService = hnContext.getDaoService(ReturnOrder.class.getSimpleName());
+        List<ReturnOrder> list = iDaoService.selectList(returnOrder, SqlTypeEnum.DEAFULT);
+        log.info("退款开始--处理条数size={}.....", list == null ? 0 : list.size());
+        /**
          *  处理退款信息
          */
-         for(ReturnOrder ro : list){
+        for (ReturnOrder ro : list) {
+            log.info("userId={} orderNo={} orderAmount={} 退款开始......", ro.getUserId(), ro.getOrderNo(), ro.getOrderAmount());
+            try {
+                String appCode = ro.getAppcode();
+                //退款类型
+                //String  returnType = ro.getReturnType();
+                AbstractUserAppService abstractUserAppService = hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(appCode));
+                JSONObject json = (JSONObject) JSONObject.toJSON(ro);
 
-           String  appCode =   ro.getAppcode();
-           //退款类型
-           //String  returnType = ro.getReturnType();
-           AbstractUserAppService abstractUserAppService =   hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(appCode));
-           JSONObject json = (JSONObject) JSONObject.toJSON(ro);
-
-           JSONObject result =abstractUserAppService.returned(json);
-
-
-
-         }
-
+                JSONObject result = abstractUserAppService.returned(json);
+                //修改退款表
+                ReturnOrder re = new ReturnOrder();
+                re.setId(ro.getId());
+                re.setTradeChannelsReturnNo(result.getString("refund_id"));
+                re.setReturnStatus(OrderStatusEnum.RETURNING_CHANNELS.getStatus());
+                if (iDaoService.updateObject(re, SqlTypeEnum.DEAFULT) != 1) {
+                    throw new HNException(RespondMessageEnum.REALNAME_FAIL);
+                }
+            } catch (HNException e) {
+                log.error("userId={} orderNo={} orderAmount={} exception code={} msg={}", ro.getUserId(), ro.getOrderNo(),
+                        ro.getOrderAmount(), e.getCode(), e.getMsg());
+            } catch (Exception e) {
+                log.error("userId={} orderNo={} orderAmount={} exception={}", ro.getUserId(), ro.getOrderNo(),
+                        ro.getOrderAmount(), e.getMessage());
+            }
+            log.info("userId={} orderNo={} orderAmount={} 退款开始......", ro.getUserId(), ro.getOrderNo(), ro.getOrderAmount());
+        }
 
     }
 
+    /**
+     * 用户退款操作
+     * @param jsonObject
+     * @return
+     */
+    @Override
+    public boolean returnAmount(JSONObject jsonObject){
+        //取消订单状态
+        IDaoService iDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());
+        TicketOrder ticketOrder =new TicketOrder();
+        ticketOrder.setId(jsonObject.getInteger("id"));
+        ticketOrder.setUserId(jsonObject.getInteger("userId"));
+        //ticketOrder.setOrderStatus(OrderStatusEnum.WAITROB.getStatus());
+        TicketOrder ticketOrderSelect = (TicketOrder)iDaoService.selectObject(ticketOrder,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
+        if(ticketOrderSelect ==null){
+            log.info(" orderId={} orderNo={} 该订单暂不存在",ticketOrder.getId(),ticketOrder.getOrderNo());
+            throw new HNException(RespondMessageEnum.CANCLEORDERNOEXSIT);
+        }
+        TicketOrder ticketOrder2 =new TicketOrder();
+        ticketOrder2.setId(ticketOrder.getId());
+        String orderStatus = ticketOrderSelect.getOrderStatus() ;
+        //if (OrderStatusEnum.WAITROB.getStatus().equals(orderStatus) || OrderStatusEnum.ROBING.getStatus().equals(orderStatus)){
+            //已支付的退款
+            ticketOrder2.setOrderStatus(OrderStatusEnum.RETURNING_AMOUNT.getStatus());
+            ReturnOrder returnOrder = new ReturnOrder();
+            returnOrder.setUserId(ticketOrderSelect.getUserId());
+            returnOrder.setOrderNo(ticketOrderSelect.getOrderNo());
+            returnOrder.setReturnAmount(ticketOrderSelect.getOrderAmount());
+            returnOrder.setOrderAmount(ticketOrderSelect.getOrderAmount());
+            returnOrder.setCreateDate(new Date());
+            returnOrder.setModifyDate(new Date());
+            returnOrder.setReturnStatus(OrderStatusEnum.RETURNED_AUDIT.getStatus());
+            AbstractUserAppService abstractUserAppService =hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(ticketOrderSelect.getAppCode()));
+            String returnNO =abstractUserAppService.createReturnNO();
+            returnOrder.setReturnNo(returnNO);
+            IDaoService iReturnOrderDaoService = hnContext.getDaoService(ReturnOrder.class.getSimpleName());
+            if(iReturnOrderDaoService.save(returnOrder,SqlTypeEnum.DEAFULT)!=1){
+                log.info(" orderId={} orderNo={} 创建退款订单失败",ticketOrder.getId(),ticketOrder.getOrderNo());
+                throw new HNException(RespondMessageEnum.CANCLEORDERFAIL);
+            }
+        // }
+        //修改订单状态
+        if(iDaoService.updateObject(ticketOrder2,SqlTypeEnum.DEAFULT)!=1){
+            log.info(" orderId={} orderNo={} 修改订单状态....",ticketOrder.getId(),ticketOrder.getOrderNo());
+            throw new HNException(RespondMessageEnum.CANCLEORDERFAIL);
+        }
+        return  true;
+    }
 }

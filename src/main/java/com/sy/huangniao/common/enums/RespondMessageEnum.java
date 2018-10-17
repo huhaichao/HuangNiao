@@ -40,6 +40,7 @@ public enum RespondMessageEnum {
     CANCLEORDERNOSUPPORT("0028","该订单不支持取消"),
     ORDERPAYREPEAT("0029","该订单已支付，请检查不要重复支付！"),
     DEPOSITPAYREPEAT("0030","该订单充值状态异常，请联系客服人员或者重新下单！"),
+    RETURN_FAIL("0031","退款处理失败！"),
 
     /*
      调用微信外部接口以1开头
@@ -47,7 +48,7 @@ public enum RespondMessageEnum {
     WX_CODE_GET_OPENID_FAIL("1000", "调用微信获取openid失败"),
     WX_CODE_CALL_FAIL("1001", "微信调用通讯失败"),
     WX_CODE_NOAUTH("1002","商户未开通此接口权限"),
-    WX_CODE_NOTENOUGH("1003","帐号余额不足，请用户充值或更换支付卡后再支付"),
+    WX_CODE_NOTENOUGH("1003","帐号余额不足"),
     WX_CODE_ORDERPAID("1004","商户订单已支付，无需重复操作"),
     WX_CODE_ORDERCLOSED("1005","当前订单已关闭，请重新下单"),
     WX_CODE_APPID_NOT_EXIST("1006","请检查APPID是否正确"),
@@ -62,7 +63,13 @@ public enum RespondMessageEnum {
     WX_CODE_CALLBACK_FAIL("1015", "小程序回调异常"),
     WX_CODE_CALLBACK_NO_DEPOSIT("1016","查询不到愿订单信息"),
     WX_CODE_CASH_FEE_NOT_EQUAL("1017","实际付款金额与充值金额不等" ),
-
+    WX_CODE_TRADE_OVERDUE("1018","订单已经超过可退款的最大期限(支付后一年内可退款)"),
+    WX_CODE_ERROR("1019","申请退款业务发生错误"),
+    WX_CODE_USER_ACCOUNT_ABNORMAL("1020","退款请求失败"),
+    WX_CODE_INVALID_REQ_TOO_MUCH("1021","连续错误请求数过多被系统短暂屏蔽"),
+    WX_CODE_INVALID_TRANSACTIONID("1023","无效transaction_id"),
+    WX_CODE_PARAM_ERROR("1024","参数错误"),
+    WX_CODE_FREQUENCY_LIMITED("1025","2个月之前的订单申请退款有频率限制"),
 
     SUCCESS("0000","成功"),
     EXCEPTION("9999","服务器异常"), ;

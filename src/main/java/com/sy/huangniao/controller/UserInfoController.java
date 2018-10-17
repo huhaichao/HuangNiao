@@ -371,36 +371,38 @@ public class UserInfoController {
      * @return
      */
     @PostMapping(value="/api/v1/user/cancleOrder",produces = {"application/json;charset=utf-8"})
-    public  RespondBody   cancleOrder (RequestBody requestBody){try {
-        log.info("requestBody={} cancleOrder......",requestBody);
-        AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
-        JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
-        /*String sign = jsonObject.getString("sign");
-        if(StringUtils.isEmpty(sign)){
-            log.info("requestBody={}  login 没有签名..... ",requestBody);
-            return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
+    public  RespondBody   cancleOrder (RequestBody requestBody){
+        try {
+            log.info("requestBody={} cancleOrder......",requestBody);
+            AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
+            JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
+            /*String sign = jsonObject.getString("sign");
+            if(StringUtils.isEmpty(sign)){
+                log.info("requestBody={}  login 没有签名..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
+            }
+            jsonObject.remove("sign");
+            if(!MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
+                log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.SIGNERROR);
+            }*/
+            jsonObject.put("userId",requestBody.getUserId());
+            jsonObject.put("userRole",requestBody.getUserRole());
+            jsonObject.put("appCode",requestBody.getAppCode());
+           // jsonObject.put("userId",requestBody.getUserId());
+           // jsonObject.put("userRole",requestBody.getUserRole());
+            if(abstractUserinfoService.cancleOrder(jsonObject))
+                return new RespondBody(RespondMessageEnum.SUCCESS);
+            else
+                return new RespondBody(RespondMessageEnum.CANCLEORDERFAIL);
+        }catch (HNException e){
+            log.info("requestBody={} cancleOrder exception code={} msg={}",requestBody,e.getCode(),e.getMsg());
+            return new RespondBody(e.getRespondMessageEnum());
+        }catch (Exception e){
+            log.info("requestBody={} cancleOrder exception={}",requestBody,e.getMessage());
+            return new RespondBody(RespondMessageEnum.EXCEPTION);
         }
-        jsonObject.remove("sign");
-        if(!MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
-            log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
-            return new RespondBody(RespondMessageEnum.SIGNERROR);
-        }*/
-        jsonObject.put("userId",requestBody.getUserId());
-        jsonObject.put("userRole",requestBody.getUserRole());
-        jsonObject.put("appCode",requestBody.getAppCode());
-       // jsonObject.put("userId",requestBody.getUserId());
-       // jsonObject.put("userRole",requestBody.getUserRole());
-        if(abstractUserinfoService.cancleOrder(jsonObject))
-            return new RespondBody(RespondMessageEnum.SUCCESS);
-        else
-            return new RespondBody(RespondMessageEnum.CANCLEORDERFAIL);
-    }catch (HNException e){
-        log.info("requestBody={} cancleOrder exception code={} msg={}",requestBody,e.getCode(),e.getMsg());
-        return new RespondBody(e.getRespondMessageEnum());
-    }catch (Exception e){
-        log.info("requestBody={} cancleOrder exception={}",requestBody,e.getMessage());
-        return new RespondBody(RespondMessageEnum.EXCEPTION);
-    }}
+    }
 
     /**
      *
@@ -564,6 +566,51 @@ public class UserInfoController {
      * 退单  --- 暂不提供
      * @return
      */
-    public void  returnTicket(JSONObject jsonObject){}
+    //@PostMapping(value="/api/v1/user/returnTicket",produces = {"application/json;charset=utf-8"})
+    public void  returnTicket(JSONObject jsonObject){
+
+
+
+    }
+
+    /**
+     * 退款接口
+     * @return
+     */
+    @PostMapping(value="/api/v1/user/returnAmount",produces = {"application/json;charset=utf-8"})
+    public RespondBody  returnAmount(RequestBody requestBody){
+
+        try {
+            log.info("requestBody={} returnAmount......",requestBody);
+            AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
+            JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
+            /*String sign = jsonObject.getString("sign");
+            if(StringUtils.isEmpty(sign)){
+                log.info("requestBody={}  login 没有签名..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
+            }
+            jsonObject.remove("sign");
+            if(!MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
+                log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.SIGNERROR);
+            }*/
+            jsonObject.put("userId",requestBody.getUserId());
+            jsonObject.put("userRole",requestBody.getUserRole());
+            jsonObject.put("appCode",requestBody.getAppCode());
+            // jsonObject.put("userId",requestBody.getUserId());
+            // jsonObject.put("userRole",requestBody.getUserRole());
+            if(abstractUserinfoService.returnAmount(jsonObject))
+                return new RespondBody(RespondMessageEnum.SUCCESS);
+            else
+                return new RespondBody(RespondMessageEnum.RETURN_FAIL);
+        }catch (HNException e){
+            log.info("requestBody={} returnAmount exception code={} msg={}",requestBody,e.getCode(),e.getMsg());
+            return new RespondBody(e.getRespondMessageEnum());
+        }catch (Exception e){
+            log.info("requestBody={} returnAmount exception={}",requestBody,e.getMessage());
+            return new RespondBody(RespondMessageEnum.EXCEPTION);
+        }
+
+    }
 
 }
