@@ -223,9 +223,9 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
         //商户退款单号
         params.put("out_refund_no",jsonObject.getString("returnNo"));
         //订单金额
-        params.put("total_fee",jsonObject.getDouble("orderAmount"));
+        params.put("total_fee",BigDecimal.valueOf(jsonObject.getDouble("orderAmount")).multiply(BigDecimal.valueOf(100)).longValue()+"");
         //退款金额
-        params.put("refund_fee",jsonObject.getDouble("returnAmount"));
+        params.put("refund_fee",BigDecimal.valueOf(jsonObject.getDouble("returnAmount")).multiply(BigDecimal.valueOf(100)).longValue()+"");
         //退款通知接口
         params.put("notify_url",constant.getWX_XCX_RETURNURL_NOTIFY());
         JSONObject  returnJson = iwxPaychannelsService.refund(params);

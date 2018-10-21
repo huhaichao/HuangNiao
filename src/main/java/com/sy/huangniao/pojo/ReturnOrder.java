@@ -74,7 +74,7 @@ public class ReturnOrder implements Serializable {
     /**
      * app代码
      */
-    private String appcode;
+    private String appCode;
 
     /**
      * 退款资金来源
@@ -205,12 +205,12 @@ public class ReturnOrder implements Serializable {
         this.remark = remark == null ? null : remark.trim();
     }
 
-    public String getAppcode() {
-        return appcode;
+    public String getAppCode() {
+        return appCode;
     }
 
-    public void setAppcode(String appcode) {
-        this.appcode = appcode == null ? null : appcode.trim();
+    public void setAppCode(String appCode) {
+        this.appCode = appCode == null ? null : appCode.trim();
     }
 
     public String getRefundAccount() {
@@ -257,7 +257,7 @@ public class ReturnOrder implements Serializable {
         sb.append(", modifyDate=").append(modifyDate);
         sb.append(", retunTime=").append(retunTime);
         sb.append(", remark=").append(remark);
-        sb.append(", appcode=").append(appcode);
+        sb.append(", appCode=").append(appCode);
         sb.append(", refundAccount=").append(refundAccount);
         sb.append(", refundRequestSource=").append(refundRequestSource);
         sb.append(", refundRecvAccout=").append(refundRecvAccout);

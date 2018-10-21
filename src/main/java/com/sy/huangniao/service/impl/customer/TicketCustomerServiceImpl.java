@@ -253,6 +253,7 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
             AbstractUserAppService abstractUserAppService =hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(ticketOrderSelect.getAppCode()));
             String returnNO =abstractUserAppService.createReturnNO();
             returnOrder.setReturnNo(returnNO);
+            returnOrder.setAppCode(jsonObject.getString("appCode"));
             IDaoService iReturnOrderDaoService = hnContext.getDaoService(ReturnOrder.class.getSimpleName());
             if(iReturnOrderDaoService.save(returnOrder,SqlTypeEnum.DEAFULT)!=1){
                 log.info(" orderId={} orderNo={} 创建退款订单失败",ticketOrder.getId(),ticketOrder.getOrderNo());
@@ -407,7 +408,7 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         for (ReturnOrder ro : list) {
             log.info("userId={} orderNo={} orderAmount={} 退款开始......", ro.getUserId(), ro.getOrderNo(), ro.getOrderAmount());
             try {
-                String appCode = ro.getAppcode();
+                String appCode = ro.getAppCode();
                 //退款类型
                 //String  returnType = ro.getReturnType();
                 AbstractUserAppService abstractUserAppService = hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(appCode));
@@ -429,7 +430,7 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
                 log.error("userId={} orderNo={} orderAmount={} exception={}", ro.getUserId(), ro.getOrderNo(),
                         ro.getOrderAmount(), e.getMessage());
             }
-            log.info("userId={} orderNo={} orderAmount={} 退款开始......", ro.getUserId(), ro.getOrderNo(), ro.getOrderAmount());
+            log.info("userId={} orderNo={} orderAmount={} 退款结束......", ro.getUserId(), ro.getOrderNo(), ro.getOrderAmount());
         }
 
     }

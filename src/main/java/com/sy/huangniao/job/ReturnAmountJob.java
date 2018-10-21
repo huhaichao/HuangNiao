@@ -13,11 +13,11 @@ import org.springframework.stereotype.Component;
  * 退款定时任务
  *
  */
-//@Component
+@Component
 @Slf4j
 public class ReturnAmountJob  {
 
-    //@Autowired
+    @Autowired
     TicketCustomerService ticketCustomerServiceImpl;
 
     /**

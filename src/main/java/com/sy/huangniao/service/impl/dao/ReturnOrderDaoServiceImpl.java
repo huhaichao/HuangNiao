@@ -42,16 +42,24 @@ public class ReturnOrderDaoServiceImpl  implements IDaoService<ReturnOrder>{
 
     @Override
     public int updateObject(ReturnOrder returnOrder, SqlTypeEnum sqlType) {
+        if(sqlType==SqlTypeEnum.DEAFULT)
+            return  returnOrderMapper.updateByPrimaryKeySelective(returnOrder);
         return 0;
     }
 
     @Override
     public List<ReturnOrder> selectList(ReturnOrder returnOrder, SqlTypeEnum sqlType) {
+        if (sqlType==SqlTypeEnum.DEAFULT)
+            return returnOrderMapper.selectList(returnOrder);
         return null;
     }
 
     @Override
     public ReturnOrder selectObject(ReturnOrder returnOrder, SqlTypeEnum sqlType) {
+        if(sqlType==SqlTypeEnum.DEAFULT)
+            return  returnOrderMapper.selectByPrimaryKey(returnOrder.getId());
+        else if (sqlType==SqlTypeEnum.SELECTOBJECTBYSELECTIVE)
+            return  returnOrderMapper.selectByObjectBySelecttive(returnOrder.getId());
         return null;
     }
 }

@@ -16,7 +16,7 @@
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
     <result column="retun_time" jdbcType="TIMESTAMP" property="retunTime" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="appCode" jdbcType="VARCHAR" property="appcode" />
+    <result column="app_code" jdbcType="VARCHAR" property="appCode" />
     <result column="refund_account" jdbcType="VARCHAR" property="refundAccount" />
     <result column="refund_request_source" jdbcType="VARCHAR" property="refundRequestSource" />
     <result column="refund_recv_accout" jdbcType="VARCHAR" property="refundRecvAccout" />
@@ -24,7 +24,7 @@
   <sql id="Base_Column_List">
     id, user_id, return_no, order_no, trade_channels_no, trade_channels_return_no, return_amount, 
     order_amount, return_status, return_type, create_date, modify_date, retun_time, remark, 
-    appCode, refund_account, refund_request_source, refund_recv_accout
+    app_code, refund_account, refund_request_source, refund_recv_accout
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -41,14 +41,14 @@
       trade_channels_no, trade_channels_return_no, 
       return_amount, order_amount, return_status, 
       return_type, create_date, modify_date, 
-      retun_time, remark, appCode, 
+      retun_time, remark, app_code,
       refund_account, refund_request_source, refund_recv_accout
       )
     values (#{userId,jdbcType=INTEGER}, #{returnNo,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, 
       #{tradeChannelsNo,jdbcType=VARCHAR}, #{tradeChannelsReturnNo,jdbcType=VARCHAR}, 
       #{returnAmount,jdbcType=DOUBLE}, #{orderAmount,jdbcType=DOUBLE}, #{returnStatus,jdbcType=VARCHAR}, 
       #{returnType,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
-      #{retunTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{appcode,jdbcType=VARCHAR}, 
+      #{retunTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{appCode,jdbcType=VARCHAR},
       #{refundAccount,jdbcType=VARCHAR}, #{refundRequestSource,jdbcType=VARCHAR}, #{refundRecvAccout,jdbcType=VARCHAR}
       )
   </insert>
@@ -94,8 +94,8 @@
       <if test="remark != null">
         remark,
       </if>
-      <if test="appcode != null">
-        appCode,
+      <if test="appCode != null">
+        app_code,
       </if>
       <if test="refundAccount != null">
         refund_account,
@@ -147,8 +147,8 @@
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="appcode != null">
-        #{appcode,jdbcType=VARCHAR},
+      <if test="appCode != null">
+        #{appCode,jdbcType=VARCHAR},
       </if>
       <if test="refundAccount != null">
         #{refundAccount,jdbcType=VARCHAR},
@@ -203,8 +203,8 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="appcode != null">
-        appCode = #{appcode,jdbcType=VARCHAR},
+      <if test="appCode != null">
+        app_code = #{appCode,jdbcType=VARCHAR},
       </if>
       <if test="refundAccount != null">
         refund_account = #{refundAccount,jdbcType=VARCHAR},
@@ -233,11 +233,122 @@
       modify_date = #{modifyDate,jdbcType=TIMESTAMP},
       retun_time = #{retunTime,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR},
-      appCode = #{appcode,jdbcType=VARCHAR},
+      app_code = #{appCode,jdbcType=VARCHAR},
       refund_account = #{refundAccount,jdbcType=VARCHAR},
       refund_request_source = #{refundRequestSource,jdbcType=VARCHAR},
       refund_recv_accout = #{refundRecvAccout,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByObjectBySelecttive" parameterType="com.sy.huangniao.pojo.ReturnOrder" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from return_order
+    where 1=1
+      <if test="userId != null">
+        and user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="returnNo != null">
+        and return_no = #{returnNo,jdbcType=VARCHAR}
+      </if>
+      <if test="orderNo != null">
+        and order_no = #{orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="tradeChannelsNo != null">
+        and trade_channels_no = #{tradeChannelsNo,jdbcType=VARCHAR}
+      </if>
+      <if test="tradeChannelsReturnNo != null">
+        and trade_channels_return_no = #{tradeChannelsReturnNo,jdbcType=VARCHAR}
+      </if>
+      <if test="returnAmount != null">
+        and return_amount = #{returnAmount,jdbcType=DOUBLE}
+      </if>
+      <if test="orderAmount != null">
+        and order_amount = #{orderAmount,jdbcType=DOUBLE}
+      </if>
+      <if test="returnStatus != null">
+        and return_status = #{returnStatus,jdbcType=VARCHAR}
+      </if>
+      <if test="returnType != null">
+        and return_type = #{returnType,jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null">
+        and create_date = #{createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="modifyDate != null">
+        and modify_date = #{modifyDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="retunTime != null">
+        and retun_time = #{retunTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="appCode != null">
+        and  app_code = #{appCode,jdbcType=VARCHAR}
+      </if>
+      <if test="refundAccount != null">
+        and refund_account = #{refundAccount,jdbcType=VARCHAR}
+      </if>
+      <if test="refundRequestSource != null">
+       and  refund_request_source = #{refundRequestSource,jdbcType=VARCHAR}
+      </if>
+      <if test="refundRecvAccout != null">
+       and  refund_recv_accout = #{refundRecvAccout,jdbcType=VARCHAR}
+      </if>
+  </select>
+
+  <select id="selectList" parameterType="com.sy.huangniao.pojo.ReturnOrder" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from return_order
+    where 1=1
+    <if test="userId != null">
+      and user_id = #{userId,jdbcType=INTEGER}
+    </if>
+    <if test="returnNo != null">
+      and return_no = #{returnNo,jdbcType=VARCHAR}
+    </if>
+    <if test="orderNo != null">
+      and order_no = #{orderNo,jdbcType=VARCHAR}
+    </if>
+    <if test="tradeChannelsNo != null">
+      and trade_channels_no = #{tradeChannelsNo,jdbcType=VARCHAR}
+    </if>
+    <if test="tradeChannelsReturnNo != null">
+      and trade_channels_return_no = #{tradeChannelsReturnNo,jdbcType=VARCHAR}
+    </if>
+    <if test="returnAmount != null">
+      and return_amount = #{returnAmount,jdbcType=DOUBLE}
+    </if>
+    <if test="orderAmount != null">
+      and order_amount = #{orderAmount,jdbcType=DOUBLE}
+    </if>
+    <if test="returnStatus != null">
+      and return_status = #{returnStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="returnType != null">
+      and return_type = #{returnType,jdbcType=VARCHAR}
+    </if>
+    <if test="createDate != null">
+      and create_date = #{createDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="modifyDate != null">
+      and modify_date = #{modifyDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="retunTime != null">
+      and retun_time = #{retunTime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="appCode != null">
+      and  app_code = #{appCode,jdbcType=VARCHAR}
+    </if>
+    <if test="refundAccount != null">
+      and refund_account = #{refundAccount,jdbcType=VARCHAR}
+    </if>
+    <if test="refundRequestSource != null">
+      and  refund_request_source = #{refundRequestSource,jdbcType=VARCHAR}
+    </if>
+    <if test="refundRecvAccout != null">
+      and  refund_recv_accout = #{refundRecvAccout,jdbcType=VARCHAR}
+    </if>
+  </select>
+
   <cache />
 </mapper>
