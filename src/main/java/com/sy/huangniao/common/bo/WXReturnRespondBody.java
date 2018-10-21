@@ -23,6 +23,8 @@ public class WXReturnRespondBody {
     private String refund_fee;
     //退款金额
     private String settlement_refund_fee;
+    //退款状态
+    private String refund_status;
     //退款成功时间
     private String success_time;
     //退款入账账户

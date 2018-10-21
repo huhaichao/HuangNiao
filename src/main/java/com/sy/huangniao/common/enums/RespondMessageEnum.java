@@ -44,6 +44,7 @@ public enum RespondMessageEnum {
     NOTIFY_REPEAT("0032","重复通知！" ),
     AMOUNT_NOTEQUEAL("0033","充值金额和订单金额不一致！" ),
     CONFIRMORDERNOEXIST("0034","原订单不存在"),
+    UPDATERETURNFAIL("0035", "修改退款订单状态失败"),
 
     /*
      调用微信外部接口以1开头
@@ -75,7 +76,8 @@ public enum RespondMessageEnum {
     WX_CODE_FREQUENCY_LIMITED("1025","2个月之前的订单申请退款有频率限制"),
 
     SUCCESS("0000","成功"),
-    EXCEPTION("9999","服务器异常"),;
+    EXCEPTION("9999","服务器异常"),
+    ;
 
     private  String  code;
 

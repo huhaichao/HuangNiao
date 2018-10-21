@@ -6,6 +6,7 @@ import com.github.wxpay.sdk.WXPayUtil;
 import com.sy.huangniao.common.Util.*;
 import com.sy.huangniao.common.bo.UserInfoBody;
 import com.sy.huangniao.common.bo.WXRespondBody;
+import com.sy.huangniao.common.bo.WXReturnRespondBody;
 import com.sy.huangniao.common.constant.Constant;
 import com.sy.huangniao.common.enums.*;
 import com.sy.huangniao.common.exception.HNException;
@@ -17,6 +18,7 @@ import com.sy.huangniao.service.impl.AbstractUserAppService;
 import com.sy.huangniao.service.pay.IWXPaychannelsService;
 import com.sy.huangniao.service.impl.AbstractUserinfoService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -366,88 +368,72 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
 
             JSONObject jsonObject = new JSONObject();
             jsonObject.putAll(map);
-            WXRespondBody wxRespondBody =  JSONObject.toJavaObject(jsonObject,WXRespondBody.class);
-            if ("SUCCESS".equals(wxRespondBody.getReturn_code())){
-                if("SUCCESS".equals(wxRespondBody.getResult_code())){
-                    UserDeposit    userDeposit = new UserDeposit();
-                    userDeposit.setAppCode(getAppCode().getCode());
-                    //只能修改充值状态时是充值中的订单---以状态作为一个乐观锁防止重放攻击
-                    userDeposit.setStatus(WalletStatusEnum.DEPOSITING.getStatus());
-                    //商户订单号
-                    userDeposit.setDepositNo(wxRespondBody.getOut_trade_no());
-                    IDaoService<UserDeposit> iDaoService= hnContext.getDaoService(UserDeposit.class.getSimpleName());
-                    userDeposit =iDaoService.selectObject(userDeposit,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
-                    if(userDeposit==null){
-                        log.info("xcx 小程序退款回调接口重复通知情况是否存在 wxRespondBody={}",wxRespondBody);
-                        throw  new HNException(RespondMessageEnum.WX_CODE_CALLBACK_NO_DEPOSIT);
-                    }
-                    //修改充值表
-                    if(wxRespondBody.getCash_fee() != (userDeposit.getAmount()*100)){
-                        log.info("xcx 小程序退款回调接口调用实际付款情况金额与充值金额不一致cash_fee={} != amount={} wxRespondBody={}",
-                                wxRespondBody.getCash_fee(),userDeposit.getAmount()*100,wxRespondBody);
-                        throw  new HNException(RespondMessageEnum.WX_CODE_CASH_FEE_NOT_EQUAL);
-                    }
-                    //修改为充值成功
-                    UserDeposit updateDeposit = new UserDeposit();
-                    updateDeposit.setStatus(WalletStatusEnum.SUCCESS.getStatus());//充值到账
-                    updateDeposit.setBankType(wxRespondBody.getBank_type());
-                    updateDeposit.setTimeEnd(wxRespondBody.getTime_end());
-                    updateDeposit.setTradeChannelsNo(wxRespondBody.getTransaction_id());
-                    updateDeposit.setModifyDate(new Date());
-                    updateDeposit.setId(userDeposit.getId());
-                    if(iDaoService.updateObject(updateDeposit,SqlTypeEnum.UPADTEBYIDANDBYSTATUS)!=1){
-                        log.info("xcx 修改钱包充值状态有误请检查原因 depositNO={} userId={}",updateDeposit.getDepositNo(),updateDeposit.getUserId()
-                        );
-                        throw  new HNException(RespondMessageEnum.UPDATEDEPOSITSTATUSFAIL);
-                    }
-                    int userId = userDeposit.getUserId();
-                    String  orderNo   = userDeposit.getOrderNo(); //是否是下单充值
-
-                    IDaoService<UserAccount> iUserAccountDaoService= hnContext.getDaoService(UserAccount.class.getSimpleName());
-                    UserAccount userAccount = new UserAccount();
-                    userAccount.setUserId(userId);
-                    userAccount =iUserAccountDaoService.selectObject(userAccount,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
-                    UserAccount updateUserAccount = new UserAccount();
-                    if(!StringUtils.isEmpty(orderNo)){
-                        updateUserAccount.setCoolAmount(userDeposit.getAmount());
-                        //如果是车票订单 -- 修改车票状态为待抢票
-                        TicketOrder ticketOrder = new TicketOrder();
-                        ticketOrder.setOrderNo(orderNo);
-                        ticketOrder.setUserId(userId);
-                        ticketOrder.setModifyDate(new Date());
-                        ticketOrder.setOrderStatus(OrderStatusEnum.WAITROB.getStatus());
-                        IDaoService<TicketOrder> iTicketOrderDaoService= hnContext.getDaoService(TicketOrder.class.getSimpleName());
-                        if (iTicketOrderDaoService.updateObject(ticketOrder,SqlTypeEnum.UPDATEBYUSERIDANDORDERNO)!=1){
-                            log.info("xcx 修改订单状态有误请检查原因 orderNo={} userId={}",orderNo,userId
-                            );
-                            //加入预警信息
-                        }
-                    }else {
-                        updateUserAccount.setAmountBalance(userDeposit.getAmount());
-                    }
-                    //增加余额  -- 或者冻结余额
-                    updateUserAccount.setId(userAccount.getId());
-                    updateUserAccount.setAccountNo(userAccount.getAccountNo());
-                    updateUserAccount.setUserId(userId);
-                    updateUserAccount.setModifyDate(new Date());
-                    if(iUserAccountDaoService.updateObject(updateUserAccount,SqlTypeEnum.UPDATEACCOUNTAMOUNT)!=1){
-                        log.info("xcx 账户修改余额失败 acountNo={} userId={} amount={}",userAccount.getAccountNo(),userId,updateDeposit.getAmount()
-                        );
-                        //加入预警信息
-                    }
-
-                    Map<String,String> returnStr = new HashMap<String,String>();
-                    returnStr.put("return_code","SUCCESS");
-                    returnStr.put("return_msg","OK");
-                    return  WXPayUtil.mapToXml(returnStr);
-                }else {
-                    log.info("小程序回调返回错误吗err_code={},err_code_des={}",wxRespondBody.getErr_code(),wxRespondBody.getErr_code_des());
+            WXReturnRespondBody wxReturnRespondBody =  JSONObject.toJavaObject(jsonObject,WXReturnRespondBody.class);
+            if ("SUCCESS".equals(wxReturnRespondBody.getRefund_status())){
+                //修改退款订单状态
+                ReturnOrder  returnOrder = new ReturnOrder();
+                returnOrder.setReturnNo(wxReturnRespondBody.getOut_refund_no());
+                returnOrder.setReturnStatus(OrderStatusEnum.RETURNING_CHANNELS.getStatus());
+                IDaoService<ReturnOrder> iReturnOrderService= hnContext.getDaoService(ReturnOrder.class.getSimpleName());
+                ReturnOrder returnReuslt = iReturnOrderService.selectObject(returnOrder,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
+                Integer  userId = returnReuslt.getUserId();
+                String  orderNo   = returnReuslt.getOrderNo();
+                //修改退款订单状态
+                ReturnOrder  updateReturnOrder = new ReturnOrder();
+                //BeanUtils.copyProperties(wxReturnRespondBody,updateReturnOrder);
+                updateReturnOrder.setId(returnOrder.getId());
+                updateReturnOrder.setModifyDate(new Date());
+                updateReturnOrder.setTradeChannelsNo(wxReturnRespondBody.getTransaction_id());
+                updateReturnOrder.setTradeChannelsReturnNo(wxReturnRespondBody.getRefund_id());
+                updateReturnOrder.setReturnStatus(OrderStatusEnum.RETURNED_AMOUNT.getStatus());
+                updateReturnOrder.setRefundRecvAccout(wxReturnRespondBody.getRefund_recv_accout());
+                updateReturnOrder.setRefundRequestSource(wxReturnRespondBody.getRefund_request_source());
+                //updateReturnOrder.setRetunTime(wxReturnRespondBody.getSuccess_time());
+                if(iReturnOrderService.updateObject(updateReturnOrder,SqlTypeEnum.DEAFULT)!=1){
+                    log.info("xcx 修改退款状态有误请检查原因 returnNo={} orderNo={} userId={}",returnOrder.getReturnNo(),orderNo,userId
+                    );
+                    throw new HNException(RespondMessageEnum.UPDATERETURNFAIL);
                 }
 
+                IDaoService<UserAccount> iUserAccountDaoService= hnContext.getDaoService(UserAccount.class.getSimpleName());
+                UserAccount userAccount = new UserAccount();
+                userAccount.setUserId(userId);
+                userAccount =iUserAccountDaoService.selectObject(userAccount,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
+                //修改订单状态
+                TicketOrder ticketOrder = new TicketOrder();
+                ticketOrder.setOrderNo(orderNo);
+                ticketOrder.setUserId(userId);
+                ticketOrder.setModifyDate(new Date());
+                ticketOrder.setOrderStatus(OrderStatusEnum.RETURNED_AMOUNT.getStatus());
+                IDaoService<TicketOrder> iTicketOrderDaoService= hnContext.getDaoService(TicketOrder.class.getSimpleName());
+                if (iTicketOrderDaoService.updateObject(ticketOrder,SqlTypeEnum.UPDATEBYUSERIDANDORDERNO)!=1){
+                    log.info("xcx 退款回调修改订单状态有误请检查原因 returnNo={} orderNo={} userId={}",returnOrder.getReturnNo(),orderNo,userId
+                    );
+                    //加入预警信息
+                }
+                //减去冻结余额
+                UserAccount updateUserAccount = new UserAccount();
+                updateUserAccount.setCoolAmount(-returnOrder.getReturnAmount());
+                updateUserAccount.setId(userAccount.getId());
+                updateUserAccount.setAccountNo(userAccount.getAccountNo());
+                updateUserAccount.setUserId(userId);
+                updateUserAccount.setModifyDate(new Date());
+                if(iUserAccountDaoService.updateObject(updateUserAccount,SqlTypeEnum.UPDATEACCOUNTAMOUNT)!=1){
+                    log.info("xcx 退款回调账户修改余额失败 acountNo={} userId={} amount={}",userAccount.getAccountNo(),userId,returnOrder.getRefundAccount()
+                    );
+                    //加入预警信息
+                }
+
+                Map<String,String> returnStr = new HashMap<String,String>();
+                returnStr.put("return_code","SUCCESS");
+                returnStr.put("return_msg","OK");
+                return  WXPayUtil.mapToXml(returnStr);
+            }else {
+                log.info("小程序退款回调返回错误吗err_code={}",wxReturnRespondBody.getRefund_status());
             }
 
         } catch (Exception e) {
-            log.info("小程序回调接口调用异常={}.....",e.getMessage());
+            log.info("小程序退款接口调用异常={}.....",e.getMessage());
             throw  new HNException(RespondMessageEnum.WX_CODE_CALLBACK_FAIL);
         }
         return null;
