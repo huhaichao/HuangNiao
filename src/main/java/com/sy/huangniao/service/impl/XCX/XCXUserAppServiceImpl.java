@@ -355,6 +355,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
         log.info("小程序退款回调接口调用.....");
         try {
             String result= HttpClientUtils.respondString(request.getInputStream());
+            log.info("小程序退款回调接口返回数据={}",result);
             Map<String,String> encodeStr = WXPayUtil.xmlToMap(result);
             Map<String,String> map =WXPayUtil.decodeReturnRespond(encodeStr.get("req_info"),wxPayConfig.getKey());
 

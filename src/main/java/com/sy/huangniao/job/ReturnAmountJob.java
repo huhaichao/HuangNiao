@@ -23,7 +23,7 @@ public class ReturnAmountJob  {
     /**
      * 退款 1分钟执行一次任务
      */
-    //@Scheduled(cron = "* */1 * * * ?")
+    @Scheduled(cron = "* */1 * * * ?")
     public void execute() {
        log.info("......退款处理启动......");
        ticketCustomerServiceImpl.returnOrderHandle(null);
