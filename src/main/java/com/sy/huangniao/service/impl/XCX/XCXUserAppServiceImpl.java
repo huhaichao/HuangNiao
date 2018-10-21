@@ -176,10 +176,10 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
          */
         JSONObject json =  iwxPaychannelsService.unifiedorder(params);
         if("SUCCESS".equals(json.getString("return_code"))){
-            if (!"SUCCESS".equals(json.getString("return_code"))){
+            if (!"SUCCESS".equals(json.getString("result_code"))){
                 {
                     log.info("小程序充值失败userId={} result={} appCode ={}",userId,json,getAppCode().getCode());
-                    throw new HNException(RespondMessageEnum.valueOf(Constant.ERRORCODEXCX+json.getString("return_code")));
+                    throw new HNException(RespondMessageEnum.valueOf(Constant.ERRORCODEXCX+json.getString("result_code")));
                 }
             }
         }else {
@@ -231,10 +231,10 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
         JSONObject  returnJson = iwxPaychannelsService.refund(params);
 
         if("SUCCESS".equals(returnJson.getString("return_code"))){
-            if (!"SUCCESS".equals(returnJson.getString("return_code"))){
+            if (!"SUCCESS".equals(returnJson.getString("result_code"))){
                 {
                     log.info("小程序退款失败userId={} orderNo={} result={} appCode ={}",jsonObject.getString("userId"),jsonObject.getString("orderNo"),returnJson,getAppCode().getCode());
-                    throw new HNException(RespondMessageEnum.valueOf(Constant.ERRORCODEXCX+returnJson.getString("return_code")));
+                    throw new HNException(RespondMessageEnum.valueOf(Constant.ERRORCODEXCX+returnJson.getString("result_code")));
                 }
             }
         }else {

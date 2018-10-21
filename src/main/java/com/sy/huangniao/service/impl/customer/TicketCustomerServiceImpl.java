@@ -240,13 +240,25 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
             log.info(" orderId={} orderNo={} 该订单未支付直接取消",ticketOrder.getId(),ticketOrder.getOrderNo());
             ticketOrder2.setOrderStatus(OrderStatusEnum.CANCEL.getStatus());
         }else  if (OrderStatusEnum.WAITROB.getStatus().equals(orderStatus) || OrderStatusEnum.ROBING.getStatus().equals(orderStatus)){
+            //查询支付的订单信息
+            UserDeposit userDeposit = new UserDeposit();
+            userDeposit.setUserId(ticketOrderSelect.getUserId());
+            userDeposit.setOrderNo(ticketOrderSelect.getOrderNo());
+            userDeposit.setAppCode(ticketOrderSelect.getAppCode());
+            userDeposit.setStatus(WalletStatusEnum.SUCCESS.getStatus());
+            IDaoService<UserDeposit> iUserDepositDaoService = hnContext.getDaoService(UserDeposit.class.getSimpleName());
+            UserDeposit userDeposit2 =iUserDepositDaoService.selectObject(userDeposit,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
+            if(userDeposit2==null){
+                log.info(" orderId={} orderNo={} 订单充值信息不存在",ticketOrder.getId(),ticketOrder.getOrderNo());
+                throw new HNException(RespondMessageEnum.DEPOSITPAYREPEAT);
+            }
             //已支付的退款
             ticketOrder2.setOrderStatus(OrderStatusEnum.RETURNING_AMOUNT.getStatus());
             ReturnOrder returnOrder = new ReturnOrder();
             returnOrder.setUserId(ticketOrderSelect.getUserId());
-            returnOrder.setOrderNo(ticketOrderSelect.getOrderNo());
-            returnOrder.setReturnAmount(ticketOrderSelect.getOrderAmount());
-            returnOrder.setOrderAmount(ticketOrderSelect.getOrderAmount());
+            returnOrder.setOrderNo(userDeposit2.getDepositNo()); //付款订单号
+            returnOrder.setReturnAmount(userDeposit2.getAmount());
+            returnOrder.setOrderAmount(userDeposit2.getAmount());
             returnOrder.setCreateDate(new Date());
             returnOrder.setModifyDate(new Date());
             returnOrder.setReturnStatus(OrderStatusEnum.RETURNED_AUDIT.getStatus());
@@ -457,24 +469,36 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         ticketOrder2.setId(ticketOrder.getId());
         String orderStatus = ticketOrderSelect.getOrderStatus() ;
         //if (OrderStatusEnum.WAITROB.getStatus().equals(orderStatus) || OrderStatusEnum.ROBING.getStatus().equals(orderStatus)){
-            //已支付的退款
-            ticketOrder2.setOrderStatus(OrderStatusEnum.RETURNING_AMOUNT.getStatus());
-            ReturnOrder returnOrder = new ReturnOrder();
-            returnOrder.setUserId(ticketOrderSelect.getUserId());
-            returnOrder.setOrderNo(ticketOrderSelect.getOrderNo());
-            returnOrder.setReturnAmount(ticketOrderSelect.getOrderAmount());
-            returnOrder.setOrderAmount(ticketOrderSelect.getOrderAmount());
-            returnOrder.setCreateDate(new Date());
-            returnOrder.setModifyDate(new Date());
-            returnOrder.setReturnStatus(OrderStatusEnum.RETURNED_AUDIT.getStatus());
-            AbstractUserAppService abstractUserAppService =hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(ticketOrderSelect.getAppCode()));
-            String returnNO =abstractUserAppService.createReturnNO();
-            returnOrder.setReturnNo(returnNO);
-            IDaoService iReturnOrderDaoService = hnContext.getDaoService(ReturnOrder.class.getSimpleName());
-            if(iReturnOrderDaoService.save(returnOrder,SqlTypeEnum.DEAFULT)!=1){
-                log.info(" orderId={} orderNo={} 创建退款订单失败",ticketOrder.getId(),ticketOrder.getOrderNo());
-                throw new HNException(RespondMessageEnum.CANCLEORDERFAIL);
-            }
+        //查询支付的订单信息
+        UserDeposit userDeposit = new UserDeposit();
+        userDeposit.setUserId(ticketOrderSelect.getUserId());
+        userDeposit.setOrderNo(ticketOrderSelect.getOrderNo());
+        userDeposit.setAppCode(ticketOrderSelect.getAppCode());
+        userDeposit.setStatus(WalletStatusEnum.SUCCESS.getStatus());
+        IDaoService<UserDeposit> iUserDepositDaoService = hnContext.getDaoService(UserDeposit.class.getSimpleName());
+        UserDeposit userDeposit2 =iUserDepositDaoService.selectObject(userDeposit,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
+        if(userDeposit2==null){
+            log.info(" orderId={} orderNo={} 订单充值信息不存在",ticketOrder.getId(),ticketOrder.getOrderNo());
+            throw new HNException(RespondMessageEnum.DEPOSITPAYREPEAT);
+        }
+        //已支付的退款
+        ticketOrder2.setOrderStatus(OrderStatusEnum.RETURNING_AMOUNT.getStatus());
+        ReturnOrder returnOrder = new ReturnOrder();
+        returnOrder.setUserId(ticketOrderSelect.getUserId());
+        returnOrder.setOrderNo(userDeposit2.getDepositNo()); //付款订单号
+        returnOrder.setReturnAmount(userDeposit2.getAmount());
+        returnOrder.setOrderAmount(userDeposit2.getAmount());
+        returnOrder.setCreateDate(new Date());
+        returnOrder.setModifyDate(new Date());
+        returnOrder.setReturnStatus(OrderStatusEnum.RETURNED_AUDIT.getStatus());
+        AbstractUserAppService abstractUserAppService =hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(ticketOrderSelect.getAppCode()));
+        String returnNO =abstractUserAppService.createReturnNO();
+        returnOrder.setReturnNo(returnNO);
+        IDaoService iReturnOrderDaoService = hnContext.getDaoService(ReturnOrder.class.getSimpleName());
+        if(iReturnOrderDaoService.save(returnOrder,SqlTypeEnum.DEAFULT)!=1){
+            log.info(" orderId={} orderNo={} 创建退款订单失败",ticketOrder.getId(),ticketOrder.getOrderNo());
+            throw new HNException(RespondMessageEnum.CANCLEORDERFAIL);
+        }
         // }
         //修改订单状态
         if(iDaoService.updateObject(ticketOrder2,SqlTypeEnum.DEAFULT)!=1){
