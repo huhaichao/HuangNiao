@@ -98,11 +98,12 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
     @Override
     @Transactional(rollbackFor = {Exception.class})
     public boolean confirmeOrder(JSONObject jsonObject) {
-        TicketOrder ticketOrder = jsonObject.toJavaObject(TicketOrder.class);
+        TicketOrder ticketOrder = new TicketOrder();
+        ticketOrder.setId(jsonObject.getInteger("id"));
         ticketOrder.setOrderStatus(OrderStatusEnum.SUCCESS.getStatus());
         ticketOrder.setModifyDate(new Date());
         IDaoService iDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());
-        if(iDaoService.updateObject(ticketOrder,SqlTypeEnum.DEAFULT)==1){
+        /*if(iDaoService.updateObject(ticketOrder,SqlTypeEnum.DEAFULT)==1){
             RobOrder  robOrder = new RobOrder();
             robOrder.setRobStatus(OrderStatusEnum.WAITCONFIRME.getStatus());
             robOrder.setOrderId(ticketOrder.getId());
@@ -209,7 +210,11 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
             }
 
 
-        }
+        }else {
+            log.info(" orderId={} userId={} 该订单不存在.....",ticketOrder.getId(),jsonObject.getString("userId")
+                );
+            return  false;
+        }*/
         return true;
     }
 

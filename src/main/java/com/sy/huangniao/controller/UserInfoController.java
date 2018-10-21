@@ -291,7 +291,7 @@ public class UserInfoController {
             if(abstractUserinfoService.confirmeOrder(jsonObject))
                 return new RespondBody(RespondMessageEnum.SUCCESS);
             else
-                return new RespondBody(RespondMessageEnum.CREATORDERFAIL);
+                return new RespondBody(RespondMessageEnum.CONFIRMORDERNOEXIST);
         }catch (HNException e){
             log.info("requestBody={} confirmeOrder exception code={} msg={}",requestBody,e.getCode(),e.getMsg());
             return new RespondBody(e.getRespondMessageEnum());

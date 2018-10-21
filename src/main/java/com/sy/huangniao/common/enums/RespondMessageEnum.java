@@ -41,6 +41,9 @@ public enum RespondMessageEnum {
     ORDERPAYREPEAT("0029","该订单已支付，请检查不要重复支付！"),
     DEPOSITPAYREPEAT("0030","该订单充值状态异常，请联系客服人员或者重新下单！"),
     RETURN_FAIL("0031","退款处理失败！"),
+    NOTIFY_REPEAT("0032","重复通知！" ),
+    AMOUNT_NOTEQUEAL("0033","充值金额和订单金额不一致！" ),
+    CONFIRMORDERNOEXIST("0034","原订单不存在"),
 
     /*
      调用微信外部接口以1开头
@@ -72,7 +75,7 @@ public enum RespondMessageEnum {
     WX_CODE_FREQUENCY_LIMITED("1025","2个月之前的订单申请退款有频率限制"),
 
     SUCCESS("0000","成功"),
-    EXCEPTION("9999","服务器异常"), ;
+    EXCEPTION("9999","服务器异常"),;
 
     private  String  code;
 

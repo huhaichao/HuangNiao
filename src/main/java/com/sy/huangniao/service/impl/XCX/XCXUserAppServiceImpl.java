@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.wxpay.sdk.WXPayConstants;
 import com.github.wxpay.sdk.WXPayUtil;
 import com.sy.huangniao.common.Util.*;
+import com.sy.huangniao.common.bo.UserInfoBody;
 import com.sy.huangniao.common.bo.WXRespondBody;
 import com.sy.huangniao.common.constant.Constant;
 import com.sy.huangniao.common.enums.*;
@@ -16,7 +17,6 @@ import com.sy.huangniao.service.impl.AbstractUserAppService;
 import com.sy.huangniao.service.pay.IWXPaychannelsService;
 import com.sy.huangniao.service.impl.AbstractUserinfoService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,12 +72,14 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
           log.info("code={} 请求登陆失败 errcode={} errmsg={}",jsCode,jsonObject.getString("errcode"),jsonObject.getString("errmsg"));
           throw  new HNException(RespondMessageEnum.WX_CODE_GET_OPENID_FAIL);
       }
-
-      //通过openID查询登陆状
+      UserInfo userInfo =null;
+        //通过openID查询登陆状
       String userid =redisServiceImpl.get(Constant.GETUSERIDBYOPENID+getAppCode().getCode()+userWxinfo.getOpenid(),String.class);
-      JSONObject jsonResult = new JSONObject();
+
       IDaoService iDaoService = hnContext.getDaoService(UserWxinfo.class.getSimpleName());
-      if(!StringUtils.isEmpty(userid)){
+        AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(json.getString("userRole"));
+
+        if(!StringUtils.isEmpty(userid)){
           userWxinfo.setUserId(Integer.parseInt(userid));
           userWxinfo.setModifyDate(new Date());
           if(iDaoService.updateObject(userWxinfo, SqlTypeEnum.UPDATEBYUSERID)!=1){
@@ -90,8 +92,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
            userWxinfoSelect.setOpenid(userWxinfo.getOpenid());
            List<UserWxinfo> list =iDaoService.selectList(userWxinfoSelect,SqlTypeEnum.DEAFULT);
            if(list==null || list.size()==0){
-              AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(json.getString("userRole"));
-              UserInfo userInfo =abstractUserinfoService.createUserInfo(json);
+              userInfo =abstractUserinfoService.createUserInfo(json);
               userid = userInfo.getId().toString();
               //保存微信信息
                userWxinfo.setUserId(userInfo.getId());
@@ -113,6 +114,8 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
            }
       }
 
+     UserInfoBody userInfoBody = abstractUserinfoService.getUserInfo(Integer.parseInt(userid));
+     JSONObject jsonResult = (JSONObject) JSONObject.toJSON(userInfoBody);
      String salt = DateUtils.date2yyyyMMddhhmmssString(new Date())+userid;
      String loginKey = MD5Utils.getMD5String(salt).substring(0,10);
         redisServiceImpl.set(Constant.CACHELOGINKEY+getAppCode().getCode()+userid,loginKey,constant.getLoginKeyexprirTime(), TimeUnit.SECONDS);
@@ -121,8 +124,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
      //保存session_key
         redisServiceImpl.set(Constant.USERIDSESSIONKEY+getAppCode().getCode()+userid,userWxinfo.getSessionKey(),constant.getLoginKeyexprirTime(), TimeUnit.SECONDS);
      jsonResult.put("loginKey",loginKey);
-     jsonResult.put("userId",userid);
-
+     //jsonResult.put("userId",userid);
      return  jsonResult;
     }
 
@@ -253,7 +255,7 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
 
             if(!signResult.equals(sign)){
                 log.info("xcx 回调接口签名错误  sign={} != signResult={}",sign,signResult);
-                throw  new HNException(RespondMessageEnum.WX_CODE_CALLBACK_NO_DEPOSIT);
+                throw  new HNException(RespondMessageEnum.WX_CODE_SIGNERROR);
             }
             JSONObject jsonObject = new JSONObject();
             jsonObject.putAll(map);
@@ -270,13 +272,13 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
                     userDeposit =iDaoService.selectObject(userDeposit,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
                     if(userDeposit==null){
                         log.info("xcx 重复通知情况是否存在 wxRespondBody={}",wxRespondBody);
-                        throw  new HNException(RespondMessageEnum.WX_CODE_CALLBACK_NO_DEPOSIT);
+                        throw  new HNException(RespondMessageEnum.NOTIFY_REPEAT);
                     }
                     //修改充值表
                     if(wxRespondBody.getCash_fee() != (userDeposit.getAmount()*100)){
                         log.info("xcx 实际付款情况金额与充值金额不一致cash_fee={} != amount={} wxRespondBody={}",
                                 wxRespondBody.getCash_fee(),userDeposit.getAmount()*100,wxRespondBody);
-                        throw  new HNException(RespondMessageEnum.WX_CODE_CASH_FEE_NOT_EQUAL);
+                        throw  new HNException(RespondMessageEnum.AMOUNT_NOTEQUEAL);
                     }
                     //修改为充值成功
                     UserDeposit updateDeposit = new UserDeposit();
@@ -348,20 +350,23 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
     @Override
     @Transactional(rollbackFor = {Exception.class})
     public String returnCallback(HttpServletRequest request) {
-        log.info("小程序回调接口调用.....");
+        log.info("小程序退款回调接口调用.....");
         try {
             String result= HttpClientUtils.respondString(request.getInputStream());
-            Map<String,String> map =WXPayUtil.xmlToMap(result);
-            String sign = map.get("sign");
-            String signResult =WXPayUtil.generateSignature(map,wxPayConfig.getKey(), WXPayConstants.SignType.valueOf(map.get("sign_type")));
+            Map<String,String> encodeStr = WXPayUtil.xmlToMap(result);
+            Map<String,String> map =WXPayUtil.decodeReturnRespond(encodeStr.get("req_info"),wxPayConfig.getKey());
+
+           /*String sign = map.get("sign");
+            String signResult =WXPayUtil.generateSignature(map,wxPayConfig.getKey(), WXPayConstants.SignType.HMACSHA256);
 
             if(!signResult.equals(sign)){
-                log.info("xcx 回调接口签名错误  sign={} != signResult={}",sign,signResult);
-                throw  new HNException(RespondMessageEnum.WX_CODE_CALLBACK_NO_DEPOSIT);
-            }
+                log.info("xcx 小程序退款回调接口调用签名  sign={} != signResult={}",sign,signResult);
+                throw  new HNException(RespondMessageEnum.WX_CODE_SIGNERROR);
+            }*/
 
-            WXRespondBody wxRespondBody = new WXRespondBody();
-            BeanUtils.copyProperties(map,wxRespondBody);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.putAll(map);
+            WXRespondBody wxRespondBody =  JSONObject.toJavaObject(jsonObject,WXRespondBody.class);
             if ("SUCCESS".equals(wxRespondBody.getReturn_code())){
                 if("SUCCESS".equals(wxRespondBody.getResult_code())){
                     UserDeposit    userDeposit = new UserDeposit();
@@ -373,12 +378,12 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
                     IDaoService<UserDeposit> iDaoService= hnContext.getDaoService(UserDeposit.class.getSimpleName());
                     userDeposit =iDaoService.selectObject(userDeposit,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
                     if(userDeposit==null){
-                        log.info("xcx 重复通知情况是否存在 wxRespondBody={}",wxRespondBody);
+                        log.info("xcx 小程序退款回调接口重复通知情况是否存在 wxRespondBody={}",wxRespondBody);
                         throw  new HNException(RespondMessageEnum.WX_CODE_CALLBACK_NO_DEPOSIT);
                     }
                     //修改充值表
                     if(wxRespondBody.getCash_fee() != (userDeposit.getAmount()*100)){
-                        log.info("xcx 实际付款情况金额与充值金额不一致cash_fee={} != amount={} wxRespondBody={}",
+                        log.info("xcx 小程序退款回调接口调用实际付款情况金额与充值金额不一致cash_fee={} != amount={} wxRespondBody={}",
                                 wxRespondBody.getCash_fee(),userDeposit.getAmount()*100,wxRespondBody);
                         throw  new HNException(RespondMessageEnum.WX_CODE_CASH_FEE_NOT_EQUAL);
                     }
