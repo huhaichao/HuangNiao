@@ -12,6 +12,7 @@ public enum OrderStatusEnum {
     RETURNING_CHANNELS("returning_channels","第三放支付通道退款中"),
     RETURNED_AMOUNT("returned_amount","已退款"),
     RETURNED_AUDIT("returned_audit","退款审核中"),
+    RETURNED_AMOUNT_FAIL("returned_amount_fail","退款失败--具体原因看备注"),
     RETURNED_RETURN("returned_return","退款审核驳回,在备注中写明驳回原因"),
     ROBING("robing","抢票中"),
     ORDER_AUDIT("order_audit","出票审核中"),
@@ -21,8 +22,9 @@ public enum OrderStatusEnum {
     WAITCONFIRME("wait_confirme","等待确认"),
     RETURN("return","退票中"),
     RETURN_SUCCESS("return_success","退票完成"),
-    RETURN_FAIL("return_fail","退票失败");
+    RETURN_FAIL("return_fail","退票失败"),
 
+    ;
 
     private  String status;
 

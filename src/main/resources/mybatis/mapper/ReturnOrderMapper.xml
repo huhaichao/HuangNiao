@@ -6,6 +6,7 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="return_no" jdbcType="VARCHAR" property="returnNo" />
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="deposit_no" jdbcType="VARCHAR" property="depositNo" />
     <result column="trade_channels_no" jdbcType="VARCHAR" property="tradeChannelsNo" />
     <result column="trade_channels_return_no" jdbcType="VARCHAR" property="tradeChannelsReturnNo" />
     <result column="return_amount" jdbcType="DOUBLE" property="returnAmount" />
@@ -22,7 +23,7 @@
     <result column="refund_recv_accout" jdbcType="VARCHAR" property="refundRecvAccout" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, return_no, order_no, trade_channels_no, trade_channels_return_no, return_amount, 
+    id, user_id, return_no, order_no,deposit_no, trade_channels_no, trade_channels_return_no, return_amount,
     order_amount, return_status, return_type, create_date, modify_date, retun_time, remark, 
     app_code, refund_account, refund_request_source, refund_recv_accout
   </sql>
@@ -37,14 +38,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.ReturnOrder" useGeneratedKeys="true">
-    insert into return_order (user_id, return_no, order_no, 
+    insert into return_order (user_id, return_no, order_no, deposit_no,
       trade_channels_no, trade_channels_return_no, 
       return_amount, order_amount, return_status, 
       return_type, create_date, modify_date, 
       retun_time, remark, app_code,
       refund_account, refund_request_source, refund_recv_accout
       )
-    values (#{userId,jdbcType=INTEGER}, #{returnNo,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=INTEGER}, #{returnNo,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{depositNo,jdbcType=VARCHAR},
       #{tradeChannelsNo,jdbcType=VARCHAR}, #{tradeChannelsReturnNo,jdbcType=VARCHAR}, 
       #{returnAmount,jdbcType=DOUBLE}, #{orderAmount,jdbcType=DOUBLE}, #{returnStatus,jdbcType=VARCHAR}, 
       #{returnType,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
@@ -63,6 +64,9 @@
       </if>
       <if test="orderNo != null">
         order_no,
+      </if>
+      <if test="depositNo != null">
+        deposit_no,
       </if>
       <if test="tradeChannelsNo != null">
         trade_channels_no,
@@ -116,6 +120,9 @@
       </if>
       <if test="orderNo != null">
         #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="depositNo != null">
+        #{depositNo,jdbcType=VARCHAR},
       </if>
       <if test="tradeChannelsNo != null">
         #{tradeChannelsNo,jdbcType=VARCHAR},
@@ -173,6 +180,9 @@
       <if test="orderNo != null">
         order_no = #{orderNo,jdbcType=VARCHAR},
       </if>
+      <if test="depositNo != null">
+        deposit_no = #{depositNo,jdbcType=VARCHAR},
+      </if>
       <if test="tradeChannelsNo != null">
         trade_channels_no = #{tradeChannelsNo,jdbcType=VARCHAR},
       </if>
@@ -222,7 +232,7 @@
     update return_order
     set user_id = #{userId,jdbcType=INTEGER},
       return_no = #{returnNo,jdbcType=VARCHAR},
-      order_no = #{orderNo,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR},deposit_no = #{depositNo,jdbcType=VARCHAR},
       trade_channels_no = #{tradeChannelsNo,jdbcType=VARCHAR},
       trade_channels_return_no = #{tradeChannelsReturnNo,jdbcType=VARCHAR},
       return_amount = #{returnAmount,jdbcType=DOUBLE},
@@ -253,6 +263,9 @@
       </if>
       <if test="orderNo != null">
         and order_no = #{orderNo,jdbcType=VARCHAR}
+      </if>
+      <if test="depositNo != null">
+        and deposit_no = #{depositNo,jdbcType=VARCHAR}
       </if>
       <if test="tradeChannelsNo != null">
         and trade_channels_no = #{tradeChannelsNo,jdbcType=VARCHAR}
@@ -309,6 +322,9 @@
     <if test="orderNo != null">
       and order_no = #{orderNo,jdbcType=VARCHAR}
     </if>
+    <if test="depositNo != null">
+      and deposit_no = #{depositNo,jdbcType=VARCHAR}
+    </if>
     <if test="tradeChannelsNo != null">
       and trade_channels_no = #{tradeChannelsNo,jdbcType=VARCHAR}
     </if>
@@ -350,5 +366,5 @@
     </if>
   </select>
 
-  <cache />
+  <cache  eviction="FIFO"  flushInterval="60000" readOnly="true" />
 </mapper>

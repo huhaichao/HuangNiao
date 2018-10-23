@@ -46,6 +46,12 @@ public interface UserAppService {
     public String  createOrderNO();
 
     /**
+     * 创建充值单号
+     * @return
+     */
+    public String  createDepositNO();
+
+    /**
      * 创建订单号
      * @return
      */

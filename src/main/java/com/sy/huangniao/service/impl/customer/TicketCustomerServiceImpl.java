@@ -256,7 +256,8 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
             ticketOrder2.setOrderStatus(OrderStatusEnum.RETURNING_AMOUNT.getStatus());
             ReturnOrder returnOrder = new ReturnOrder();
             returnOrder.setUserId(ticketOrderSelect.getUserId());
-            returnOrder.setOrderNo(userDeposit2.getDepositNo()); //付款订单号
+            returnOrder.setOrderNo(ticketOrderSelect.getOrderNo()); //付款订单号
+            returnOrder.setDepositNo(userDeposit2.getDepositNo()); //付款订单号
             returnOrder.setReturnAmount(userDeposit2.getAmount());
             returnOrder.setOrderAmount(userDeposit2.getAmount());
             returnOrder.setCreateDate(new Date());
@@ -438,9 +439,20 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
             } catch (HNException e) {
                 log.error("userId={} orderNo={} orderAmount={} exception code={} msg={}", ro.getUserId(), ro.getOrderNo(),
                         ro.getOrderAmount(), e.getCode(), e.getMsg());
+                ReturnOrder re = new ReturnOrder();
+                re.setId(ro.getId());
+                re.setReturnStatus(OrderStatusEnum.RETURNED_AMOUNT_FAIL.getStatus());
+                re.setRemark(e.getMsg());
+                iDaoService.updateObject(re, SqlTypeEnum.DEAFULT);
+
             } catch (Exception e) {
                 log.error("userId={} orderNo={} orderAmount={} exception={}", ro.getUserId(), ro.getOrderNo(),
                         ro.getOrderAmount(), e.getMessage());
+                ReturnOrder re = new ReturnOrder();
+                re.setId(ro.getId());
+                re.setReturnStatus(OrderStatusEnum.RETURNED_AMOUNT_FAIL.getStatus());
+                re.setRemark("服务器异常！");
+                iDaoService.updateObject(re, SqlTypeEnum.DEAFULT);
             }
             log.info("userId={} orderNo={} orderAmount={} 退款结束......", ro.getUserId(), ro.getOrderNo(), ro.getOrderAmount());
         }
@@ -467,7 +479,7 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         }
         TicketOrder ticketOrder2 =new TicketOrder();
         ticketOrder2.setId(ticketOrder.getId());
-        String orderStatus = ticketOrderSelect.getOrderStatus() ;
+        //String orderStatus = ticketOrderSelect.getOrderStatus() ;
         //if (OrderStatusEnum.WAITROB.getStatus().equals(orderStatus) || OrderStatusEnum.ROBING.getStatus().equals(orderStatus)){
         //查询支付的订单信息
         UserDeposit userDeposit = new UserDeposit();
@@ -485,7 +497,8 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         ticketOrder2.setOrderStatus(OrderStatusEnum.RETURNING_AMOUNT.getStatus());
         ReturnOrder returnOrder = new ReturnOrder();
         returnOrder.setUserId(ticketOrderSelect.getUserId());
-        returnOrder.setOrderNo(userDeposit2.getDepositNo()); //付款订单号
+        returnOrder.setOrderNo(ticketOrderSelect.getOrderNo()); //付款订单号
+        returnOrder.setDepositNo(userDeposit2.getDepositNo()); //充值订单号
         returnOrder.setReturnAmount(userDeposit2.getAmount());
         returnOrder.setOrderAmount(userDeposit2.getAmount());
         returnOrder.setCreateDate(new Date());

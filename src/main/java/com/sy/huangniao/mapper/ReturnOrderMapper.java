@@ -17,7 +17,7 @@ public interface ReturnOrderMapper {
 
     int updateByPrimaryKey(ReturnOrder record);
 
-    ReturnOrder selectByObjectBySelecttive(Integer id);
+    ReturnOrder selectByObjectBySelecttive(ReturnOrder returnOrder);
 
     List<ReturnOrder> selectList(ReturnOrder returnOrder);
 }

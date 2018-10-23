@@ -59,7 +59,7 @@ public class ReturnOrderDaoServiceImpl  implements IDaoService<ReturnOrder>{
         if(sqlType==SqlTypeEnum.DEAFULT)
             return  returnOrderMapper.selectByPrimaryKey(returnOrder.getId());
         else if (sqlType==SqlTypeEnum.SELECTOBJECTBYSELECTIVE)
-            return  returnOrderMapper.selectByObjectBySelecttive(returnOrder.getId());
+            return  returnOrderMapper.selectByObjectBySelecttive(returnOrder);
         return null;
     }
 }

@@ -46,6 +46,7 @@ public class PayInfoController {
     /**
      * 退款回调接口
      * @return
+     * http://39.106.2.124:8010/api/XCX/return/callback
      */
     @RequestMapping(value = "/api/{channelsCode}/return/callback",method = {RequestMethod.GET,RequestMethod.POST}
             ,produces = {"application/json;charset=utf-8"})

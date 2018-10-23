@@ -9,9 +9,15 @@ public class HNException extends RuntimeException {
 
     private RespondMessageEnum respondMessageEnum;
 
+    private String code;
+
+    private String msg;
+
     public HNException(RespondMessageEnum respondMessageEnum) {
         super(respondMessageEnum.getMsg());
         this.respondMessageEnum  = respondMessageEnum;
+        this.code =respondMessageEnum.getCode();
+        this.msg = respondMessageEnum.getMsg();
     }
 
     public HNException(String message) {
@@ -30,12 +36,16 @@ public class HNException extends RuntimeException {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 
+    public HNException(String code,String msg) {
+          this.code =code;
+          this.msg = msg;
+    }
     public  String  getCode(){
-        return  respondMessageEnum.getCode();
+        return  this.code;
     }
 
     public  String  getMsg(){
-        return  respondMessageEnum.getMsg();
+        return  this.msg;
     }
 
     public  RespondMessageEnum getRespondMessageEnum(){

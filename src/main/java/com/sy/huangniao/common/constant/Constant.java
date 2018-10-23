@@ -18,6 +18,8 @@ public class Constant {
     public static final String GETUSERIDBYOPENID ="USEROPENID" ;
     //第三方调用小程序前缀
     public static final String ERRORCODEXCX ="WX_CODE_" ;
+    //第三方调用小程序退款前缀
+    public static final String ERRORCODRETURNEXCX ="WX_CODE_RETURN_" ;
     
     public static final String USERIDSESSIONKEY ="USERIDSESSIONKEY" ;
     //校验手机号前缀
@@ -58,6 +60,13 @@ public class Constant {
     public String getRETURNNOXCX() {
         return RETURNNOXCX;
     }
+    //充值订单号前缀
+    @Value("${user.depositno.xcx}")
+    private String DEPOSITNOXCX;
+    public String getDEPOSITNOXCX() {
+        return DEPOSITNOXCX;
+    }
+
     //失效时间37*24*3600
     @Value("${user.loginKeyexprirTime}")
     private   long   loginKeyexprirTime;

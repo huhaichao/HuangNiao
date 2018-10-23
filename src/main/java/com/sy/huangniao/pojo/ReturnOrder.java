@@ -22,6 +22,12 @@ public class ReturnOrder implements Serializable {
     private String orderNo;
 
     /**
+     * 充值单号
+     */
+    private String depositNo;
+
+
+    /**
      * 第三订单号
      */
     private String tradeChannelsNo;
@@ -247,6 +253,7 @@ public class ReturnOrder implements Serializable {
         sb.append(", userId=").append(userId);
         sb.append(", returnNo=").append(returnNo);
         sb.append(", orderNo=").append(orderNo);
+        sb.append(", depositNo=").append(depositNo);
         sb.append(", tradeChannelsNo=").append(tradeChannelsNo);
         sb.append(", tradeChannelsReturnNo=").append(tradeChannelsReturnNo);
         sb.append(", returnAmount=").append(returnAmount);
@@ -264,5 +271,13 @@ public class ReturnOrder implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public String getDepositNo() {
+        return depositNo;
+    }
+
+    public void setDepositNo(String depositNo) {
+        this.depositNo = depositNo;
     }
 }
