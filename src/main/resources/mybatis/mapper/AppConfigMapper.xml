@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.huangniao.mapper.AppConfigMapper">
+  <resultMap id="BaseResultMap" type="com.sy.huangniao.pojo.AppConfig">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="key_name" jdbcType="VARCHAR" property="keyName" />
+    <result column="key_value" jdbcType="VARCHAR" property="keyValue" />
+    <result column="key_type" jdbcType="VARCHAR" property="keyType" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="des" jdbcType="VARCHAR" property="des" />
+    <result column="app_code" jdbcType="VARCHAR" property="appCode" />
+    <result column="user_role" jdbcType="VARCHAR" property="userRole" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, key_name, key_value, key_type, sort, des, app_code, user_role, create_date, modify_date, 
+    status, remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from app_config
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from app_config
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.AppConfig" useGeneratedKeys="true">
+    insert into app_config (key_name, key_value, key_type, 
+      sort, des, app_code, 
+      user_role, create_date, modify_date, 
+      status, remark)
+    values (#{keyName,jdbcType=VARCHAR}, #{keyValue,jdbcType=VARCHAR}, #{keyType,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=INTEGER}, #{des,jdbcType=VARCHAR}, #{appCode,jdbcType=VARCHAR}, 
+      #{userRole,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.AppConfig" useGeneratedKeys="true">
+    insert into app_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="keyName != null">
+        key_name,
+      </if>
+      <if test="keyValue != null">
+        key_value,
+      </if>
+      <if test="keyType != null">
+        key_type,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="des != null">
+        des,
+      </if>
+      <if test="appCode != null">
+        app_code,
+      </if>
+      <if test="userRole != null">
+        user_role,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="modifyDate != null">
+        modify_date,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="keyName != null">
+        #{keyName,jdbcType=VARCHAR},
+      </if>
+      <if test="keyValue != null">
+        #{keyValue,jdbcType=VARCHAR},
+      </if>
+      <if test="keyType != null">
+        #{keyType,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="des != null">
+        #{des,jdbcType=VARCHAR},
+      </if>
+      <if test="appCode != null">
+        #{appCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userRole != null">
+        #{userRole,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sy.huangniao.pojo.AppConfig">
+    update app_config
+    <set>
+      <if test="keyName != null">
+        key_name = #{keyName,jdbcType=VARCHAR},
+      </if>
+      <if test="keyValue != null">
+        key_value = #{keyValue,jdbcType=VARCHAR},
+      </if>
+      <if test="keyType != null">
+        key_type = #{keyType,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="des != null">
+        des = #{des,jdbcType=VARCHAR},
+      </if>
+      <if test="appCode != null">
+        app_code = #{appCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userRole != null">
+        user_role = #{userRole,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyDate != null">
+        modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sy.huangniao.pojo.AppConfig">
+    update app_config
+    set key_name = #{keyName,jdbcType=VARCHAR},
+      key_value = #{keyValue,jdbcType=VARCHAR},
+      key_type = #{keyType,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      des = #{des,jdbcType=VARCHAR},
+      app_code = #{appCode,jdbcType=VARCHAR},
+      user_role = #{userRole,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      modify_date = #{modifyDate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectList" parameterType="com.sy.huangniao.pojo.AppConfig" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from app_config
+    where 1=1
+    <if test="keyName != null">
+      and key_name = #{keyName,jdbcType=VARCHAR}
+    </if>
+    <if test="keyValue != null">
+      and key_value = #{keyValue,jdbcType=VARCHAR}
+    </if>
+    <if test="keyType != null">
+      and key_type = #{keyType,jdbcType=VARCHAR}
+    </if>
+    <if test="des != null">
+      and des = #{des,jdbcType=VARCHAR}
+    </if>
+    <if test="appCode != null">
+      and app_code = #{appCode,jdbcType=VARCHAR}
+    </if>
+    <if test="userRole != null">
+      and user_role = #{userRole,jdbcType=VARCHAR}
+    </if>
+    <if test="createDate != null">
+      and create_date = #{createDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="modifyDate != null">
+      and modify_date = #{modifyDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="status != null">
+      and  status = #{status,jdbcType=VARCHAR}
+    </if>
+     order by sort
+  </select>
+  <cache />
+</mapper>

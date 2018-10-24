@@ -109,6 +109,13 @@ public interface UserInfoService {
      */
     public boolean returnAmount(JSONObject jsonObject);
 
+    /**
+     * 用户配置
+     * @param jsonObject
+     * @return
+     */
+    public  String appConfig(JSONObject jsonObject);
+
 
     /**
      *

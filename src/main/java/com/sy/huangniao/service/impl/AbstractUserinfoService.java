@@ -1,10 +1,8 @@
 package com.sy.huangniao.service.impl;
 
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.bcloud.msg.http.HttpSender;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.sy.huangniao.common.Util.MathUtils;
 import com.sy.huangniao.common.bo.UserInfoBody;
 import com.sy.huangniao.common.Util.StringUtils;
@@ -12,8 +10,7 @@ import com.sy.huangniao.common.constant.Constant;
 import com.sy.huangniao.common.enums.*;
 import com.sy.huangniao.common.exception.HNException;
 import com.sy.huangniao.controller.context.HNContext;
-import com.sy.huangniao.pojo.ReturnOrder;
-import com.sy.huangniao.pojo.TicketOrder;
+import com.sy.huangniao.pojo.AppConfig;
 import com.sy.huangniao.pojo.UserAccount;
 import com.sy.huangniao.pojo.UserInfo;
 import com.sy.huangniao.service.IDaoService;
@@ -27,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -251,13 +247,32 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
     public  JSONObject  sendPhoneCode(JSONObject jsonObject){
         String code = MathUtils.getRanomCode(6);
         String content = constant.getSMS_CONTENT().replace("code",code);
-        if(otherPartyServiceImpl.sendPhoneCode(jsonObject,content,false));{
+        if(otherPartyServiceImpl.sendPhoneCode(jsonObject,content,false)){
             jsonObject.put("smsCode",code);
         }
         redisServiceImpl.set(Constant.CACHEPHONECODE+jsonObject.getString("phoneNo"),code,constant.getSMS_ExprirTime(), TimeUnit.SECONDS);
         return  jsonObject;
     }
 
+    @Override
+    public  String appConfig(JSONObject jsonObject){
+        AppConfig  appConfig = jsonObject.toJavaObject(AppConfig.class);
+        IDaoService<AppConfig> iDaoService =hnContext.getDaoService(AppConfig.class.getSimpleName());
+        List<AppConfig> list =iDaoService.selectList(appConfig,SqlTypeEnum.DEAFULT);
+        JSONArray jsonArray = new JSONArray();
+        for (AppConfig appConf : list){
+            JSONObject json = new JSONObject();
+            if("refuel_bag".equals(appConf.getKeyType())){
+                String value =appConf.getKeyValue();
+                String[] values =value.split(",");
+                json.put("name",values[0]);
+                json.put("amount",values[1]);
+                json.put("picture",values[2]);
+                jsonArray.add(json);
+            }
+        }
+        return  jsonArray.toJSONString();
+    }
 }
 
 

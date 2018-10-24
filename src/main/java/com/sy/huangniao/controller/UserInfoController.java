@@ -613,4 +613,44 @@ public class UserInfoController {
 
     }
 
+
+    /**
+     *
+     * 读取app配置接口
+     * @return
+     */
+    @PostMapping(value="/api/v1/user/appConfig",produces = {"application/json;charset=utf-8"})
+    public RespondBody  appConfig(RequestBody requestBody){
+
+        try {
+            log.info("requestBody={} returnAmount......",requestBody);
+            AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
+            JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
+            /*String sign = jsonObject.getString("sign");
+            if(StringUtils.isEmpty(sign)){
+                log.info("requestBody={}  login 没有签名..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
+            }
+            jsonObject.remove("sign");
+            if(!MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
+                log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.SIGNERROR);
+            }*/
+            jsonObject.put("userId",requestBody.getUserId());
+            jsonObject.put("userRole",requestBody.getUserRole());
+            jsonObject.put("appCode",requestBody.getAppCode());
+            // jsonObject.put("userId",requestBody.getUserId());
+            // jsonObject.put("userRole",requestBody.getUserRole());
+            String jsonStr = abstractUserinfoService.appConfig(jsonObject);
+            return new RespondBody(RespondMessageEnum.SUCCESS,jsonStr);
+        }catch (HNException e){
+            log.info("requestBody={} returnAmount exception code={} msg={}",requestBody,e.getCode(),e.getMsg());
+            return new RespondBody(e.getRespondMessageEnum());
+        }catch (Exception e){
+            log.info("requestBody={} returnAmount exception={}",requestBody,e.getMessage());
+            return new RespondBody(RespondMessageEnum.EXCEPTION);
+        }
+
+    }
+
 }
