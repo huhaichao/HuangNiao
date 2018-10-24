@@ -623,7 +623,7 @@ public class UserInfoController {
     public RespondBody  appConfig(RequestBody requestBody){
 
         try {
-            log.info("requestBody={} returnAmount......",requestBody);
+            log.info("requestBody={} appConfig......",requestBody);
             AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
             JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
             /*String sign = jsonObject.getString("sign");
