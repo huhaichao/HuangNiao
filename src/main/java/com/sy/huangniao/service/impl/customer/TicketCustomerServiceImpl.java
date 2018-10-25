@@ -62,6 +62,7 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         }
         jsonObject.put("orderNo",orderNo);
         JSONObject result = abstractUserAppService.deposit(jsonObject);
+        result.put("id",ticketOrder.getId());
         return result;
     }
 
