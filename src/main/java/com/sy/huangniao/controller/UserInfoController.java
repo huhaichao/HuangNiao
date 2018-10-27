@@ -1,6 +1,7 @@
 package com.sy.huangniao.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sy.huangniao.common.Util.MD5Utils;
 import com.sy.huangniao.common.bo.RequestBody;
@@ -641,13 +642,55 @@ public class UserInfoController {
             jsonObject.put("appCode",requestBody.getAppCode());
             // jsonObject.put("userId",requestBody.getUserId());
             // jsonObject.put("userRole",requestBody.getUserRole());
-            String jsonStr = abstractUserinfoService.appConfig(jsonObject);
+            Object jsonStr = abstractUserinfoService.appConfig(jsonObject);
             return new RespondBody(RespondMessageEnum.SUCCESS,jsonStr);
         }catch (HNException e){
             log.info("requestBody={} returnAmount exception code={} msg={}",requestBody,e.getCode(),e.getMsg());
             return new RespondBody(e.getRespondMessageEnum());
         }catch (Exception e){
             log.info("requestBody={} returnAmount exception={}",requestBody,e.getMessage());
+            return new RespondBody(RespondMessageEnum.EXCEPTION);
+        }
+
+    }
+
+
+    /**
+     *
+     * 用户反馈接口
+     * @return
+     */
+    @PostMapping(value="/api/v1/user/userBack",produces = {"application/json;charset=utf-8"})
+    public RespondBody  userBack(RequestBody requestBody){
+
+        try {
+            log.info("requestBody={} userBack......",requestBody);
+            AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService(requestBody.getUserRole());
+            JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
+            /*String sign = jsonObject.getString("sign");
+            if(StringUtils.isEmpty(sign)){
+                log.info("requestBody={}  login 没有签名..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.NOINFO_SIGN);
+            }
+            jsonObject.remove("sign");
+            if(!MD5Utils.checkEncryption(jsonObject,constant.getUSERLOGINSIGNKEY(),sign)){
+                log.info("requestBody={}  deposit 签名校验失败..... ",requestBody);
+                return new RespondBody(RespondMessageEnum.SIGNERROR);
+            }*/
+            jsonObject.put("userId",requestBody.getUserId());
+            jsonObject.put("userRole",requestBody.getUserRole());
+            jsonObject.put("appCode",requestBody.getAppCode());
+            // jsonObject.put("userId",requestBody.getUserId());
+            // jsonObject.put("userRole",requestBody.getUserRole());
+            if(abstractUserinfoService.userBack(jsonObject))
+                return new RespondBody(RespondMessageEnum.SUCCESS);
+            else
+                return new RespondBody(RespondMessageEnum.USERBACKFAIL);
+        }catch (HNException e){
+            log.info("requestBody={} userBack exception code={} msg={}",requestBody,e.getCode(),e.getMsg());
+            return new RespondBody(e.getRespondMessageEnum());
+        }catch (Exception e){
+            log.info("requestBody={} userBack exception={}",requestBody,e.getMessage());
             return new RespondBody(RespondMessageEnum.EXCEPTION);
         }
 

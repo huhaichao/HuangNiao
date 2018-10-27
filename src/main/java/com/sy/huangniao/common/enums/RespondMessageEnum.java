@@ -45,7 +45,7 @@ public enum RespondMessageEnum {
     AMOUNT_NOTEQUEAL("0033","充值金额和订单金额不一致！" ),
     CONFIRMORDERNOEXIST("0034","原订单不存在"),
     UPDATERETURNFAIL("0035", "修改退款订单状态失败"),
-
+    USERBACKFAIL("0036", "保存用户反馈失败！"),
     /*
      调用微信外部接口以1开头
     * */

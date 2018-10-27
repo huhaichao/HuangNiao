@@ -114,8 +114,14 @@ public interface UserInfoService {
      * @param jsonObject
      * @return
      */
-    public  String appConfig(JSONObject jsonObject);
+    public  Object appConfig(JSONObject jsonObject);
 
+    /**
+     *
+     * @param jsonObject
+     * @return
+     */
+    public boolean userBack(JSONObject jsonObject);
 
     /**
      *

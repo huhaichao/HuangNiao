@@ -154,6 +154,13 @@ public class Constant {
     @Value("${realName.appCode}")
     private String REALNAME_APPCODE;
 
+    //阿里云oss存储路径
+    @Value("${aliyun.oss.url}")
+    private String aliYunOssUrl;
+    public String getAliYunOssUrl() {
+        return aliYunOssUrl;
+    }
+
 
     public String getSMS_URL() {
         return SMS_URL;

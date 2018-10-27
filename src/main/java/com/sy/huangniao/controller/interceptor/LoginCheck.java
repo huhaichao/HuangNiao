@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * 登录过滤器
  * @author huchao
@@ -74,7 +76,7 @@ public class LoginCheck implements HandlerInterceptor {
 		
 		if(userLoginkey == null || "".equals(userLoginkey)){
 			PrintWriter  pw =arg1.getWriter();
-            respondBody(pw,new RespondBody(RespondMessageEnum.NOINFO_LOGINKEY));
+            respondBody(pw,new RespondBody(RespondMessageEnum.NO_LOGIN));
 			return false;
 		}
 		
@@ -94,7 +96,8 @@ public class LoginCheck implements HandlerInterceptor {
 	private void  respondBody(PrintWriter pw,RespondBody rb){
 		if(rb==null)
             rb = new RespondBody(RespondMessageEnum.NO_LOGIN);
-		pw.write(rb.toString());
+		JSONObject json = (JSONObject)JSONObject.toJSON(rb);
+		pw.write(json.toString());
 		pw.flush();
 		
 		if (pw!=null) {

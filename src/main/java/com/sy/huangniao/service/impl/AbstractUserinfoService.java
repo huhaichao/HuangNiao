@@ -12,6 +12,7 @@ import com.sy.huangniao.common.exception.HNException;
 import com.sy.huangniao.controller.context.HNContext;
 import com.sy.huangniao.pojo.AppConfig;
 import com.sy.huangniao.pojo.UserAccount;
+import com.sy.huangniao.pojo.UserBack;
 import com.sy.huangniao.pojo.UserInfo;
 import com.sy.huangniao.service.IDaoService;
 import com.sy.huangniao.service.IRedisService;
@@ -255,7 +256,7 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
     }
 
     @Override
-    public  String appConfig(JSONObject jsonObject){
+    public  Object appConfig(JSONObject jsonObject){
         AppConfig  appConfig = jsonObject.toJavaObject(AppConfig.class);
         IDaoService<AppConfig> iDaoService =hnContext.getDaoService(AppConfig.class.getSimpleName());
         List<AppConfig> list =iDaoService.selectList(appConfig,SqlTypeEnum.DEAFULT);
@@ -267,11 +268,24 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
                 String[] values =value.split(",");
                 json.put("name",values[0]);
                 json.put("amount",values[1]);
-                json.put("picture",values[2]);
+                json.put("picture",constant.getAliYunOssUrl()+values[2]);
+                json.put("selected",Boolean.parseBoolean(values[3]));
                 jsonArray.add(json);
             }
         }
-        return  jsonArray.toJSONString();
+        return  jsonArray;
+    }
+
+    @Override
+    public boolean userBack(JSONObject jsonObject){
+      UserBack userBack =  jsonObject.toJavaObject(UserBack.class);
+      userBack.setCreateDate(new Date());
+      userBack.setModifyDate(new Date());
+      userBack.setStatus(UserBackStatusEnum.WAIT_HANDLE.getStatus());
+      IDaoService<UserBack> iDaoService =hnContext.getDaoService(UserBack.class.getSimpleName());
+      if(iDaoService.save(userBack,SqlTypeEnum.DEAFULT)!=1)
+          throw new HNException(RespondMessageEnum.USERBACKFAIL);
+      return  true;
     }
 }
 
