@@ -186,23 +186,23 @@ public abstract class AbstractUserAppService implements UserAppService {
         userDeposit.setUserId(ticketOrder2.getUserId());
         userDeposit.setOrderNo(ticketOrder2.getOrderNo());
         userDeposit.setAppCode(ticketOrder2.getAppCode());
-        userDeposit.setStatus(WalletStatusEnum.DEPOSITING.getStatus());
+        //userDeposit.setStatus(WalletStatusEnum.DEPOSITING.getStatus());
         IDaoService<UserDeposit> iUserDepositDaoService = hnContext.getDaoService(UserDeposit.class.getSimpleName());
         UserDeposit userDeposit2 =iUserDepositDaoService.selectObject(userDeposit,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
         jsonObject.put("orderNo",ticketOrder2.getOrderNo());
         jsonObject.put("orderAmount",ticketOrder2.getOrderAmount());
 
         if(userDeposit2==null){
-            log.info("支付订单-重新发起预支付,userid={},id={},orderNo={}",ticketOrder.getUserId(),ticketOrder.getId(),ticketOrder.getOrderNo());
-            throw  new HNException(RespondMessageEnum.DEPOSITPAYREPEAT);
-           // return  deposit(jsonObject);
+            log.info("支付订单-原充值订单不存在,重新发起预支付,userid={},id={},orderNo={}",ticketOrder.getUserId(),ticketOrder.getId(),ticketOrder.getOrderNo());
+            //throw  new HNException(RespondMessageEnum.DEPOSITPAYREPEAT);
+            return  deposit(jsonObject);
         }
 
-        /*if(!userDeposit2.getStatus().equals(WalletStatusEnum.DEPOSITING.getStatus())){
+        if(!userDeposit2.getStatus().equals(WalletStatusEnum.DEPOSITING.getStatus())){
             log.info("支付订单-充值状态异常,userid={},id={},orderNo={},depositNo={}",ticketOrder.getUserId(),ticketOrder.getId(),
                     ticketOrder.getOrderNo(),userDeposit2.getDepositNo());
             throw  new HNException(RespondMessageEnum.DEPOSITPAYREPEAT);
-        }*/
+        }
 
         if (userDeposit2.getCreateDate().after(DateUtils.getDateInMinuteAgo(new Date(),-90))
                 && userDeposit2.getPrepayId()!=null) {
