@@ -7,8 +7,15 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class TicketOrder implements Serializable {
     private Integer id;
+
+    /**
+     * 订单手机号
+     */
+    private String phoneNo;
 
     /**
      * 订单号
@@ -72,6 +79,7 @@ public class TicketOrder implements Serializable {
      * 订单创建时间
      */
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format="yyyy-MM-dd")
     private Date createDate;
 
     /**
@@ -83,6 +91,7 @@ public class TicketOrder implements Serializable {
      * 订单修改时间
      */
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format="yyyy-MM-dd")
     private Date modifyDate;
 
     /**
@@ -259,6 +268,7 @@ public class TicketOrder implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", orderNo=").append(orderNo);
+        sb.append(",phoneNo=").append(phoneNo);
         sb.append(", userId=").append(userId);
         sb.append(", ticketIdentity=").append(ticketIdentity);
         sb.append(", identityType=").append(identityType);
@@ -303,5 +313,13 @@ public class TicketOrder implements Serializable {
 
     public void setLinkmanType(String linkmanType) {
         this.linkmanType = linkmanType;
+    }
+
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
     }
 }

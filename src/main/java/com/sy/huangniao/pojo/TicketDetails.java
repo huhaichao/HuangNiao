@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class TicketDetails implements Serializable {
     @JsonIgnore
     private Integer id;
@@ -30,6 +32,7 @@ public class TicketDetails implements Serializable {
      * 出发日期
      */
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
+    @JSONField(format="yyyy-MM-dd")
     private Date departureDate;
 
     /**
@@ -53,6 +56,7 @@ public class TicketDetails implements Serializable {
      * 创建时间
      */
     @JsonIgnore
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
     private static final long serialVersionUID = 1L;
