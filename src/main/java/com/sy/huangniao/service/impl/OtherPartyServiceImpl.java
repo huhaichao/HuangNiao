@@ -43,7 +43,7 @@ public class OtherPartyServiceImpl implements OtherPartyService {
             }
             return  json;
         } catch (Exception e) {
-            log.info("实名认证异常idCard={} ,name={} ",jsonObject.getString("indentity"),jsonObject.getString("name"));
+            log.info("实名认证异常idCard={} ,name={} exception={}",jsonObject.getString("indentity"),jsonObject.getString("name"),e.getMessage());
             throw  new HNException(RespondMessageEnum.REALNAME_FAIL);
         }
     }
