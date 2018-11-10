@@ -206,7 +206,7 @@ public abstract class  AbstractUserinfoService implements UserInfoService{
     public UserInfoBody  handleUserInfoBody(UserInfoBody userInfoBody){
         userInfoBody.setUserIdentity(StringUtils.handleIdentity(userInfoBody.getUserIdentity()));
         userInfoBody.setRealName(StringUtils.handleRealName(userInfoBody.getRealName()));
-        userInfoBody.setUserPhoneno(StringUtils.handlePhoneNo(userInfoBody.getUserPhoneno()));
+        //userInfoBody.setUserPhoneno(StringUtils.handlePhoneNo(userInfoBody.getUserPhoneno()));
         return  userInfoBody;
     }
 
