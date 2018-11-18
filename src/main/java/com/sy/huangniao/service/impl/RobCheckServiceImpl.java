@@ -60,13 +60,6 @@ public class RobCheckServiceImpl implements RobCheckService {
                     notify.setContext(robOrder.getRobContext());
                     notify.setMsgType(NotifyTypeEnum.PAYNOTIFY.getType());
                     notifyService.save(notify);
-                    //修改roborder状态
-                    RobOrder rob = new RobOrder();
-                    rob.setId(robOrder.getId());
-                    rob.setRobStatus(OrderStatusEnum.USER_PAY.getStatus());
-                    rob.setModifyDate(new Date());
-                    IDaoService<RobOrder> robOrderIDaoService =hnContext.getDaoService(RobOrder.class.getSimpleName());
-                    robOrderIDaoService.updateObject(rob, SqlTypeEnum.DEAFULT);
                     //修改ticketOrder订单状态
                     TicketOrder ticket = new TicketOrder();
                     ticket.setId(ticketOrder.getId());
@@ -74,6 +67,14 @@ public class RobCheckServiceImpl implements RobCheckService {
                     ticket.setModifyDate(new Date());
                     IDaoService<TicketOrder> ticketOrderIDaoService =hnContext.getDaoService(TicketOrder.class.getSimpleName());
                     ticketOrderIDaoService.updateObject(ticket,SqlTypeEnum.DEAFULT);
+                    //修改roborder状态
+                    RobOrder rob = new RobOrder();
+                    rob.setId(robOrder.getId());
+                    rob.setRobStatus(OrderStatusEnum.USER_PAY.getStatus());
+                    rob.setModifyDate(new Date());
+                    IDaoService<RobOrder> robOrderIDaoService =hnContext.getDaoService(RobOrder.class.getSimpleName());
+                    robOrderIDaoService.updateObject(rob, SqlTypeEnum.DEAFULT);
+
                 }catch (Exception e){
                     log.info("添加抢单信息失败 商户={} orderNo={} e={}",robOrder.getUserId(),robOrder.getOrderId(),e.getMessage());
                 }

@@ -104,10 +104,10 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         ticketOrder.setOrderStatus(OrderStatusEnum.SUCCESS.getStatus());
         ticketOrder.setModifyDate(new Date());
         IDaoService iDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());
-        /*if(iDaoService.updateObject(ticketOrder,SqlTypeEnum.DEAFULT)==1){
+        if(iDaoService.updateObject(ticketOrder,SqlTypeEnum.DEAFULT)==1){
             RobOrder  robOrder = new RobOrder();
-            robOrder.setRobStatus(OrderStatusEnum.WAITCONFIRME.getStatus());
-            robOrder.setOrderId(ticketOrder.getId());
+            robOrder.setRobStatus(OrderStatusEnum.USER_PAY.getStatus());
+            robOrder.setOrderId(ticketOrder.getOrderNo());
             IDaoService iRobOrderDaoService = hnContext.getDaoService(RobOrder.class.getSimpleName());
             List<RobOrder> robOrders = iRobOrderDaoService.selectList(robOrder,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
 
@@ -119,7 +119,7 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
             robOrder = robOrders.get(0);
             IDaoService iUserAccountDaoService = hnContext.getDaoService(UserAccount.class.getSimpleName());
             //划款处理
-            //付款方---处理
+            //用户付款方---处理
             Integer fkUserId = ticketOrder.getUserId();
             //订单金额
             double orderAmount = ticketOrder.getOrderAmount();
@@ -137,18 +137,42 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
                         fkUserAccount.getAccountNo(),fkUserAccount.getUserId(),orderAmount);
                 throw new HNException(RespondMessageEnum.CONFIREMEORDERFAIL);
             }
-            //收款方---处理
+            //商户收款方---处理
             Integer skUserId = robOrder.getUserId();
             //计算服务商分润
             TicketBusiness ticketBusiness = new TicketBusiness();
             ticketBusiness.setUserId(skUserId);
             IDaoService iTicketBusinessDaoService  = hnContext.getDaoService(TicketBusiness.class.getSimpleName());
             ticketBusiness=(TicketBusiness)iTicketBusinessDaoService.selectObject(ticketBusiness,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
-            //金额 * 分润 /100
-            double skAmount = orderAmount * ticketBusiness.getBenefitRate()/100;
+            if(ticketBusiness==null){
+                log.info(" orderId={} orderNo={} userAcount={} 用户id={} amount={} 商户id={} 扣款失败--该商户不存在!",ticketOrder.getId(),ticketOrder.getOrderNo(),
+                    fkUserAccount.getAccountNo(),fkUserAccount.getUserId(),orderAmount,skUserId);
+                throw new HNException(RespondMessageEnum.BUSINRESSNOEXIST);
+            }
+            //分润金额
+            double skAmount =robOrder.getRobAmount();
             UserAccount skUserAccount = new UserAccount();
             skUserAccount.setUserId(skUserId);
             skUserAccount = (UserAccount)iUserAccountDaoService.selectObject(skUserAccount,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
+            if(skUserAccount==null){
+               //商户没有账户就创建一个账户
+                //创建账户
+                skUserAccount = new UserAccount();
+                skUserAccount.setStatus(UserAccountStatusEnum.NORMAL.getStatus());
+                skUserAccount.setAmountBalance(0.0);
+                AbstractUserAppService abstractUserAppService =hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(ticketOrder.getAppCode()));
+                skUserAccount.setAccountNo(abstractUserAppService.createUserAcountNo());
+                skUserAccount.setUserId(skUserId);
+                skUserAccount.setCoolAmount(0.0);
+                skUserAccount.setCreateDate(new Date());
+                skUserAccount.setModifyDate(new Date());
+                IDaoService userAccountDao = hnContext.getDaoService(UserAccount.class.getSimpleName());
+                if(userAccountDao.save(skUserAccount,SqlTypeEnum.DEAFULT)!=1){
+                    log.info("userId={} userRole={}  appcode ={} 保存用户账户失败",skUserId,UserRoleEnum.BUSINESS,ticketOrder.getAppCode());
+                    throw new HNException(RespondMessageEnum.SAVEUSERINFOERROR) ;
+                }
+
+            }
             //收款方增加金额处理
             UserAccount addAmount = new UserAccount();
             addAmount.setUserId(skUserId);
@@ -171,27 +195,27 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
             userTrade.setOrderNo(ticketOrder.getOrderNo());
             AbstractUserAppService abstractUserAppService =hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(ticketOrder.getAppCode()));
             userTrade.setTradeNo(abstractUserAppService.createTradeNo());
-            userTrade.setStatus(TradeStatusEnum.SUCCESS.getStatus());
+            userTrade.setStatus(TradeStatusEnum.TRADE_AUDITING.getStatus());
             IDaoService iUserTradeDaoService = hnContext.getDaoService(UserTrade.class.getSimpleName());
             iUserTradeDaoService.save(userTrade,SqlTypeEnum.DEAFULT);
             log.info(" orderId={} orderNo={} userAcount={} userId={} amount={} robOrderId={} 生成交易信息!",ticketOrder.getId(),ticketOrder.getOrderNo(),
                     skUserAccount.getAccountNo(),skUserAccount.getUserId(),skAmount,robOrder.getId());
+
            //todo 通知商户 和 其他商户已出票
             try {
                 robOrder.setRobStatus(OrderStatusEnum.SUCCESS.getStatus());
                 robOrder.setModifyDate(new Date());
                 robOrder.setRemark("订单已完成用户已付款!");
-                robOrder.setAppCode(null);
-                robOrder.setCreateDate(null);
-                robOrder.setModifyDate(null);
+                robOrder.setCreateDate(new Date());
+
                 iRobOrderDaoService.updateObject(robOrder,SqlTypeEnum.DEAFULT);
-                robOrder.setRobStatus(OrderStatusEnum.TICKET_SUCCESS.getStatus());
+                /*robOrder.setRobStatus(OrderStatusEnum.TICKET_SUCCESS.getStatus());
                 robOrder.setRemark("该订单已经被其他商户完成！");
                 iRobOrderDaoService.updateObject(robOrder,SqlTypeEnum.UPDATEBYORDERID);
                 log.info(" orderId={} orderNo={} userAcount={} userId={} amount={} robOrderId={} 生成通知信息!",ticketOrder.getId(),ticketOrder.getOrderNo(),
-                        skUserAccount.getAccountNo(),skUserAccount.getUserId(),skAmount,robOrder.getId());
+                        skUserAccount.getAccountNo(),skUserAccount.getUserId(),skAmount,robOrder.getId());*/
                 //生成通知,通知收款人
-                IDaoService iUserInfoDaoService = hnContext.getDaoService(UserInfo.class.getSimpleName());
+               /* IDaoService iUserInfoDaoService = hnContext.getDaoService(UserInfo.class.getSimpleName());
                 UserInfo userInfo = new UserInfo();
                 userInfo.setId(skUserId);
                 userInfo =(UserInfo) iUserInfoDaoService.selectObject(userInfo,SqlTypeEnum.DEAFULT);
@@ -203,7 +227,7 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
                 notify.setContext("尊敬的商户，你好！你的抢单订单号为["+ticketOrder.getOrderNo()+"]订单手续费已尽被支付，请注意查收！");
                 notify.setNotifyStatus(NotifyStatusEnum.WAIT_NOTIFY.getStatus());
                 IDaoService iNotifyDaoService = hnContext.getDaoService(Notify.class.getSimpleName());
-                iNotifyDaoService.save(notify,SqlTypeEnum.DEAFULT);
+                iNotifyDaoService.save(notify,SqlTypeEnum.DEAFULT);*/
             }catch (Exception e){
                 //防止异常影响打款
                 log.info(" orderId={} orderNo={} userAcount={} userId={} amount={} robOrderId={} 生成通知失败!={}",ticketOrder.getId(),ticketOrder.getOrderNo(),
@@ -215,7 +239,7 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
             log.info(" orderId={} userId={} 该订单不存在.....",ticketOrder.getId(),jsonObject.getString("userId")
                 );
             return  false;
-        }*/
+        }
         return true;
     }
 

@@ -48,6 +48,7 @@ public enum RespondMessageEnum {
     USERBACKFAIL("0036", "保存用户反馈失败！"),
     SAVENOTIFYINFOERROR("0037","保存通知信息失败"),
     UPDATENOTIFYINFOERROR("0038","修改通知信息失败"),
+    BUSINRESSNOEXIST("039","该商户不存在"),
 
     /*
      调用微信外部接口以1开头
