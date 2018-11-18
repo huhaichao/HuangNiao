@@ -1,5 +1,6 @@
 package com.sy.huangniao.mapper;
 
+import com.sy.huangniao.pojo.TicketDetails;
 import com.sy.huangniao.pojo.TicketOrder;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -25,4 +26,6 @@ public interface TicketOrderMapper {
     TicketOrder selectObjectBySelective(TicketOrder ticketOrder);
 
     int updateByUserIdAndOrderNo(TicketOrder ticketOrder);
+
+    TicketOrder selectListByOrderNo(String order_no);
 }

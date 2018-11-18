@@ -17,6 +17,7 @@ public enum OrderStatusEnum {
     ROBING("robing","抢票中"),
     ORDER_AUDIT("order_audit","出票审核中"),
     TICKET_SUCCESS("ticket_success","已出票"),
+    USER_PAY("user_pay","用户付款中"),
     SUCCESS("success","已完成"),
     ROB_FAIL("rob_fail","抢单失败"),
     WAITCONFIRME("wait_confirme","等待确认"),

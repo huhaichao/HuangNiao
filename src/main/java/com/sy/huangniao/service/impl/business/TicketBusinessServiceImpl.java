@@ -54,7 +54,7 @@ public class TicketBusinessServiceImpl extends AbstractUserinfoService implement
         IDaoService iDaoService = hnContext.getDaoService(RobOrder.class.getSimpleName());
         if(iDaoService.save(robOrder,SqlTypeEnum.DEAFULT)==1){
             TicketOrder ticketOrder = new TicketOrder();
-            ticketOrder.setId(robOrder.getOrderId());
+            //ticketOrder.setId(robOrder.getOrderId());
             ticketOrder.setOrderStatus(OrderStatusEnum.ROBING.getStatus());
             IDaoService ticketOrderDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());
             ticketOrderDaoService.updateObject(ticketOrder,SqlTypeEnum.DEAFULT);
@@ -78,7 +78,7 @@ public class TicketBusinessServiceImpl extends AbstractUserinfoService implement
         reulstList.put("total",page.getTotal());
         reulstList.put("pageNum",pageNum);
         reulstList.put("datas",list);
-        log.info("userid={} list={} 查询抢单订单成功....",robOrder.getUserId(),list);
+        log.info("userid={}  查询抢单订单成功....",robOrder.getUserId());
         return  reulstList;
     }
 
@@ -97,7 +97,7 @@ public class TicketBusinessServiceImpl extends AbstractUserinfoService implement
             //通知审核人员进行人工审核
             //todo
             RobOrderAudit robOrderAudit = new RobOrderAudit();
-            robOrderAudit.setRobOrderId(robOrder.getOrderId());
+           // robOrderAudit.setRobOrderId(robOrder.getOrderId());
             robOrder.setUserId(robOrder.getUserId());
             robOrder.setProofImage(robOrder.getProofImage());
             //robOrder.setRobStatus();

@@ -490,5 +490,12 @@
     </set>
     where  user_id = #{userId,jdbcType=INTEGER} AND   order_no = #{orderNo,jdbcType=VARCHAR}
   </update>
+
+  <select id="selectListByOrderNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ticket_order
+    where order_no = #{order_id,jdbcType=VARCHAR}
+  </select>
   <cache />
 </mapper>

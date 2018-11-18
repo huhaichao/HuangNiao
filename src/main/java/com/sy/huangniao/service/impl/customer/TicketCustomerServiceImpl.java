@@ -81,7 +81,7 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         reulstList.put("pageNum",pageNum);
         reulstList.put("datas",list);
         reulstList.put("pages",page.getPages());
-        log.info("userid={} list={} 查询订单成功....",ticketOrder.getUserId(),list);
+        log.info("userid={} 查询订单成功....",ticketOrder.getUserId());
         return  reulstList;
     }
 

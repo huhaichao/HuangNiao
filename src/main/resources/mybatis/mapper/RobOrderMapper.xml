@@ -4,17 +4,38 @@
   <resultMap id="BaseResultMap" type="com.sy.huangniao.pojo.RobOrder">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
     <result column="rob_status" jdbcType="VARCHAR" property="robStatus" />
     <result column="proof_image" jdbcType="VARCHAR" property="proofImage" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
     <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="app_code" jdbcType="VARCHAR" property="appCode" />
+    <result column="rob_scbs" jdbcType="INTEGER" property="robScbs" />
+    <result column="rob_amount" jdbcType="DOUBLE" property="robAmount" />
+    <result column="rob_context" jdbcType="VARCHAR" property="robContext" />
   </resultMap>
+
+  <resultMap id="BaseResultMapList" type="com.sy.huangniao.pojo.RobOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="rob_status" jdbcType="VARCHAR" property="robStatus" />
+    <result column="proof_image" jdbcType="VARCHAR" property="proofImage" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="modify_date" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="app_code" jdbcType="VARCHAR" property="appCode" />
+    <result column="rob_scbs" jdbcType="INTEGER" property="robScbs" />
+    <result column="rob_amount" jdbcType="DOUBLE" property="robAmount" />
+    <result column="rob_context" jdbcType="VARCHAR" property="robContext" />
+    <collection property="ticketOrder" ofType="com.sy.huangniao.pojo.TicketOrder" column="order_id" select="com.sy.huangniao.mapper.TicketOrderapper.selectListByOrderNo">
+    </collection>
+  </resultMap>
+
   <sql id="Base_Column_List">
     id, user_id, order_id, rob_status, proof_image, create_date, modify_date, remark, 
-    app_code
+    app_code, rob_scbs, rob_amount, rob_context
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -29,10 +50,12 @@
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.RobOrder" useGeneratedKeys="true">
     insert into rob_order (user_id, order_id, rob_status, 
       proof_image, create_date, modify_date, 
-      remark, app_code)
-    values (#{userId,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{robStatus,jdbcType=VARCHAR}, 
+      remark, app_code, rob_scbs, 
+      rob_amount, rob_context)
+    values (#{userId,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{robStatus,jdbcType=VARCHAR}, 
       #{proofImage,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{modifyDate,jdbcType=TIMESTAMP}, 
-      #{remark,jdbcType=VARCHAR}, #{appCode,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{appCode,jdbcType=VARCHAR}, #{robScbs,jdbcType=INTEGER}, 
+      #{robAmount,jdbcType=DOUBLE}, #{robContext,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.sy.huangniao.pojo.RobOrder" useGeneratedKeys="true">
     insert into rob_order
@@ -61,13 +84,22 @@
       <if test="appCode != null">
         app_code,
       </if>
+      <if test="robScbs != null">
+        rob_scbs,
+      </if>
+      <if test="robAmount != null">
+        rob_amount,
+      </if>
+      <if test="robContext != null">
+        rob_context,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
       <if test="orderId != null">
-        #{orderId,jdbcType=INTEGER},
+        #{orderId,jdbcType=VARCHAR},
       </if>
       <if test="robStatus != null">
         #{robStatus,jdbcType=VARCHAR},
@@ -87,6 +119,15 @@
       <if test="appCode != null">
         #{appCode,jdbcType=VARCHAR},
       </if>
+      <if test="robScbs != null">
+        #{robScbs,jdbcType=INTEGER},
+      </if>
+      <if test="robAmount != null">
+        #{robAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="robContext != null">
+        #{robContext,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.sy.huangniao.pojo.RobOrder">
@@ -96,7 +137,7 @@
         user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="orderId != null">
-        order_id = #{orderId,jdbcType=INTEGER},
+        order_id = #{orderId,jdbcType=VARCHAR},
       </if>
       <if test="robStatus != null">
         rob_status = #{robStatus,jdbcType=VARCHAR},
@@ -116,25 +157,36 @@
       <if test="appCode != null">
         app_code = #{appCode,jdbcType=VARCHAR},
       </if>
+      <if test="robScbs != null">
+        rob_scbs = #{robScbs,jdbcType=INTEGER},
+      </if>
+      <if test="robAmount != null">
+        rob_amount = #{robAmount,jdbcType=DOUBLE},
+      </if>
+      <if test="robContext != null">
+        rob_context = #{robContext,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sy.huangniao.pojo.RobOrder">
     update rob_order
     set user_id = #{userId,jdbcType=INTEGER},
-      order_id = #{orderId,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=VARCHAR},
       rob_status = #{robStatus,jdbcType=VARCHAR},
       proof_image = #{proofImage,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       modify_date = #{modifyDate,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR},
-      app_code = #{appCode,jdbcType=VARCHAR}
+      app_code = #{appCode,jdbcType=VARCHAR},
+      rob_scbs = #{robScbs,jdbcType=INTEGER},
+      rob_amount = #{robAmount,jdbcType=DOUBLE},
+      rob_context = #{robContext,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="selectList" parameterType="com.sy.huangniao.pojo.RobOrder">
-    select
-    <include refid="Base_Column_List" />
+  <select id="selectList" parameterType="com.sy.huangniao.pojo.RobOrder" resultMap="BaseResultMapList">
+    select  <include refid="Base_Column_List" />
     from rob_order
     where 1=1
     <if test="userId != null">
@@ -158,6 +210,7 @@
     <if test="remark != null">
       and remark = #{remark,jdbcType=VARCHAR},
     </if>
+    and  robContext is not null
   </select>
 
   <select id="selectObjectSelective" parameterType="com.sy.huangniao.pojo.RobOrder" resultMap="BaseResultMap">

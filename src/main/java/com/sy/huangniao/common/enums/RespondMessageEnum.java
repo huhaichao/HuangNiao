@@ -46,6 +46,9 @@ public enum RespondMessageEnum {
     CONFIRMORDERNOEXIST("0034","原订单不存在"),
     UPDATERETURNFAIL("0035", "修改退款订单状态失败"),
     USERBACKFAIL("0036", "保存用户反馈失败！"),
+    SAVENOTIFYINFOERROR("0037","保存通知信息失败"),
+    UPDATENOTIFYINFOERROR("0038","修改通知信息失败"),
+
     /*
      调用微信外部接口以1开头
     * */

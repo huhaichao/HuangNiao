@@ -1,7 +1,5 @@
 package com.sy.huangniao.pojo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,9 +12,9 @@ public class RobOrder implements Serializable {
     private Integer userId;
 
     /**
-     * 订单id
+     * 订单号
      */
-    private Integer orderId;
+    private String orderId;
 
     /**
      * 抢单状态
@@ -31,13 +29,11 @@ public class RobOrder implements Serializable {
     /**
      * 创建时间
      */
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
     /**
      * 修改时间
      */
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date modifyDate;
 
     /**
@@ -49,6 +45,26 @@ public class RobOrder implements Serializable {
      * app代码
      */
     private String appCode;
+
+    /**
+     * 删除标识
+     */
+    private Integer robScbs;
+
+    /**
+     * 閹剝绁婚柌鎴︻杺
+     */
+    private Double robAmount;
+
+    /**
+     * 抢单成功提示信息
+     */
+    private String robContext;
+
+    /**
+     * 订单信息
+     */
+    private TicketOrder ticketOrder;
 
     private static final long serialVersionUID = 1L;
 
@@ -68,12 +84,12 @@ public class RobOrder implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId == null ? null : orderId.trim();
     }
 
     public String getRobStatus() {
@@ -124,6 +140,30 @@ public class RobOrder implements Serializable {
         this.appCode = appCode == null ? null : appCode.trim();
     }
 
+    public Integer getRobScbs() {
+        return robScbs;
+    }
+
+    public void setRobScbs(Integer robScbs) {
+        this.robScbs = robScbs;
+    }
+
+    public Double getRobAmount() {
+        return robAmount;
+    }
+
+    public void setRobAmount(Double robAmount) {
+        this.robAmount = robAmount;
+    }
+
+    public String getRobContext() {
+        return robContext;
+    }
+
+    public void setRobContext(String robContext) {
+        this.robContext = robContext == null ? null : robContext.trim();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -139,8 +179,19 @@ public class RobOrder implements Serializable {
         sb.append(", modifyDate=").append(modifyDate);
         sb.append(", remark=").append(remark);
         sb.append(", appCode=").append(appCode);
+        sb.append(", robScbs=").append(robScbs);
+        sb.append(", robAmount=").append(robAmount);
+        sb.append(", robContext=").append(robContext);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public TicketOrder getTicketOrder() {
+        return ticketOrder;
+    }
+
+    public void setTicketOrder(TicketOrder ticketOrder) {
+        this.ticketOrder = ticketOrder;
     }
 }
