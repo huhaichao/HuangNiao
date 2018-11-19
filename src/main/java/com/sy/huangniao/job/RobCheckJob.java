@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class RobCheckJob {
 
    @Autowired
-   RobCheckService robCheckService;
+   RobCheckService robCheckServiceImpl;
 
     /**
      * 通知 1秒执行一次任务
@@ -22,7 +22,7 @@ public class RobCheckJob {
     @Scheduled(cron = "* 1 * * * ?")
     public void execute() {
       log.info("抢单状态监听启动.....");
-      robCheckService.robCheck();
+        robCheckServiceImpl.robCheck();
       log.info("抢单状态监听结束.....");
     }
 }

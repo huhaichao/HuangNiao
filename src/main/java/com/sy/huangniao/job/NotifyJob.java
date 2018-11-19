@@ -26,10 +26,10 @@ import org.springframework.stereotype.Component;
 public class NotifyJob {
 
     @Autowired
-    NotifyService notifyService;
+    NotifyService notifyServiceImpl;
 
     @Autowired
-    OtherPartyService otherPartyService;
+    OtherPartyService otherPartyServiceImpl;
     /**
      * 通知 1秒执行一次任务
      */
@@ -40,20 +40,20 @@ public class NotifyJob {
      jsonObject.put("pageNum",0);
      jsonObject.put("pageSize",1000);
      jsonObject.put("notifyStatus", NotifyStatusEnum.WAIT_NOTIFY);
-     List<Notify> list = notifyService.selectLIst(jsonObject);
+     List<Notify> list = notifyServiceImpl.selectList(jsonObject);
      for (Notify notify : list){
          try{
              if (StringUtils.isNotBlank(notify.getToNo()) && StringUtils.isNotBlank(notify.getContext())){
                  JSONObject json = new JSONObject();
                  json.put("phoneNo",notify.getToNo());
-                 otherPartyService.sendPhoneCode(json,notify.getContext(),false);
+                 otherPartyServiceImpl.sendPhoneCode(json,notify.getContext(),false);
                  //修改notify表状态
                  Notify  notifyUpdate = new Notify();
                  notifyUpdate.setId(notify.getId());
                  notifyUpdate.setModifyDate(new Date());
                  notifyUpdate.setNotifyDate(new Date());
                  notifyUpdate.setNotifyStatus(NotifyStatusEnum.NOTIFY_SUCCESS.getStatus());
-                 notifyService.update(notifyUpdate);
+                 notifyServiceImpl.update(notifyUpdate);
              }
          }catch (Exception e){
              log.info("系统通知异常 e={} notify={}",notify,e.getMessage());
