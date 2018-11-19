@@ -11,7 +11,6 @@ import com.sy.huangniao.common.enums.SqlTypeEnum;
 import com.sy.huangniao.common.exception.HNException;
 import com.sy.huangniao.controller.context.HNContext;
 import com.sy.huangniao.pojo.Notify;
-import com.sy.huangniao.pojo.TicketOrder;
 import com.sy.huangniao.service.IDaoService;
 import com.sy.huangniao.service.NotifyService;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +38,7 @@ public class NotifyServiceImpl implements NotifyService {
     }
 
     @Override
-    public List<Notify> selectLIst(JSONObject jsonObject) {
+    public List<Notify> selectList(JSONObject jsonObject) {
         Notify notify = jsonObject.toJavaObject(Notify.class);
         log.info("notify={} 查询通知消息....",notify);
         int pageNum  = Integer.parseInt(jsonObject.getString("pageNum"));

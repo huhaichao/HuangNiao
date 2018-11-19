@@ -21,7 +21,7 @@ public interface NotifyService {
     public int save(Notify notify);
     
     
-    public List<Notify> selectLIst (JSONObject jsonObject);
+    public List<Notify> selectList (JSONObject jsonObject);
 
     public int update(Notify notifyUpdate);
 }

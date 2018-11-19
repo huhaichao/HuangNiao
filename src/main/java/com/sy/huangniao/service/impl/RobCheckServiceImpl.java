@@ -21,11 +21,12 @@ import com.sy.huangniao.service.RobCheckService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by huchao on 2018/11/18.
  */
-@Component
+@Service
 @Slf4j
 public class RobCheckServiceImpl implements RobCheckService {
 
@@ -33,7 +34,7 @@ public class RobCheckServiceImpl implements RobCheckService {
     HNContext hnContext;
 
     @Autowired
-    NotifyService notifyService;
+    NotifyService notifyServiceImpl;
 
     @Override
     public void robCheck() {
@@ -59,7 +60,7 @@ public class RobCheckServiceImpl implements RobCheckService {
                     notify.setNotifyStatus(NotifyStatusEnum.WAIT_NOTIFY.getStatus());
                     notify.setContext(robOrder.getRobContext());
                     notify.setMsgType(NotifyTypeEnum.PAYNOTIFY.getType());
-                    notifyService.save(notify);
+                    notifyServiceImpl.save(notify);
                     //修改ticketOrder订单状态
                     TicketOrder ticket = new TicketOrder();
                     ticket.setId(ticketOrder.getId());
