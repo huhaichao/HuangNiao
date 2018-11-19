@@ -105,11 +105,14 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         ticketOrder.setModifyDate(new Date());
         IDaoService iDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());
         if(iDaoService.updateObject(ticketOrder,SqlTypeEnum.DEAFULT)==1){
+            TicketOrder queryTicketOrder = new TicketOrder();
+            queryTicketOrder.setId(ticketOrder.getId());
+            ticketOrder = (TicketOrder)iDaoService.selectObject(queryTicketOrder,SqlTypeEnum.DEAFULT);
             RobOrder  robOrder = new RobOrder();
             robOrder.setRobStatus(OrderStatusEnum.USER_PAY.getStatus());
             robOrder.setOrderId(ticketOrder.getOrderNo());
             IDaoService iRobOrderDaoService = hnContext.getDaoService(RobOrder.class.getSimpleName());
-            List<RobOrder> robOrders = iRobOrderDaoService.selectList(robOrder,SqlTypeEnum.SELECTOBJECTBYSELECTIVE);
+            List<RobOrder> robOrders = iRobOrderDaoService.selectList(robOrder,SqlTypeEnum.DEAFULT);
 
             if(robOrders==null || robOrders.size()!=1){
                 ////todo 添加预警信息 -- 提示人工介入处理
@@ -193,6 +196,7 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
             userTrade.setFromAccount(fkUserAccount.getAccountNo());
             userTrade.setToAccount(skUserAccount.getAccountNo());
             userTrade.setOrderNo(ticketOrder.getOrderNo());
+            userTrade.setModifyDate(new Date());
             AbstractUserAppService abstractUserAppService =hnContext.getAbstractUserAppService(AppCodeEnum.valueOf(ticketOrder.getAppCode()));
             userTrade.setTradeNo(abstractUserAppService.createTradeNo());
             userTrade.setStatus(TradeStatusEnum.TRADE_AUDITING.getStatus());
@@ -203,10 +207,11 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
 
            //todo 通知商户 和 其他商户已出票
             try {
-                robOrder.setRobStatus(OrderStatusEnum.SUCCESS.getStatus());
-                robOrder.setModifyDate(new Date());
-                robOrder.setRemark("订单已完成用户已付款!");
-                robOrder.setCreateDate(new Date());
+                RobOrder robOrderUpdate = new RobOrder();
+                robOrderUpdate.setId(robOrder.getId());
+                robOrderUpdate.setRobStatus(OrderStatusEnum.SUCCESS.getStatus());
+                robOrderUpdate.setModifyDate(new Date());
+                robOrderUpdate.setRemark("订单已完成用户已付款!");
 
                 iRobOrderDaoService.updateObject(robOrder,SqlTypeEnum.DEAFULT);
                 /*robOrder.setRobStatus(OrderStatusEnum.TICKET_SUCCESS.getStatus());

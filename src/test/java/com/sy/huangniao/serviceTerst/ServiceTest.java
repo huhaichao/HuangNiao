@@ -7,12 +7,17 @@ import com.alibaba.fastjson.JSONObject;
 
 import com.sy.huangniao.HNApplication;
 import com.sy.huangniao.common.Util.StringUtils;
+import com.sy.huangniao.common.bo.RespondBody;
 import com.sy.huangniao.common.enums.NotifyStatusEnum;
+import com.sy.huangniao.common.enums.RespondMessageEnum;
+import com.sy.huangniao.common.exception.HNException;
+import com.sy.huangniao.controller.context.HNContext;
 import com.sy.huangniao.pojo.Notify;
 import com.sy.huangniao.service.NotifyService;
 import com.sy.huangniao.service.OtherPartyService;
 import com.sy.huangniao.service.RobCheckService;
 import com.sy.huangniao.service.customer.TicketCustomerService;
+import com.sy.huangniao.service.impl.AbstractUserinfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,6 +44,9 @@ public class ServiceTest {
 
     @Autowired
     OtherPartyService otherPartyServiceImpl;
+
+    @Autowired
+    HNContext hnContext;
 
     @Test
     public  void  returnTest(){
@@ -84,6 +92,20 @@ public class ServiceTest {
 
         }
         log.info("系统通知结束.....");
+    }
+
+    @Test
+    public void confirmTest(){
+        try {
+            AbstractUserinfoService abstractUserinfoService = hnContext.getAbstractUserinfoService("customer");
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id","159");
+            abstractUserinfoService.confirmeOrder(jsonObject);
+        }catch (HNException e){
+            log.info("requestBody={} confirmeOrder exception code={} msg={}",e.getCode(),e.getMsg());
+        }catch (Exception e){
+            log.info("requestBody={} confirmeOrder exception={}",e.getMessage());
+        }
     }
 
 }
