@@ -19,7 +19,7 @@ public class RobCheckJob {
     /**
      * 通知 1秒执行一次任务
      */
-    @Scheduled(cron = "* 1 * * * ?")
+    @Scheduled(cron = "* */1 * * * ?")
     public void execute() {
       log.info("抢单状态监听启动.....");
         robCheckServiceImpl.robCheck();
