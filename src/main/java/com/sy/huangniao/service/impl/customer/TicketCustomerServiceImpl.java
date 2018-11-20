@@ -213,7 +213,7 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
                 robOrderUpdate.setModifyDate(new Date());
                 robOrderUpdate.setRemark("订单已完成用户已付款!");
 
-                iRobOrderDaoService.updateObject(robOrder,SqlTypeEnum.DEAFULT);
+                iRobOrderDaoService.updateObject(robOrderUpdate,SqlTypeEnum.DEAFULT);
                 /*robOrder.setRobStatus(OrderStatusEnum.TICKET_SUCCESS.getStatus());
                 robOrder.setRemark("该订单已经被其他商户完成！");
                 iRobOrderDaoService.updateObject(robOrder,SqlTypeEnum.UPDATEBYORDERID);
