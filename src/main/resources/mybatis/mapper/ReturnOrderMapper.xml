@@ -366,5 +366,5 @@
     </if>
   </select>
 
-  <cache  eviction="FIFO"  flushInterval="60000" readOnly="true" />
+  <cache  eviction="FIFO"  flushInterval="30000" readOnly="true" />
 </mapper>
