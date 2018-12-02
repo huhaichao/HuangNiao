@@ -200,5 +200,5 @@
     </if>
      order by sort
   </select>
-  <cache />
+  <cache  eviction="FIFO"  flushInterval="60000" readOnly="true" />
 </mapper>

@@ -43,9 +43,9 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         String orderNo = abstractUserAppService.createOrderNO();
         ticketOrder.setOrderNo(orderNo);
         if (ticketOrder.getOrderAmount() > 0) {
-            ticketOrder.setOrderStatus(OrderStatusEnum.WAITROB.getStatus());
-        } else {
             ticketOrder.setOrderStatus(OrderStatusEnum.WAITPAY.getStatus());
+        } else {
+            ticketOrder.setOrderStatus(OrderStatusEnum.WAITROB.getStatus());
         }
         ticketOrder.setModifyDate(new Date());
         ticketOrder.setCreateDate(new Date());
