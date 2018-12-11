@@ -16,7 +16,7 @@ public enum OrderStatusEnum {
     RETURNED_RETURN("returned_return","退款审核驳回,在备注中写明驳回原因"),
     ROBING("robing","抢票中"),
     ORDER_AUDIT("order_audit","出票审核中"),
-    TICKET_SUCCESS("ticket_success","已出票--等待用户确认"),
+    TICKET_SUCCESS("ticket_success","已支付--等待用户确认"),
     USER_PAY("user_pay","用户付款中"),
     SUCCESS("success","已完成"),
     ROB_FAIL("rob_fail","抢单失败"),

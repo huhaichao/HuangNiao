@@ -64,7 +64,7 @@ public class RobCheckServiceImpl implements RobCheckService {
                     //修改ticketOrder订单状态
                     TicketOrder ticket = new TicketOrder();
                     ticket.setId(ticketOrder.getId());
-                    ticket.setOrderStatus(OrderStatusEnum.TICKET_SUCCESS.getStatus());
+                    ticket.setOrderStatus(OrderStatusEnum.WAITPAY.getStatus());
                     ticket.setModifyDate(new Date());
                     IDaoService<TicketOrder> ticketOrderIDaoService =hnContext.getDaoService(TicketOrder.class.getSimpleName());
                     ticketOrderIDaoService.updateObject(ticket,SqlTypeEnum.DEAFULT);

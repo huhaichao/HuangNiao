@@ -42,11 +42,12 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
             AppCodeEnum.valueOf(ticketOrder.getAppCode()));
         String orderNo = abstractUserAppService.createOrderNO();
         ticketOrder.setOrderNo(orderNo);
-        if (ticketOrder.getOrderAmount() > 0) {
+        /*if (ticketOrder.getOrderAmount() > 0) {
             ticketOrder.setOrderStatus(OrderStatusEnum.WAITPAY.getStatus());
         } else {
             ticketOrder.setOrderStatus(OrderStatusEnum.WAITROB.getStatus());
-        }
+        }*/
+        ticketOrder.setOrderStatus(OrderStatusEnum.WAITROB.getStatus());
         ticketOrder.setModifyDate(new Date());
         ticketOrder.setCreateDate(new Date());
         IDaoService iDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());
@@ -68,9 +69,11 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         }
         jsonObject.put("orderNo", orderNo);
         JSONObject result = new JSONObject();
+       /*
+        优化流程 -- 支付滞后
         if (ticketOrder.getOrderAmount() > 0) {
             result = abstractUserAppService.deposit(jsonObject);
-        }
+        }*/
         result.put("id", ticketOrder.getId());
         return result;
     }
@@ -288,11 +291,12 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         TicketOrder ticketOrder2 = new TicketOrder();
         ticketOrder2.setId(ticketOrder.getId());
         String orderStatus = ticketOrderSelect.getOrderStatus();
-        if (OrderStatusEnum.WAITPAY.getStatus().equals(orderStatus)) {
+        if ((OrderStatusEnum.WAITROB.getStatus().equals(orderStatus) || OrderStatusEnum.ROBING.getStatus()
+            .equals(orderStatus))){
             //未支付的---直接取消订单
             log.info(" orderId={} orderNo={} 该订单未支付直接取消", ticketOrder.getId(), ticketOrder.getOrderNo());
             ticketOrder2.setOrderStatus(OrderStatusEnum.CANCEL.getStatus());
-        } else if ((OrderStatusEnum.WAITROB.getStatus().equals(orderStatus) || OrderStatusEnum.ROBING.getStatus()
+        }/* else if ((OrderStatusEnum.WAITROB.getStatus().equals(orderStatus) || OrderStatusEnum.ROBING.getStatus()
             .equals(orderStatus))
             && ticketOrderSelect.getOrderAmount() > 0) {
             //查询支付的订单信息
@@ -333,7 +337,8 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         } else if (ticketOrderSelect.getOrderAmount() == 0) {
             log.info(" orderId={} orderNo={} 该订单金额为零直接取消", ticketOrder.getId(), ticketOrder.getOrderNo());
             ticketOrder2.setOrderStatus(OrderStatusEnum.CANCEL.getStatus());
-        } else {
+        }*/
+        else {
             log.info(" orderId={} orderNo={} 状态不是等待支付，等待抢票、抢票中的不允许取消", ticketOrder.getId(), ticketOrder.getOrderNo());
             throw new HNException(RespondMessageEnum.CANCLEORDERNOSUPPORT);
         }

@@ -311,12 +311,12 @@ public class XCXUserAppServiceImpl extends AbstractUserAppService {
                      UserAccount updateUserAccount = new UserAccount();
                     if(!StringUtils.isEmpty(orderNo)){
                         updateUserAccount.setCoolAmount(userDeposit.getAmount());
-                        //如果是车票订单 -- 修改车票状态为待抢票
+                        //如果是车票订单 -- 修改车票状态为已完成支付--给服务商打款
                         TicketOrder ticketOrder = new TicketOrder();
                         ticketOrder.setOrderNo(orderNo);
                         ticketOrder.setUserId(userId);
                         ticketOrder.setModifyDate(new Date());
-                        ticketOrder.setOrderStatus(OrderStatusEnum.WAITROB.getStatus());
+                        ticketOrder.setOrderStatus(OrderStatusEnum.TICKET_SUCCESS.getStatus());
                         IDaoService<TicketOrder> iTicketOrderDaoService= hnContext.getDaoService(TicketOrder.class.getSimpleName());
                         if (iTicketOrderDaoService.updateObject(ticketOrder,SqlTypeEnum.UPDATEBYUSERIDANDORDERNO)!=1){
                             log.info("xcx 修改订单状态有误请检查原因 orderNo={} userId={}",orderNo,userId
