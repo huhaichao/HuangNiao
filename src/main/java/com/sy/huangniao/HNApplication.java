@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @PropertySources({
         @PropertySource(value="classpath:params.properties")
  })
-@EnableScheduling
 public class HNApplication {
 
     public static void main(final String[] args) {
