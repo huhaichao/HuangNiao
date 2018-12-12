@@ -22,6 +22,11 @@ public class Notify implements Serializable {
     private String title;
 
     /**
+     * 通知次数
+     */
+    private Integer notifyCount;
+
+    /**
      * 消息类型
      */
     private String msgType;
@@ -82,6 +87,14 @@ public class Notify implements Serializable {
         this.title = title == null ? null : title.trim();
     }
 
+    public Integer getNotifyCount() {
+        return notifyCount;
+    }
+
+    public void setNotifyCount(Integer notifyCount) {
+        this.notifyCount = notifyCount;
+    }
+
     public String getMsgType() {
         return msgType;
     }
@@ -140,6 +153,7 @@ public class Notify implements Serializable {
         sb.append(", fromNo=").append(fromNo);
         sb.append(", toNo=").append(toNo);
         sb.append(", title=").append(title);
+        sb.append(", notifyCount=").append(notifyCount);
         sb.append(", msgType=").append(msgType);
         sb.append(", notifyStatus=").append(notifyStatus);
         sb.append(", createDate=").append(createDate);

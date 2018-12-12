@@ -58,4 +58,9 @@ public class NotifyServiceImpl implements NotifyService {
         }
         return 1;
     }
+
+    @Override
+    public Notify selectObject(Notify queryNotify) {
+        return null;
+    }
 }

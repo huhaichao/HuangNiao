@@ -52,6 +52,7 @@ public class NotifyJob {
                  notifyUpdate.setId(notify.getId());
                  notifyUpdate.setModifyDate(new Date());
                  notifyUpdate.setNotifyDate(new Date());
+                 notifyUpdate.setNotifyCount(notify.getNotifyCount()+1);
                  notifyUpdate.setNotifyStatus(NotifyStatusEnum.NOTIFY_SUCCESS.getStatus());
                  notifyServiceImpl.update(notifyUpdate);
              }

@@ -24,4 +24,6 @@ public interface NotifyService {
     public List<Notify> selectList (JSONObject jsonObject);
 
     public int update(Notify notifyUpdate);
+
+    public Notify selectObject(Notify queryNotify);
 }

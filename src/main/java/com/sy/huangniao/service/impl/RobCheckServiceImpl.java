@@ -57,6 +57,7 @@ public class RobCheckServiceImpl implements RobCheckService {
                     notify.setToNo(ticketOrder.getPhoneNo());
                     notify.setCreateDate(new Date());
                     notify.setModifyDate(new Date());
+                    notify.setNotifyCount(0);
                     notify.setNotifyStatus(NotifyStatusEnum.WAIT_NOTIFY.getStatus());
                     notify.setContext(robOrder.getRobContext());
                     notify.setMsgType(NotifyTypeEnum.PAYNOTIFY.getType());

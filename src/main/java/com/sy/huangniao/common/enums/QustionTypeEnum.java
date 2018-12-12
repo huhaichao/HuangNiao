@@ -1,19 +1,18 @@
 package com.sy.huangniao.common.enums;
 
 /**
- * Created by huchao on 2018/11/18.
+ * Created by huchao on 2018/12/12.
  */
-public enum  NotifyTypeEnum {
+public enum QustionTypeEnum {
 
-    PAYNOTIFY("pay_notify","通知用户去12306付款"),
-    PAYFEE("pay_fee","通知用户支付平台服务费");
+    PAYFEE3("pay_fee_3","用户短信三次通知未支付手续费");
 
     private  String type;
 
     private  String desc;
 
 
-    NotifyTypeEnum (String type,String desc){
+    QustionTypeEnum (String type,String desc){
         this.type=type;
         this.desc=desc;
     }

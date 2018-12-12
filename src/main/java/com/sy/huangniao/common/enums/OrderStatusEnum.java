@@ -6,6 +6,7 @@ package com.sy.huangniao.common.enums;
 public enum OrderStatusEnum {
 
     WAITPAY("wait_pay","等待支付"),
+    WAITPAYHANDLE("wait_pay_handle","等待支付-人工处理中,出现申诉或拒不支付情况"),
     WAITROB("wait_rob","等待抢单"),
     CANCEL("cancel","订单取消"),
     RETURNING_AMOUNT("returning_amount","退款中"),
