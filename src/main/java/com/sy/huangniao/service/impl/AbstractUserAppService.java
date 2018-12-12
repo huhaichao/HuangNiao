@@ -204,7 +204,7 @@ public abstract class AbstractUserAppService implements UserAppService {
             throw  new HNException(RespondMessageEnum.DEPOSITPAYREPEAT);
         }
 */
-        IDaoService<UserDeposit> iUserDepositDaoService = hnContext.getDaoService(UserDeposit.class.getSimpleName());
+        //IDaoService<UserDeposit> iUserDepositDaoService = hnContext.getDaoService(UserDeposit.class.getSimpleName());
         /*if (userDeposit2.getCreateDate().after(DateUtils.getDateInMinuteAgo(new Date(),-90))
                 && userDeposit2.getPrepayId()!=null) {
             //如果订单在1办小时之内，继续支付
