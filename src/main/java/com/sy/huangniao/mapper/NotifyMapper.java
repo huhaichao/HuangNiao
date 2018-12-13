@@ -20,4 +20,6 @@ public interface NotifyMapper {
     int updateByPrimaryKey(Notify record);
 
     List<Notify> selectList(Notify notify);
+
+    Notify selectByKeySelective(Notify notify);
 }

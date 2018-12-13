@@ -61,6 +61,7 @@ public class NotifyServiceImpl implements NotifyService {
 
     @Override
     public Notify selectObject(Notify queryNotify) {
-        return null;
+        IDaoService<Notify> iDaoService= hnContext.getDaoService(Notify.class.getSimpleName());
+        return  iDaoService.selectObject(queryNotify,SqlTypeEnum.DEAFULT);
     }
 }

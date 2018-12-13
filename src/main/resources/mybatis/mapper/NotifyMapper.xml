@@ -176,7 +176,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="selectList" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectList" parameterType="com.sy.huangniao.pojo.Notify" resultMap="ResultMapWithBLOBs">
     select
     <include refid="Base_Column_List" />
     ,
@@ -211,5 +211,42 @@
      and  notify_count = #{notifyCount,jdbcType=INTEGER}
     </if>
   </select>
+
+  <select id="selectByKeySelective" parameterType="com.sy.huangniao.pojo.Notify" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from notify
+    where 1=1
+    <if test="fromNo != null">
+      and  from_no = #{fromNo,jdbcType=VARCHAR}
+    </if>
+    <if test="toNo != null">
+      and to_no = #{toNo,jdbcType=VARCHAR}
+    </if>
+    <if test="title != null">
+      and title = #{title,jdbcType=VARCHAR}
+    </if>
+    <if test="msgType != null">
+      and msg_type = #{msgType,jdbcType=VARCHAR}
+    </if>
+    <if test="notifyStatus != null">
+      and notify_status = #{notifyStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="createDate != null">
+      and create_date = #{createDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="notifyDate != null">
+      and  notify_date = #{notifyDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="modifyDate != null">
+      and  modify_date = #{modifyDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="notifyCount != null">
+      and  notify_count = #{notifyCount,jdbcType=INTEGER}
+    </if>
+  </select>
+
   <cache />
 </mapper>

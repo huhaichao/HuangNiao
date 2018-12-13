@@ -57,7 +57,7 @@ public class NotifyDaoServiceImpl implements IDaoService<Notify> {
     @Override
     public Notify selectObject(Notify notify, SqlTypeEnum sqlType) {
         if(SqlTypeEnum.DEAFULT == sqlType)
-            return  notifyMapper.selectByPrimaryKey(notify.getId());
+            return  notifyMapper.selectByKeySelective(notify);
         return null;
     }
 }

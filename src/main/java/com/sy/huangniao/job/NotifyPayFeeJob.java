@@ -47,7 +47,7 @@ public class NotifyPayFeeJob {
     @Value("${http.sms.payfee.count}")
     private int payFeeCount;
 
-    @Scheduled(cron = "* 30 * * * ?")
+    @Scheduled(cron = "* */1 * * * ?")
     public void execute() {
         log.info("......通知付款启动......");
         JSONObject query = new JSONObject();
@@ -114,6 +114,7 @@ public class NotifyPayFeeJob {
                         TicketOrder.class.getSimpleName());
                     log.info("orderNo={} 修改订单状态={}......", ticketOrder.getOrderNo(), OrderStatusEnum.WAITPAYHANDLE);
                     ticketOrderIDaoService.updateObject(ticketOrderUpdate, SqlTypeEnum.DEAFULT);
+                    continue;
                 }
                 Notify notifyUpdate = new Notify();
                 notifyUpdate.setId(queryNotify.getId());
