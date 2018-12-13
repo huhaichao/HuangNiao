@@ -33,7 +33,7 @@ public class NotifyJob {
     /**
      * 通知 1秒执行一次任务
      */
-    @Scheduled(cron = "*/10 * * * * ?")
+    @Scheduled(cron = "*/5 * * * * ?")
     public void execute() {
      log.info("系统通知启动.....");
      JSONObject jsonObject = new JSONObject();

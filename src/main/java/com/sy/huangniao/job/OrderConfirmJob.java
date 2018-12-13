@@ -36,7 +36,7 @@ public class OrderConfirmJob {
     AbstractUserinfoService ticketCustomerServiceImpl;
 
 
-    @Scheduled(cron = "0 0/2 * * * ?")
+    @Scheduled(cron = "0 0 23 * * ?")
     public void execute() {
         log.info("......订单确认启动......");
         JSONObject query = new JSONObject();
