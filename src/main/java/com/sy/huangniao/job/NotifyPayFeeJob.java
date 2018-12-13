@@ -47,7 +47,7 @@ public class NotifyPayFeeJob {
     @Value("${http.sms.payfee.count}")
     private int payFeeCount;
 
-    @Scheduled(cron = "* */1 * * * ?")
+    @Scheduled(cron = "0 0/2 * * * ?")
     public void execute() {
         log.info("......通知付款启动......");
         JSONObject query = new JSONObject();

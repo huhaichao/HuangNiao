@@ -6,6 +6,7 @@ import java.util.List;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import com.sy.huangniao.common.enums.AppCodeEnum;
 import com.sy.huangniao.common.enums.NotifyStatusEnum;
 import com.sy.huangniao.common.enums.NotifyTypeEnum;
 import com.sy.huangniao.common.enums.OrderStatusEnum;
@@ -20,6 +21,7 @@ import com.sy.huangniao.service.NotifyService;
 import com.sy.huangniao.service.RobCheckService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +38,9 @@ public class RobCheckServiceImpl implements RobCheckService {
     @Autowired
     NotifyService notifyServiceImpl;
 
+    @Value("${http.sms.payOrder.content}")
+    private String payOrderContent;
+
     @Override
     public void robCheck() {
 
@@ -50,6 +55,8 @@ public class RobCheckServiceImpl implements RobCheckService {
             List<RobOrder> list =jsonArray.toJavaList(RobOrder.class);
             for (RobOrder robOrder : list){
                 try {
+                    String content = payOrderContent;
+                    content =content.replaceAll("app","牛小奔");
                     TicketOrder ticketOrder = robOrder.getTicketOrder();
                     Notify notify = new Notify();
                     notify.setTitle(NotifyTypeEnum.PAYNOTIFY.getType());
@@ -59,7 +66,7 @@ public class RobCheckServiceImpl implements RobCheckService {
                     notify.setModifyDate(new Date());
                     notify.setNotifyCount(0);
                     notify.setNotifyStatus(NotifyStatusEnum.WAIT_NOTIFY.getStatus());
-                    notify.setContext(robOrder.getRobContext());
+                    notify.setContext(content+robOrder.getRobContext());
                     notify.setMsgType(NotifyTypeEnum.PAYNOTIFY.getType());
                     notifyServiceImpl.save(notify);
                     //修改ticketOrder订单状态
