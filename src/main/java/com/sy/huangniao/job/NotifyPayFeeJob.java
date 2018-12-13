@@ -80,7 +80,7 @@ public class NotifyPayFeeJob {
                     if (AppCodeEnum.XCX.getCode().equalsIgnoreCase(ticketOrder.getAppCode())) {
                         content = content.replace("orderNo", ticketOrder.getOrderNo()).replace("fromSite",
                             ticketOrder.getFromSite()).replace("toSite", ticketOrder.getToSite())
-                            .replaceAll("app", "牛小奔小程序");
+                            .replaceAll("app", "牛小奔");
                     }
                     notify.setContext(content);
                     notifyServiceImpl.save(notify);
