@@ -1,5 +1,7 @@
 package com.sy.huangniao.service;
 
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -13,4 +15,6 @@ public interface IRedisService {
     <K, V> void set(K k, V v, long exprirTime, TimeUnit timeUnit);
 
     <K> void del(K k);
+
+    <K> List<K> getKeys(K k);
 }

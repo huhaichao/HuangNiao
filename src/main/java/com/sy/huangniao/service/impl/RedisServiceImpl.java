@@ -2,11 +2,14 @@ package com.sy.huangniao.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.sy.huangniao.service.IRedisService;
+import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -59,6 +62,17 @@ public class RedisServiceImpl implements IRedisService {
         } catch (Exception e) {
             log.error("从redis中删除数据成功出错, key:{}", k, e);
         }
+    }
+
+    @Override
+    public <K> List<K> getKeys(K k) {
+        try {
+            log.info("redis中获取数据k={}",k);
+            return (List<K>)redisTemplate.keys(k);
+        }catch (Exception e){
+            log.info("redis中获取数据异常e={}",e.getMessage());
+        }
+        return  null;
     }
 
 }
