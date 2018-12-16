@@ -16,5 +16,5 @@ public interface IRedisService {
 
     <K> void del(K k);
 
-    <K> List<K> getKeys(K k);
+    <K,V> List<V> getKeys(K k ,Class<V> v);
 }

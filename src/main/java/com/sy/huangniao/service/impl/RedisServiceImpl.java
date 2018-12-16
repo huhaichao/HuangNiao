@@ -2,14 +2,12 @@ package com.sy.huangniao.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.sy.huangniao.service.IRedisService;
-import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -29,7 +27,7 @@ public class RedisServiceImpl implements IRedisService {
                 return (V) objFromRedis;
             }
         } catch (Exception e) {
-            log.error("从redis获取地址对象出错,key:{}", key, e);
+            log.error("从redis获取对象出错,key:{}", key, e);
         }
         
         return null;
@@ -41,7 +39,7 @@ public class RedisServiceImpl implements IRedisService {
             redisTemplate.opsForValue().set(k, v);
             log.info("向redis中保存数据成功，key:{}，val:{}", k, JSON.toJSON(v));
         } catch (Exception e) {
-            log.error("向redis保存地址对象出错, key:{}, combineAddr:{}", k, JSON.toJSON(v), e);
+            log.error("向redis保存对象出错, key:{}, combineAddr:{}", k, JSON.toJSON(v), e);
         }
     }
 
@@ -65,10 +63,10 @@ public class RedisServiceImpl implements IRedisService {
     }
 
     @Override
-    public <K> List<K> getKeys(K k) {
+    public <K,V> List<V> getKeys(K k,Class<V> v) {
         try {
             log.info("redis中获取数据k={}",k);
-            return (List<K>)redisTemplate.keys(k);
+            return (List<V>)redisTemplate.keys(k);
         }catch (Exception e){
             log.info("redis中获取数据异常e={}",e.getMessage());
         }

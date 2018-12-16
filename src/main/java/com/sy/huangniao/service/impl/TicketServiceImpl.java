@@ -31,7 +31,7 @@ public class TicketServiceImpl implements ITicketService {
     HNContext hnContext;
 
     @Autowired
-    IRedisService iRedisService;
+    IRedisService redisServiceImpl;
 
     @Override
     @PostConstruct
@@ -44,7 +44,7 @@ public class TicketServiceImpl implements ITicketService {
             StringBuilder key = new StringBuilder();
             key.append(object.getSiteZw()).append("-").append(object.getSiteDh()).append("-").append(object.getSitePy())
                 .append("-").append(object.getSiteJx());
-            iRedisService.set(key.toString(), 1,24*60*60, TimeUnit.SECONDS);
+            redisServiceImpl.set(key.toString(), 1,24*60*60, TimeUnit.SECONDS);
         }
         log.info(" init site end..... ");
     }
@@ -53,7 +53,7 @@ public class TicketServiceImpl implements ITicketService {
     public List<String[]> getSiteList(JSONObject jsonObject) {
         String  keys = jsonObject.getString("keys");
         log.info("通过keys ={}获取list",keys);
-        List<String> list =iRedisService.getKeys(keys);
+        List<String> list =redisServiceImpl.getKeys(keys,String.class);
         List<String[]> siteList = new ArrayList<>();
         for (String key:list){
             String[] keySplits = key.split("-");

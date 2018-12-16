@@ -20,12 +20,12 @@ import org.springframework.stereotype.Component;
 public class TrainInfoJob {
 
     @Autowired
-    ITicketService iTicketService;
+    ITicketService ticketServiceImpl;
 
     @Scheduled(cron = "59 59 23 * * ?")
     public void execute() {
         log.info("......站点信息init启动......");
-        iTicketService.initSite();
+        ticketServiceImpl.initSite();
         log.info("......站点信息init结束......");
     }
 }

@@ -13,6 +13,7 @@ import com.sy.huangniao.common.enums.RespondMessageEnum;
 import com.sy.huangniao.common.exception.HNException;
 import com.sy.huangniao.controller.context.HNContext;
 import com.sy.huangniao.pojo.Notify;
+import com.sy.huangniao.service.IRedisService;
 import com.sy.huangniao.service.NotifyService;
 import com.sy.huangniao.service.OtherPartyService;
 import com.sy.huangniao.service.RobCheckService;
@@ -47,6 +48,9 @@ public class ServiceTest {
 
     @Autowired
     HNContext hnContext;
+
+    @Autowired
+    IRedisService redisServiceImpl;
 
     @Test
     public  void  returnTest(){
@@ -108,4 +112,11 @@ public class ServiceTest {
         }
     }
 
+
+    @Test
+    public void redisTest(){
+        log.info(" ----- ");
+        redisServiceImpl.set("USERLOGINKEYXCX4","3FB4D89673");
+        log.info("={}-----",redisServiceImpl.get("USERLOGINKEYXCX4",String.class));
+    }
 }

@@ -1,10 +1,8 @@
 package com.sy.huangniao.controller;
 
 import java.util.List;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-
 import com.sy.huangniao.common.bo.RequestBody;
 import com.sy.huangniao.common.bo.RespondBody;
 import com.sy.huangniao.common.enums.RespondMessageEnum;
@@ -22,14 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class TicketInfoController {
 
     @Autowired
-    ITicketService iTicketService;
+    ITicketService ticketServiceImpl;
 
     @PostMapping(value = "/api/v1/ticket/getSiteList", produces = {"application/json;charset=utf-8"})
     public RespondBody getSiteList(RequestBody requestBody) {
         try {
             log.info("requestBody={} getSiteList......", requestBody);
             JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
-            List<String[]> list = iTicketService.getSiteList(jsonObject);
+            List<String[]> list = ticketServiceImpl.getSiteList(jsonObject);
             return new RespondBody(list);
         } catch (Exception e) {
             log.info(" getSiteList ex={}", e.getMessage());
@@ -42,7 +40,7 @@ public class TicketInfoController {
         try {
             log.info("requestBody={} getTicketList......", requestBody);
             JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
-            JSONArray list = iTicketService.getTicketInfoList(jsonObject);
+            JSONArray list = ticketServiceImpl.getTicketInfoList(jsonObject);
             return new RespondBody(list);
         } catch (Exception e) {
             log.info(" getTicketList ex={}", e.getMessage());
