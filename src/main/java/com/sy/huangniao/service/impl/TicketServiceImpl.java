@@ -2,6 +2,7 @@ package com.sy.huangniao.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
@@ -50,16 +51,16 @@ public class TicketServiceImpl implements ITicketService {
     }
 
     @Override
-    public List<String[]> getSiteList(JSONObject jsonObject) {
+    public List<JSONObject> getSiteList(JSONObject jsonObject) {
         String  keys = jsonObject.getString("keys");
         log.info("通过keys ={}获取list",keys);
-        List<String> list =redisServiceImpl.getKeys(keys,String.class);
-        List<String[]> siteList = new ArrayList<>();
+        Set<String> list =redisServiceImpl.getKeys("*"+keys+"*",String.class);
+        List<JSONObject> siteList = new ArrayList<>();
         for (String key:list){
             String[] keySplits = key.split("-");
-            String[] sites = new String[2];
-            sites[0] = keySplits[0];
-            sites[1] = keySplits[1];
+            JSONObject sites = new JSONObject();
+            sites.put("siteName",keySplits[0]) ;
+            sites.put("siteDh",keySplits[1]) ;
             siteList.add(sites);
         }
         return  siteList;
@@ -68,8 +69,8 @@ public class TicketServiceImpl implements ITicketService {
     @Override
     public JSONArray getTicketInfoList(JSONObject jsonObject) {
         String departureDate=jsonObject.getString("departureDate");
-        String fromSite = jsonObject.getString("fromSite");
-        String toSite = jsonObject.getString("toSite");
+        String fromSite = jsonObject.getString("fromSiteDh");
+        String toSite = jsonObject.getString("toSiteDh");
         JSONArray tickets =TrainUtil.getTrainList(departureDate,fromSite,toSite);
         return tickets;
     }

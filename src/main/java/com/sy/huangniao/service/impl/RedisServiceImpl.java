@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -63,10 +63,10 @@ public class RedisServiceImpl implements IRedisService {
     }
 
     @Override
-    public <K,V> List<V> getKeys(K k,Class<V> v) {
+    public <K,V> Set<V> getKeys(K k,Class<V> v) {
         try {
             log.info("redis中获取数据k={}",k);
-            return (List<V>)redisTemplate.keys(k);
+            return (Set<V>)redisTemplate.keys(k);
         }catch (Exception e){
             log.info("redis中获取数据异常e={}",e.getMessage());
         }

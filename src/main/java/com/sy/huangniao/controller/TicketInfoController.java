@@ -27,7 +27,7 @@ public class TicketInfoController {
         try {
             log.info("requestBody={} getSiteList......", requestBody);
             JSONObject jsonObject = JSONObject.parseObject(requestBody.getData());
-            List<String[]> list = ticketServiceImpl.getSiteList(jsonObject);
+            List<JSONObject> list = ticketServiceImpl.getSiteList(jsonObject);
             return new RespondBody(list);
         } catch (Exception e) {
             log.info(" getSiteList ex={}", e.getMessage());

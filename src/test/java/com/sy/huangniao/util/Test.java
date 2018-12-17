@@ -7,7 +7,7 @@ public class Test {
         GetUtil getUtil = new GetUtil(); //两地之间的车次
         String trainurl=GetTrainurl.getUrlApi();
 //        String trainurl = "https://kyfw.12306.cn/otn/leftTicket/query?";
-        String train_date = "2018-12-28";
+        String train_date = "2018-12-16";
         String from_station = "BJP";
         String to_station = "CDW";
         String newurl = trainurl + "leftTicketDTO.train_date=" + train_date + "&leftTicketDTO.from_station="

@@ -20,7 +20,7 @@ public interface ITicketService {
       * @param jsonObject
      * @return
      */
-    public List<String[]> getSiteList(JSONObject jsonObject);
+    public List<JSONObject> getSiteList(JSONObject jsonObject);
 
     /**
      *
