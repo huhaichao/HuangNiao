@@ -35,7 +35,7 @@ public class TicketServiceImpl implements ITicketService {
     IRedisService redisServiceImpl;
 
     @Override
-    @PostConstruct
+    //@PostConstruct
     public void initSite() {
         log.info(" init site start..... ");
         IDaoService<TicketSite> iDaoService = hnContext.getDaoService(TicketSite.class.getSimpleName());

@@ -444,8 +444,10 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
             log.info(" addContacts jsonObject={} ", jsonObject);
             return true;
         }
+       /*
+        实名接口有问题直接干掉
         JSONObject json = otherPartyServiceImpl.realName(jsonObject);
-        jsonObject.putAll(json);
+        jsonObject.putAll(json);*/
         userLinkman = jsonObject.toJavaObject(UserLinkman.class);
         log.info("添加联系人开始userId={}  indentity ={} name={}  appCode={} .....", userLinkman.getUserId(),
             userLinkman.getIndentity(), userLinkman.getName(), userLinkman.getAppCode());
