@@ -3,6 +3,7 @@ package com.sy.huangniao.serviceTerst;
 import java.util.Date;
 import java.util.List;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import com.sy.huangniao.HNApplication;
@@ -14,6 +15,7 @@ import com.sy.huangniao.common.exception.HNException;
 import com.sy.huangniao.controller.context.HNContext;
 import com.sy.huangniao.pojo.Notify;
 import com.sy.huangniao.service.IRedisService;
+import com.sy.huangniao.service.ITicketService;
 import com.sy.huangniao.service.NotifyService;
 import com.sy.huangniao.service.OtherPartyService;
 import com.sy.huangniao.service.RobCheckService;
@@ -51,6 +53,9 @@ public class ServiceTest {
 
     @Autowired
     IRedisService redisServiceImpl;
+
+    @Autowired
+    ITicketService ticketServiceImpl;
 
     @Test
     public  void  returnTest(){
@@ -118,5 +123,21 @@ public class ServiceTest {
         log.info(" ----- ");
         redisServiceImpl.set("USERLOGINKEYXCX4","3FB4D89673");
         log.info("={}-----",redisServiceImpl.get("USERLOGINKEYXCX4",String.class));
+    }
+
+    @Test
+    public  void  getTicketList(){
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("departureDate","2018-02-02");
+            jsonObject.put("fromSiteDh","BOP");
+            jsonObject.put("toSiteDh","ZZF");
+
+            JSONArray list = ticketServiceImpl.getTicketInfoList(jsonObject);
+            log.info(list.toString());
+        } catch (Exception e) {
+            log.info(" getTicketList ex={}", e.getMessage());
+
+        }
     }
 }

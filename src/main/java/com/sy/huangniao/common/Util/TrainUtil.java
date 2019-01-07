@@ -1,13 +1,16 @@
 package com.sy.huangniao.common.Util;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import com.sy.huangniao.common.Util.ProxyUtil.ProxyInfo;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -24,7 +27,7 @@ public class TrainUtil {
         StringBuilder buffer = new StringBuilder();
         try {
             buffer.append("https://kyfw.12306.cn/otn/");
-            String trainDom = getContentFromUrl("https://kyfw.12306.cn/otn/leftTicket/init", "UTF-8");
+            String trainDom = httpGet("https://kyfw.12306.cn/otn/leftTicket/init");
             String context = trainDom.substring(trainDom.indexOf("/*<![CDATA[*/"), trainDom.indexOf("/*]]>*/"));
             String ticketUrl = context.substring(context.indexOf(" var CLeftTicketUrl = "),
                 context.indexOf(" var CLeftTicketUrl = ") + 43);
@@ -32,34 +35,10 @@ public class TrainUtil {
             String aa[] = ticketUrl.split("=");
             buffer.append(aa[1].substring(aa[1].indexOf("'") + 1, aa[1].indexOf(";") - 1));
             buffer.append("?");
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return buffer.toString();
-    }
-
-    /**
-     * 从网页上获取数据
-     *
-     * @param myUrl URL地址
-     * @return 网页上的数据，string类型
-     * @throws IOException
-     */
-    public static String getContentFromUrl(String myUrl, String charset)
-        throws IOException {
-        URL u = new URL(myUrl);
-        InputStream in = u.openStream();
-        StringBuilder sb = new StringBuilder();
-        byte[] buff = new byte[1024];
-        int len;
-        while ((len = in.read(buff)) != -1) {
-            // 此处使用UTF-8编码，如果遇到像新浪这样的网站编码不是UTF-8的，就会乱，
-            // 此处我就不过细处理了
-            sb.append(new String(buff, 0, len, charset));
-
-        }
-        in.close();
-        return String.valueOf(sb);
     }
 
     /**
@@ -70,7 +49,7 @@ public class TrainUtil {
      * @param toSite
      * @return
      */
-    public static JSONArray getTrainList(String departureDate, String fromSite, String toSite) {
+    public static JSONObject getTrainList(String departureDate, String fromSite, String toSite) {
         StringBuilder stringBuilder = new StringBuilder();
         String trainUrl = getUrlApi();
         String newurl = stringBuilder.append(trainUrl).append("leftTicketDTO.train_date=").append(departureDate).append(
@@ -78,23 +57,58 @@ public class TrainUtil {
             .append(fromSite).append("&leftTicketDTO.to_station=").append(toSite).append("&purpose_codes=ADULT")
             .toString();
         //调用方法,获取两地之间的火车数组
+        String result = httpGet(newurl);
+        JSONObject jSONObject = JSONObject.parseObject(result);
+        JSONObject listObject = jSONObject.getJSONObject("data");
+        return listObject;
+    }
+
+    private static String httpGet(String url) {
+        return httpGet(url, "utf-8", 30000, 30000);
+    }
+
+    /**
+     * httpGet
+     *
+     * @param url
+     * @param charset
+     * @return
+     */
+    public static String httpGet(String url, String charset, int connectTimeout, int socketTimeout) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGett = new HttpGet(newurl);
-        CloseableHttpResponse Response;
+        RequestConfig requestConfig;
+        ThreadLocal<List<ProxyInfo>> threadLocal = ProxyUtil.getLocalProxyInfos();
+        List<ProxyInfo> list = threadLocal.get();
+        if (list !=null && list.size() > 0) {
+            try {
+                int i = ThreadLocalRandom.current().nextInt(0, list.size() - 1);
+                ProxyInfo proxyInfo = list.get(i);
+                requestConfig = RequestConfig.custom().setConnectTimeout(connectTimeout).setSocketTimeout(
+                    socketTimeout).setProxy(new HttpHost(proxyInfo.getIp(), Integer.parseInt(proxyInfo.getPort())))
+                    .build();
+            } catch (Exception e) {
+                e.printStackTrace();
+                requestConfig = RequestConfig.custom().setConnectTimeout(connectTimeout).setSocketTimeout(
+                    socketTimeout).build();
+            }
+
+        } else {
+            requestConfig = RequestConfig.custom().setConnectTimeout(connectTimeout).setSocketTimeout(
+                socketTimeout).build();
+        }
+        HttpGet httpGet = new HttpGet(url);
+        httpGet.setConfig(requestConfig);
+        CloseableHttpResponse response;
         String result = null;
         try {
-            Response = httpClient.execute(httpGett);
-            org.apache.http.HttpEntity entity = Response.getEntity();
-            result = EntityUtils.toString(entity, "utf-8");
+            response = httpClient.execute(httpGet);
+            HttpEntity entity = response.getEntity();
+            result = EntityUtils.toString(entity, charset);
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        JSONObject jSONObject = JSONObject.parseObject(result);
-        Object listObject = jSONObject.get("data");
-        jSONObject = JSONObject.parseObject(listObject.toString());
-        JSONArray json = jSONObject.getJSONArray("result");
-        return json;
+        return result;
     }
 }

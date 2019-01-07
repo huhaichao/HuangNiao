@@ -47,4 +47,26 @@ public class GetUtil {
         return strs;
 
     }
+
+    public String getContent(String url) {
+        CloseableHttpClient httPclient = HttpClients.createDefault();
+        HttpGet httpgett = new HttpGet(url);
+        CloseableHttpResponse Response;
+        String result1 = null;
+        try {
+            Response = httPclient.execute(httpgett);
+            org.apache.http.HttpEntity entity = Response.getEntity();
+            result1 = EntityUtils.toString(entity, "utf-8");
+            //System.out.println("请求结果"+result1);
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return result1;
+
+    }
 }

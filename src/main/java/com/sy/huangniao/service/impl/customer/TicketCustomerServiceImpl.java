@@ -47,7 +47,8 @@ public class TicketCustomerServiceImpl extends AbstractUserinfoService implement
         } else {
             ticketOrder.setOrderStatus(OrderStatusEnum.WAITROB.getStatus());
         }*/
-        ticketOrder.setOrderStatus(OrderStatusEnum.WAITROB.getStatus());
+        //优化流程下单--抢票中
+        ticketOrder.setOrderStatus(OrderStatusEnum.ROBING.getStatus());
         ticketOrder.setModifyDate(new Date());
         ticketOrder.setCreateDate(new Date());
         IDaoService iDaoService = hnContext.getDaoService(TicketOrder.class.getSimpleName());

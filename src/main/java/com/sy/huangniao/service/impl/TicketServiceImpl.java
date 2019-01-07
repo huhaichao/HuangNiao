@@ -71,7 +71,28 @@ public class TicketServiceImpl implements ITicketService {
         String departureDate=jsonObject.getString("departureDate");
         String fromSite = jsonObject.getString("fromSiteDh");
         String toSite = jsonObject.getString("toSiteDh");
-        JSONArray tickets =TrainUtil.getTrainList(departureDate,fromSite,toSite);
+        JSONObject ticket =TrainUtil.getTrainList(departureDate,fromSite,toSite);
+        JSONObject map = ticket.getJSONObject("map");
+        JSONArray result = ticket.getJSONArray("result");
+        JSONArray tickets = new JSONArray();
+        for (Object o:result){
+            JSONObject ticketJson = new JSONObject();
+            String string = (String)o;
+            String[] arr=string.split("[|]");
+            //出发站点
+            ticketJson.put("fromSite",map.getString(arr[4]));
+            //到达站点
+            ticketJson.put("toSite",map.getString(arr[5]));
+            //车次
+            ticketJson.put("trainNum",arr[3]);
+            //起始时间
+            ticketJson.put("departureTime",arr[8]);
+            //到达时间
+            ticketJson.put("arrivalTime",arr[9]);
+            //历时
+            ticketJson.put("allTime",arr[10]);
+            tickets.add(ticketJson);
+        }
         return tickets;
     }
 }
